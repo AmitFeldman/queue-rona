@@ -15,28 +15,35 @@ const Component3 = () => <div>3</div>;
 const Component4 = () => <div>4</div>;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: '10px 0px',
+  bar: {
+    padding: '10px 0',
   },
-  large: {
+  image: {
     width: theme.spacing(10),
     height: theme.spacing(10),
-  },
-  headline: {
-    paddingTop: '2%',
   },
 }));
 
 function App() {
-  const classes = useStyles();
+  const {bar, image} = useStyles();
 
   return (
     <div className="App">
-      <AppBar position="sticky">
-        <Avatar alt="Palmahim" src={Palmahim} />
-        <Typography variant="h6">
-          ברוכים הבאים למרכז החיסונים בפלמחים
-        </Typography>
+      <AppBar position="sticky" className={root}>
+        <Grid container alignItems="center">
+          <Grid item xs={2} />
+          <Grid item xs={1}>
+            <Avatar alt="Palmahim" src={Palmahim} className={image} />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h4">
+              ברוכים הבאים למרכז החיסונים בפלמחים
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Avatar alt="AirForce" src={AirForce} className={image} />
+          </Grid>
+        </Grid>
       </AppBar>
 
       <Container>
