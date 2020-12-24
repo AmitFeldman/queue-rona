@@ -1,4 +1,4 @@
-import React, {useEffect, makeStyles} from 'react';
+import React, {useEffect} from 'react';
 import {
   Button,
   Grid,
@@ -7,6 +7,7 @@ import {
   Paper,
   ButtonGroup,
   FormControl,
+  makeStyles,
 } from '@material-ui/core';
 
 const IsSoldierArrived = () => {
@@ -15,6 +16,31 @@ const IsSoldierArrived = () => {
     // Update the document title using the browser API
   });
 
+  const useStyles = makeStyles((theme) => ({
+    formLable: {
+      padding: '3vh',
+      fontSize: '210%',
+    },
+    button: {
+      fontSize: '23px',
+      width: '120px',
+      marginRight: '2vw',
+    },
+    buttonGroup: {
+      display: 'flex',
+      justifyContent: 'center',
+      padding: '20px',
+    },
+    paper: {
+      width: '40vw',
+      fontSize: '20px',
+    },
+    grid: {
+      minHeight: '80vh',
+    },
+  }));
+
+  const {button, formLable, buttonGroup, paper, grid} = useStyles();
   return (
     <Grid
       container
@@ -22,39 +48,27 @@ const IsSoldierArrived = () => {
       direction="column"
       alignItems="center"
       justify="center"
-      style={{minHeight: '100vh'}}>
-      <Paper style={{width: '40vw'}}>
+      className={grid}>
+      <Paper className={paper}>
         <List dense></List>
         <FormControl>
-          <FormLabel
-            component="legend"
-            spacing={30}
-            style={{fontSize: '210%', padding: '3vh'}}>
+          <FormLabel component="legend" spacing={30} className={formLable}>
+            {' '}
             מספר אישי: <b>{soldierId} </b>
           </FormLabel>
 
-          <FormLabel
-            style={{fontSize: '250%', padding: '4vh'}}
-            component="legend">
-            האם החייל הגיע לעמדה?
-          </FormLabel>
+          <FormLabel className={formLable}>האם החייל הגיע לעמדה?</FormLabel>
 
           <ButtonGroup
-            style={{display: 'flex', justifyContent: 'center', padding: '20px'}}
+            className={buttonGroup}
             row
             aria-label="position"
             name="position"
             defaultValue="top">
-            <Button
-              style={{fontSize: '23px', width: '120px'}}
-              variant="contained"
-              color="primary">
+            <Button className={button} variant="contained" color="primary">
               הגיע
             </Button>
-            <Button
-              style={{marginRight: '2vw', fontSize: '23px', width: '120px'}}
-              variant="contained"
-              color="primary">
+            <Button className={button} variant="contained" color="primary">
               לא הגיע
             </Button>
           </ButtonGroup>
