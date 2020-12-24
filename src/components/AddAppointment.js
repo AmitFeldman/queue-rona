@@ -71,15 +71,35 @@ const useStyles = makeStyles(() =>
   })
 );
 
+async function getResult() {
+  const params = new URLSearchParams();
+  let article = {ID: soldierId};
+  params.append('0', JSON.stringify(article));
+  return await axios.post(
+    'http://127.0.0.1:5000/AddSoldierToArrivalQueue',
+    params
+  );
+}
+
 const AddAppointment = () => {
   const {button} = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const [id, setId] = React.useState('');
+  const [soldierId, setId] = React.useState('');
   const [q1, setQ1] = React.useState();
   const [q2, setQ2] = React.useState();
   const [q3, setQ3] = React.useState();
 
+  const [data, setData] = useState({hits: []});
+  function give() {
+    getResult()
+      .then((res) => {
+        alert(res.data.data);
+      })
+      .catch((rej) => {
+        alert(res.data.data);
+      });
+  }
   return (
     <>
       <Box m="auto" width="60%">
@@ -89,7 +109,7 @@ const AddAppointment = () => {
               <ListItem>
                 <TextField
                   placeholder="מספר אישי"
-                  value={id}
+                  value={soldierId}
                   onChange={(e) => setId(e?.target?.value)}
                 />
               </ListItem>
@@ -122,6 +142,7 @@ const AddAppointment = () => {
               color="primary"
               onClick={() => {
                 setOpen(true);
+                give();
                 setTimeout(() => setOpen(false), TIMEOUT);
               }}>
               שלח
