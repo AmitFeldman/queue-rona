@@ -65,7 +65,11 @@ const IsSoldierArrived = () => {
             aria-label="position"
             name="position"
             defaultValue="top">
-            <Button className={button} variant="contained" color="primary">
+            <Button
+              className={button}
+              href="./VaccineApproval"
+              variant="contained"
+              color="primary">
               הגיע
             </Button>
             <Button className={button} variant="contained" color="primary">
