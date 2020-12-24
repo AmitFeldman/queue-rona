@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react';
 import AddAppointment from './components/AddAppointment';
 import IsSoldierArrived from './components/IsSoldierArrived';
-import VaccineApproval from './components/VaccineApproval';
+import VaccineApproval from './components/IsSoldierArrived';
 import Container from '@material-ui/core/Container';
 import {Route, Switch} from 'react-router-dom';
 import ScheduleView from './components/ScheduleView';
