@@ -12,10 +12,12 @@ import {
   TextField,
   Typography,
   Box,
+  createStyles,
 } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const TIMEOUT = 3000;
 
@@ -61,13 +63,22 @@ const RadioOptions = ({value, setValue}) => {
   );
 };
 
+const useStyles = makeStyles(() =>
+  createStyles({
+    button: {
+      margin: '1%',
+    },
+  })
+);
+
 const AddAppointment = () => {
+  const {button} = useStyles();
+  const [open, setOpen] = React.useState(false);
+
   const [id, setId] = React.useState('');
   const [q1, setQ1] = React.useState();
   const [q2, setQ2] = React.useState();
   const [q3, setQ3] = React.useState();
-
-  const [open, setOpen] = React.useState(false);
 
   return (
     <>
@@ -106,6 +117,7 @@ const AddAppointment = () => {
             </List>
 
             <Button
+              className={button}
               variant="contained"
               color="primary"
               onClick={() => {
