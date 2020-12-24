@@ -19,15 +19,15 @@ const jss = create({plugins: [...jssPreset().plugins, rtl()]});
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <StylesProvider jss={jss}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline>
+    <StylesProvider jss={jss}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline>
+          <BrowserRouter>
             <App />
-          </CssBaseline>
-        </ThemeProvider>
-      </StylesProvider>
-    </BrowserRouter>
+          </BrowserRouter>
+        </CssBaseline>
+      </ThemeProvider>
+    </StylesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
