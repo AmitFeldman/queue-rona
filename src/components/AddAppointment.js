@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import {
   Button,
@@ -18,8 +18,10 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import {useUsers} from '../context/users-context';
+import {useHistory} from 'react-router-dom';
 
-const TIMEOUT = 3000;
+const TIMEOUT = 1000;
 
 function SimpleDialog({open}) {
   return (
@@ -72,6 +74,7 @@ const useStyles = makeStyles(() =>
 );
 
 const AddAppointment = () => {
+  const {addUser, users} = useUsers();
   const {button} = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -79,6 +82,11 @@ const AddAppointment = () => {
   const [q1, setQ1] = React.useState();
   const [q2, setQ2] = React.useState();
   const [q3, setQ3] = React.useState();
+
+  let history = useHistory();
+  useEffect(() => {
+    if (users.length > 3) history.push('/schedule');
+  }, [users]);
 
   return (
     <>
@@ -121,8 +129,13 @@ const AddAppointment = () => {
               variant="contained"
               color="primary"
               onClick={() => {
-                setOpen(true);
-                setTimeout(() => setOpen(false), TIMEOUT);
+                const newId = Number(id);
+
+                if (newId) {
+                  addUser(newId);
+                  setOpen(true);
+                  setTimeout(() => setOpen(false), TIMEOUT);
+                }
               }}>
               שלח
             </Button>

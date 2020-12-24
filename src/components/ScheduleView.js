@@ -1,12 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Grid, Typography, Divider, ListItem, List} from '@material-ui/core';
-
-const users = [{id: 1}, {id: 2}, {id: 3}, {id: 4}];
-const stations = [
-  {id: 1, name: 'A', currentUserId: 6},
-  {id: 2, name: 'B', currentUserId: 8},
-  {id: 3, name: 'C'},
-];
+import {useUsers} from '../context/users-context';
+import {useStations} from '../context/stations-context';
 
 const Title = ({text}) => {
   return (
@@ -17,18 +12,51 @@ const Title = ({text}) => {
   );
 };
 
+const Station = ({name, current}) => {
+  useEffect(() => {
+    if (current !== undefined) {
+      console.log('WOAH');
+    }
+  }, [current]);
+
+  return (
+    <Typography>
+      {name} - {current ? current : 'פנויה'}
+    </Typography>
+  );
+};
+
 const ScheduleView = () => {
+  const {users, popUser} = useUsers();
+  const {stations, updateStation} = useStations();
+
+  useEffect(() => {
+    setInterval(() => {
+      const station = stations.find((s) => s.current === undefined);
+
+      if (station) {
+        const user = popUser();
+
+        if (user) {
+          updateStation(station.id, user.id);
+
+          setTimeout(() => {
+            updateStation(station.id, undefined);
+          }, 5000);
+        }
+      }
+    }, 1000);
+  }, []);
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={4}>
         <Title text={'תחנות'} />
 
         <List>
-          {stations.map(({id, name, currentUserId}) => (
+          {stations.map(({id, name, current}) => (
             <ListItem key={id}>
-              <Typography>
-                {name} - {currentUserId ? currentUserId : 'פנויה'}
-              </Typography>
+              <Station name={name} current={current} />
             </ListItem>
           ))}
         </List>
