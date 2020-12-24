@@ -7,9 +7,12 @@ import {BrowserRouter} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {create} from 'jss';
 import rtl from 'jss-rtl';
-import {StylesProvider, jssPreset} from '@material-ui/core/styles';
+import {
+  ThemeProvider,
+  StylesProvider,
+  jssPreset,
+} from '@material-ui/core/styles';
 import theme from './theme/mui-theme';
-import {ThemeProvider} from '@material-ui/styles';
 
 // Configure JSS
 const jss = create({plugins: [...jssPreset().plugins, rtl()]});
