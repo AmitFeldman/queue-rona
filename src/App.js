@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import AddAppointment from './components/AddAppointment';
+import IsSoldierArrived from './components/IsSoldierArrived';
 import Container from '@material-ui/core/Container';
 import {Route, Switch} from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
@@ -49,6 +50,7 @@ function App() {
       <Container>
         <Switch>
           <Route exact path="/" component={AddAppointment} />
+          <Route path="/soldierArrival" component={IsSoldierArrived} />
           <Route path="/schedule" component={ScheduleView} />
           <Route path="/3" component={Component3} />
           <Route path="/4" component={Component4} />
