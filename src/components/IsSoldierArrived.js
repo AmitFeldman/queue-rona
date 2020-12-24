@@ -1,17 +1,12 @@
-import React, {useEffect} from 'react';
-import FormControl from '@material-ui/core/FormControl';
+import React, {useEffect, makeStyles} from 'react';
 import {
   Button,
   Grid,
-  FormControlLabel,
-  ControlLable,
   FormLabel,
   List,
   Paper,
-  Radio,
-  RadioGroup,
-  TextField,
   ButtonGroup,
+  FormControl,
 } from '@material-ui/core';
 
 const IsSoldierArrived = () => {
@@ -29,55 +24,41 @@ const IsSoldierArrived = () => {
       justify="center"
       style={{minHeight: '100vh'}}>
       <Paper style={{width: '40vw'}}>
-        <br />
-        <br />
-        <br />
         <List dense></List>
-        <FormLabel style={{fontSize: '210%'}}>
-          {' '}
-          מספר אישי: <b>{soldierId} </b>
-        </FormLabel>
-        <br />
-        <br />
+        <FormControl>
+          <FormLabel
+            component="legend"
+            spacing={30}
+            style={{fontSize: '210%', padding: '3vh'}}>
+            מספר אישי: <b>{soldierId} </b>
+          </FormLabel>
 
-        <FormLabel style={{fontSize: '250%'}} component="legend">
-          האם החייל הגיע לעמדה?
-        </FormLabel>
-        <br />
-        <br />
-        <ButtonGroup
-          margin="dense"
-          style={{display: 'flex', justifyContent: 'center'}}
-          row
-          aria-label="position"
-          name="position"
-          defaultValue="top">
-          <Button
-            variant="contained"
-            color="primary"
-            style={{
-              borderRadius: '5px',
-              margin: '15px',
-              width: '20%',
-              fontSize: '180%',
-            }}>
-            הגיע
-          </Button>
+          <FormLabel
+            style={{fontSize: '250%', padding: '4vh'}}
+            component="legend">
+            האם החייל הגיע לעמדה?
+          </FormLabel>
 
-          <Button
-            variant="contained"
-            color="primary"
-            style={{
-              borderRadius: '5px',
-              margin: '15px',
-              width: '20%',
-              fontSize: '180%',
-            }}>
-            לא הגיע
-          </Button>
-        </ButtonGroup>
-        <br />
-        <br />
+          <ButtonGroup
+            style={{display: 'flex', justifyContent: 'center', padding: '20px'}}
+            row
+            aria-label="position"
+            name="position"
+            defaultValue="top">
+            <Button
+              style={{fontSize: '23px', width: '120px'}}
+              variant="contained"
+              color="primary">
+              הגיע
+            </Button>
+            <Button
+              style={{marginRight: '2vw', fontSize: '23px', width: '120px'}}
+              variant="contained"
+              color="primary">
+              לא הגיע
+            </Button>
+          </ButtonGroup>
+        </FormControl>
       </Paper>
     </Grid>
   );

@@ -9,7 +9,6 @@ import Palmahim from './Bacha_30_Palmachim.png';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 
-const Component1 = () => <div>1</div>;
 const Component2 = () => <div>2</div>;
 const Component3 = () => <div>3</div>;
 const Component4 = () => <div>4</div>;
