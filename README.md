@@ -1,2 +1,2 @@
 # queue-rona
-Appointment/ Scheduling App for distributing Corona Vaccines
+Appointment/ scheduling app for distributing corona vaccines
