@@ -4,7 +4,6 @@ import {
   Button,
   FormControlLabel,
   FormLabel,
-  Grid,
   List,
   ListItem,
   Paper,
@@ -12,6 +11,7 @@ import {
   RadioGroup,
   TextField,
   Typography,
+  Box,
 } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -32,19 +32,46 @@ function SimpleDialog({open}) {
   );
 }
 
+const RadioOptions = ({value, setValue}) => {
+  return (
+    <RadioGroup row aria-label="position" name="position" defaultValue="top">
+      <FormControlLabel
+        control={
+          <Radio
+            color="primary"
+            checked={value === true}
+            onChange={() => setValue(true)}
+          />
+        }
+        label="כן"
+        labelPlacement="start"
+      />
+      <FormControlLabel
+        control={
+          <Radio
+            color="primary"
+            checked={value === false}
+            onChange={() => setValue(false)}
+          />
+        }
+        label="לא"
+        labelPlacement="start"
+      />
+    </RadioGroup>
+  );
+};
+
 const AddAppointment = () => {
   const [id, setId] = React.useState('');
+  const [q1, setQ1] = React.useState();
+  const [q2, setQ2] = React.useState();
+  const [q3, setQ3] = React.useState();
+
   const [open, setOpen] = React.useState(false);
 
   return (
     <>
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justify="center"
-        style={{minHeight: '100vh'}}>
+      <Box m="auto" width="60%">
         <Paper>
           <FormControl>
             <List>
@@ -60,72 +87,21 @@ const AddAppointment = () => {
                   האם פיתחת בעבר תגובה חמורה לאחר שחוסנת בחיסון קורונה או חיסון
                   אחר?
                 </FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="position"
-                  name="position"
-                  defaultValue="top">
-                  <FormControlLabel
-                    value="yes1"
-                    control={<Radio color="primary" />}
-                    label="כן"
-                    labelPlacement="start"
-                  />
-                  <FormControlLabel
-                    value="no1"
-                    control={<Radio color="primary" />}
-                    label="לא"
-                    labelPlacement="start"
-                  />
-                </RadioGroup>
+                <RadioOptions value={q1} setValue={setQ1} />
               </ListItem>
 
               <ListItem>
                 <FormLabel component="legend">
                   האם ידועה אלרגיה לתרופה/חיסון/מזון?
                 </FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="position"
-                  name="position"
-                  defaultValue="top">
-                  <FormControlLabel
-                    value="yes2"
-                    control={<Radio color="primary" />}
-                    label="כן"
-                    labelPlacement="start"
-                  />
-                  <FormControlLabel
-                    value="no2"
-                    control={<Radio color="primary" />}
-                    label="לא"
-                    labelPlacement="start"
-                  />
-                </RadioGroup>
+                <RadioOptions value={q2} setValue={setQ2} />
               </ListItem>
 
               <ListItem>
                 <FormLabel component="legend">
                   האם את/ה סובל/ת ממחלת חום?
                 </FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="position"
-                  name="position"
-                  defaultValue="top">
-                  <FormControlLabel
-                    value="yes3"
-                    control={<Radio color="primary" />}
-                    label="כן"
-                    labelPlacement="start"
-                  />
-                  <FormControlLabel
-                    value="no3"
-                    control={<Radio color="primary" />}
-                    label="לא"
-                    labelPlacement="start"
-                  />
-                </RadioGroup>
+                <RadioOptions value={q3} setValue={setQ3} />
               </ListItem>
             </List>
 
@@ -140,7 +116,7 @@ const AddAppointment = () => {
             </Button>
           </FormControl>
         </Paper>
-      </Grid>
+      </Box>
 
       <SimpleDialog open={open} />
     </>
