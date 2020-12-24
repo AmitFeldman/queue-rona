@@ -29,7 +29,7 @@ function App() {
 
   return (
     <div className="App">
-      <AppBar position="sticky" className={root}>
+      <AppBar position="sticky" className={bar}>
         <Grid container alignItems="center">
           <Grid item xs={2} />
           <Grid item xs={1}>
