@@ -17,6 +17,7 @@ const Component4 = () => <div>4</div>;
 const useStyles = makeStyles((theme) => ({
   bar: {
     padding: '10px 0',
+    textAlign: '-webkit-center',
   },
   image: {
     width: theme.spacing(10),
@@ -31,8 +32,7 @@ function App() {
     <div className="App">
       <AppBar position="sticky" className={bar}>
         <Grid container alignItems="center">
-          <Grid item xs={2} />
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Avatar alt="Palmahim" src={Palmahim} className={image} />
           </Grid>
           <Grid item xs={6}>
@@ -40,7 +40,7 @@ function App() {
               ברוכים הבאים למרכז החיסונים בפלמחים
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Avatar alt="AirForce" src={AirForce} className={image} />
           </Grid>
         </Grid>
