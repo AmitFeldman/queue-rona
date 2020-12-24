@@ -131,4 +131,6 @@ fabric.properties
 
 .idea/*
 
+.eslintcache
+
 # End of https://www.toptal.com/developers/gitignore/api/webstorm
