@@ -1,15 +1,11 @@
 import React from 'react';
-import {Grid, makeStyles, Typography} from '@material-ui/core';
-import {useUsers} from '../context/users-context';
-import {useStations} from '../context/stations-context';
-import Paper from '@material-ui/core/Paper';
+import {Grid, makeStyles} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Pagination from '@material-ui/lab/Pagination';
 import Header from './Header';
-import Station from './Station';
 
 const USERS_PER_PAGE = 15;
-const PAGE_INTERVAL_TIMEOUT = 3000;
+const PAGE_INTERVAL_TIMEOUT = 3000000;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,9 +16,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ScheduleView = () => {
-  const {users} = useUsers();
-  const {stations} = useStations();
+const WaitingRoomLayout = ({
+  users,
+  stations,
+  UserComponent,
+  StationComponent,
+}) => {
   const [page, setPage] = React.useState(1);
   const {root, pagination} = useStyles();
 
@@ -51,9 +50,9 @@ const ScheduleView = () => {
             direction="column"
             spacing={2}
             xs={6}>
-            {stations.map(({id, name, current}) => (
-              <Grid item key={id}>
-                <Station name={name} current={current} />
+            {stations.map((station) => (
+              <Grid item key={station.id}>
+                <StationComponent {...station} />
               </Grid>
             ))}
           </Grid>
@@ -67,13 +66,9 @@ const ScheduleView = () => {
           <Grid className={root} container direction="column" spacing={1}>
             {users
               .slice((page - 1) * USERS_PER_PAGE, page * USERS_PER_PAGE)
-              .map(({id}) => (
-                <Grid item key={id}>
-                  <Paper>
-                    <Box p={1}>
-                      <Typography variant="h4">{id}</Typography>
-                    </Box>
-                  </Paper>
+              .map((user) => (
+                <Grid item key={user.id}>
+                  <UserComponent {...user} />
                 </Grid>
               ))}
           </Grid>
@@ -91,4 +86,4 @@ const ScheduleView = () => {
   );
 };
 
-export default ScheduleView;
+export default WaitingRoomLayout;
