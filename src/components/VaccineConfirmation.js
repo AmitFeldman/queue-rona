@@ -12,7 +12,9 @@ import {
   Radio,
   RadioGroup,
   TextField,
+  createStyles,
 } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const RadioOptions = ({value, setValue}) => {
   return (
@@ -43,7 +45,42 @@ const RadioOptions = ({value, setValue}) => {
   );
 };
 
+const useStyles = makeStyles(() =>
+  createStyles({
+    button: {
+      backgroundColor: 'gray',
+    },
+    radio: {
+      display: 'none',
+    },
+    radioBox: {
+      backgroundColor: 'white',
+      cursor: 'default',
+      border: 'solid 1px lightGray',
+      width: '70px',
+      display: 'block',
+      textAlign: 'center',
+      '&:click': {
+        border: 'solid 1px lightGray',
+        background: 'lightGray',
+        outline: '0',
+      },
+      '&:hover': {
+        backgroundColor: 'lightGray',
+      },
+      '&:focus': {
+        border: 'solid 1px lightGray',
+        background: 'lightGray',
+        outline: '0',
+      },
+    },
+  })
+);
+
 function VaccineConfirmation() {
+  const {button} = useStyles();
+  const {radio} = useStyles();
+  const {radioBox} = useStyles();
   const [soldierId, setId] = React.useState('');
   const [wasVaccinated, setWasVaccinated] = React.useState('');
 
@@ -63,7 +100,7 @@ function VaccineConfirmation() {
     );
   }
 
-  function isInputValid(soldierId) {
+  function isInputValid() {
     return (
       (soldierId.length == 7 || soldierId.length == 8) && wasVaccinated !== ''
     );
@@ -85,27 +122,56 @@ function VaccineConfirmation() {
       direction="column"
       alignItems="center"
       justify="center"
-      style={{minHeight: '100vh'}}>
+      style={{minHeight: '50vh'}}>
       <Paper>
         <FormControl>
           <List>
-            <ListItem>
+            <ListItem
+              style={{
+                display: 'flex',
+                'justify-content': 'center',
+                'align-items': 'center',
+              }}>
+              הזן מספר אישי
+            </ListItem>
+            <ListItem
+              style={{
+                display: 'flex',
+                'justify-content': 'center',
+                'align-items': 'center',
+              }}>
               <TextField
-                placeholder="מספר אישי"
+                variant="outlined"
                 value={soldierId}
                 onChange={(e) => setId(e?.target?.value)}
               />
             </ListItem>
-            <ListItem>
+            <ListItem
+              style={{
+                display: 'flex',
+                'justify-content': 'center',
+                'align-items': 'center',
+              }}>
               <FormLabel component="legend">האם התחסנת?</FormLabel>
+            </ListItem>
+            <ListItem
+              style={{
+                display: 'flex',
+                'justify-content': 'right',
+                'align-items': 'center',
+                'margin-right': '20px',
+              }}>
               <RadioGroup
                 row
                 aria-label="position"
                 name="position"
                 defaultValue="top">
                 <FormControlLabel
+                  className={radioBox}
+                  tabindex="1"
                   control={
                     <Radio
+                      className={radio}
                       color="primary"
                       checked={wasVaccinated === true}
                       onChange={() => setWasVaccinated(true)}
@@ -115,8 +181,11 @@ function VaccineConfirmation() {
                   labelPlacement="start"
                 />
                 <FormControlLabel
+                  className={radioBox}
+                  tabindex="2"
                   control={
                     <Radio
+                      className={radio}
                       color="primary"
                       checked={wasVaccinated === false}
                       onChange={() => setWasVaccinated(false)}
@@ -130,6 +199,7 @@ function VaccineConfirmation() {
           </List>
 
           <Button
+            className={button}
             disabled={!isInputValid(soldierId)}
             variant="contained"
             color="primary"
