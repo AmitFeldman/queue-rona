@@ -27,19 +27,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const ALERT_TIMEOUT = 3000;
+
 const Station = ({name, current}) => {
-  useEffect(() => {
+  const [alert, setAlert] = React.useState(false);
+
+  React.useEffect(() => {
     if (current !== undefined) {
-      console.log('WOAH');
+      setAlert(true);
+      setTimeout(() => {
+        setAlert(false);
+      }, ALERT_TIMEOUT);
     }
   }, [current]);
 
   return (
-    <Paper>
-      <Box p={2}>
+    <Paper style={{backgroundColor: alert ? 'lightgreen' : 'white'}}>
+      <Box p={1}>
         <Typography variant="h3">{name}</Typography>
         <Typography variant="h6">
-          {current !== undefined ? current + 'חייל בעמדה' : 'העמדה פנויה'}
+          {current !== undefined ? 'חייל בעמדה: ' + current : 'העמדה פנויה'}
         </Typography>
       </Box>
     </Paper>

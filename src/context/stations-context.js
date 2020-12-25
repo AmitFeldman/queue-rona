@@ -16,6 +16,14 @@ const StationsContext = createContext({
 const StationsProvider = ({children}) => {
   const [stations, setStations] = useState(INITIAL_STATIONS);
 
+  React.useEffect(() => {
+    setTimeout(() => {
+      const [first, ...rest] = INITIAL_STATIONS;
+      first.current = 11233;
+      setStations([first, ...rest]);
+    }, 5000);
+  }, []);
+
   return (
     <StationsContext.Provider
       value={{
