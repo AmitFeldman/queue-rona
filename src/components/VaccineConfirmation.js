@@ -45,7 +45,7 @@ const RadioOptions = ({value, setValue}) => {
 
 function VaccineConfirmation() {
   const [soldierId, setId] = React.useState('');
-  const [wasVaccinated, setWasVaccinated] = React.useState(''); /*useState();*/
+  const [wasVaccinated, setWasVaccinated] = React.useState('');
 
   async function getResult() {
     const params = new URLSearchParams();
@@ -62,6 +62,13 @@ function VaccineConfirmation() {
       params
     );
   }
+
+  function isInputValid(soldierId) {
+    return (
+      (soldierId.length == 7 || soldierId.length == 8) && wasVaccinated !== ''
+    );
+  }
+
   function give() {
     getResult()
       .then((res) => {
@@ -122,7 +129,11 @@ function VaccineConfirmation() {
             </ListItem>
           </List>
 
-          <Button variant="contained" color="primary" onClick={give}>
+          <Button
+            disabled={!isInputValid(soldierId)}
+            variant="contained"
+            color="primary"
+            onClick={give}>
             שלח
           </Button>
         </FormControl>
