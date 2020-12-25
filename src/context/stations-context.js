@@ -4,6 +4,9 @@ const INITIAL_STATIONS = [
   {id: 1, name: 'א', current: undefined},
   {id: 2, name: 'ב', current: undefined},
   {id: 3, name: 'ג', current: undefined},
+  {id: 4, name: 'גגגג', current: undefined},
+  {id: 5, name: 'גגגגגגג', current: undefined},
+  {id: 6, name: 'גגגגגגגגגג', current: undefined},
 ];
 
 const StationsContext = createContext({

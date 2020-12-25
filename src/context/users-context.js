@@ -5,7 +5,9 @@ const UsersContext = createContext({
 });
 
 const UsersProvider = ({children}) => {
-  const [users, setUsers] = useState([{id: 1}, {id: 2}, {id: 3}, {id: 4}]);
+  const [users, setUsers] = useState(
+    [...Array(123).keys()].map((id) => ({id: id + 1}))
+  );
 
   return (
     <UsersContext.Provider

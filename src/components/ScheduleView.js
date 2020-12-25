@@ -1,16 +1,31 @@
 import React, {useEffect} from 'react';
-import {Grid, Typography, Divider, ListItem, List} from '@material-ui/core';
+import {Grid, Typography, Divider, makeStyles} from '@material-ui/core';
 import {useUsers} from '../context/users-context';
 import {useStations} from '../context/stations-context';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
+import Pagination from '@material-ui/lab/Pagination';
+
+const USERS_PER_PAGE = 15;
 
 const Title = ({text}) => {
   return (
     <>
       <Typography variant="h4">{text}</Typography>
       <Divider />
+      <br />
     </>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100%',
+  },
+  pagination: {
+    justifyContent: 'center',
+  },
+}));
 
 const Station = ({name, current}) => {
   useEffect(() => {
@@ -20,40 +35,70 @@ const Station = ({name, current}) => {
   }, [current]);
 
   return (
-    <Typography>
-      {name} - {current ? current : 'פנויה'}
-    </Typography>
+    <Paper>
+      <Box p={2}>
+        <Typography variant="h3">{name}</Typography>
+        <Typography variant="h6">
+          {current !== undefined ? current + 'חייל בעמדה' : 'העמדה פנויה'}
+        </Typography>
+      </Box>
+    </Paper>
   );
 };
 
 const ScheduleView = () => {
   const {users} = useUsers();
   const {stations} = useStations();
+  const [page, setPage] = React.useState(1);
+  const {root, pagination} = useStyles();
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={1}>
       <Grid item xs={4}>
         <Title text={'תחנות'} />
 
-        <List>
-          {stations.map(({id, name, current}) => (
-            <ListItem key={id}>
-              <Station name={name} current={current} />
-            </ListItem>
-          ))}
-        </List>
+        <Box height="70vh">
+          <Grid
+            container
+            className={root}
+            direction="column"
+            spacing={2}
+            xs={6}>
+            {stations.map(({id, name, current}) => (
+              <Grid item key={id}>
+                <Station name={name} current={current} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
       </Grid>
 
       <Grid item xs={8}>
         <Title text={'ממתינים בתור'} />
 
-        <List>
-          {users.map(({id}) => (
-            <ListItem key={id}>
-              <Typography>{id}</Typography>
-            </ListItem>
-          ))}
-        </List>
+        <Box height="70vh">
+          <Grid className={root} container direction="column" spacing={1}>
+            {users
+              .slice((page - 1) * USERS_PER_PAGE, page * USERS_PER_PAGE)
+              .map(({id}) => (
+                <Grid item key={id}>
+                  <Paper>
+                    <Box p={1}>
+                      <Typography>{id}</Typography>
+                    </Box>
+                  </Paper>
+                </Grid>
+              ))}
+          </Grid>
+
+          <Pagination
+            classes={{ul: pagination}}
+            count={Math.floor(users.length / USERS_PER_PAGE)}
+            variant="outlined"
+            page={page}
+            onChange={(e, p) => setPage(p)}
+          />
+        </Box>
       </Grid>
     </Grid>
   );
