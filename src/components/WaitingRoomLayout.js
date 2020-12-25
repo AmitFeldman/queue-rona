@@ -78,7 +78,7 @@ const WaitingRoomLayout = ({
             container
             className={root}
             direction="column"
-            spacing={2}
+            spacing={1}
             xs={6}>
             {stations.map((station) => (
               <Grid item key={station.id}>
