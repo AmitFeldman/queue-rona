@@ -58,7 +58,7 @@ function VaccineConfirmation() {
     params.append('0', JSON.stringify(soldierJson));
     debugger;
     return await axios.post(
-      'http://127.0.0.1:8080/soldiers/:soldierId/wasVaccinated',
+      `http://127.0.0.1:8080/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
       params
     );
   }
