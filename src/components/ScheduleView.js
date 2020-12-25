@@ -71,7 +71,7 @@ const ScheduleView = () => {
                 <Grid item key={id}>
                   <Paper>
                     <Box p={1}>
-                      <Typography>{id}</Typography>
+                      <Typography variant="h4">{id}</Typography>
                     </Box>
                   </Paper>
                 </Grid>
