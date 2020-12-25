@@ -1,23 +1,15 @@
-import React, {useEffect} from 'react';
-import {Grid, Typography, Divider, makeStyles} from '@material-ui/core';
+import React from 'react';
+import {Grid, makeStyles, Typography} from '@material-ui/core';
 import {useUsers} from '../context/users-context';
 import {useStations} from '../context/stations-context';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Pagination from '@material-ui/lab/Pagination';
+import Header from './Header';
+import Station from './Station';
 
 const USERS_PER_PAGE = 15;
-const PAGE_INTERVAL_TIMEOUT = 2000;
-
-const Title = ({text}) => {
-  return (
-    <>
-      <Typography variant="h4">{text}</Typography>
-      <Divider />
-      <br />
-    </>
-  );
-};
+const PAGE_INTERVAL_TIMEOUT = 3000;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,32 +20,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ALERT_TIMEOUT = 3000;
-
-const Station = ({name, current}) => {
-  const [alert, setAlert] = React.useState(false);
-
-  React.useEffect(() => {
-    if (current !== undefined) {
-      setAlert(true);
-      setTimeout(() => {
-        setAlert(false);
-      }, ALERT_TIMEOUT);
-    }
-  }, [current]);
-
-  return (
-    <Paper style={{backgroundColor: alert ? 'lightgreen' : 'white'}}>
-      <Box p={1}>
-        <Typography variant="h3">{name}</Typography>
-        <Typography variant="h6">
-          {current !== undefined ? 'חייל בעמדה: ' + current : 'העמדה פנויה'}
-        </Typography>
-      </Box>
-    </Paper>
-  );
-};
-
 const ScheduleView = () => {
   const {users} = useUsers();
   const {stations} = useStations();
@@ -63,7 +29,7 @@ const ScheduleView = () => {
   React.useEffect(() => {
     const intervalId = setInterval(() => {
       setPage((p) => {
-        const pagesCount = Math.floor(users.length / USERS_PER_PAGE);
+        const pagesCount = Math.ceil(users.length / USERS_PER_PAGE);
         return p < pagesCount ? p + 1 : 1;
       });
     }, PAGE_INTERVAL_TIMEOUT);
@@ -76,7 +42,7 @@ const ScheduleView = () => {
   return (
     <Grid container spacing={1}>
       <Grid item xs={4}>
-        <Title text={'תחנות'} />
+        <Header text={'תחנות'} />
 
         <Box height="70vh">
           <Grid
@@ -95,7 +61,7 @@ const ScheduleView = () => {
       </Grid>
 
       <Grid item xs={8}>
-        <Title text={'ממתינים בתור'} />
+        <Header text={'ממתינים בתור'} />
 
         <Box height="70vh">
           <Grid className={root} container direction="column" spacing={1}>
@@ -114,7 +80,7 @@ const ScheduleView = () => {
 
           <Pagination
             classes={{ul: pagination}}
-            count={Math.floor(users.length / USERS_PER_PAGE)}
+            count={Math.ceil(users.length / USERS_PER_PAGE)}
             variant="outlined"
             page={page}
             onChange={(e, p) => setPage(p)}
