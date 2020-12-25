@@ -6,7 +6,7 @@ const UsersContext = createContext({
 
 const UsersProvider = ({children}) => {
   const [users, setUsers] = useState(
-    [...Array(123).keys()].map((id) => ({id: id + 1}))
+    [...Array(50).keys()].map((id) => ({id: id + 1}))
   );
 
   return (

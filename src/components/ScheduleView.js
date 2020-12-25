@@ -62,7 +62,10 @@ const ScheduleView = () => {
 
   React.useEffect(() => {
     const intervalId = setInterval(() => {
-      setPage((p) => p + 1);
+      setPage((p) => {
+        const pagesCount = Math.floor(users.length / USERS_PER_PAGE);
+        return p < pagesCount ? p + 1 : 1;
+      });
     }, PAGE_INTERVAL_TIMEOUT);
 
     return () => {
