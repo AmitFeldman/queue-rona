@@ -10,6 +10,10 @@ const PAGE_INTERVAL_TIMEOUT = 3000;
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
+    margin: '0 auto',
+  },
+  border: {
+    borderLeft: 'rgba(0, 0, 0, 0.12) 2px solid',
   },
   pagination: {
     justifyContent: 'center',
@@ -25,7 +29,7 @@ const WaitingRoomLayout = ({
   stationsHeader,
 }) => {
   const [page, setPage] = React.useState(1);
-  const {root, pagination} = useStyles();
+  const {root, pagination, border} = useStyles();
 
   React.useEffect(() => {
     const intervalId = setInterval(() => {
@@ -66,7 +70,7 @@ const WaitingRoomLayout = ({
         </Box>
       </Grid>
 
-      <Grid item xs={4}>
+      <Grid item xs={4} className={border}>
         <Header text={stationsHeader} />
 
         <Box height="70vh">

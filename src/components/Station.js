@@ -18,7 +18,7 @@ const Station = ({name, current}) => {
   return (
     <Paper style={{backgroundColor: alert ? 'lightgreen' : 'white'}}>
       <Box p={1}>
-        <Typography variant="h3">
+        <Typography variant="h5">
           {current !== undefined ? current : 'פנוי'}
         </Typography>
         <Divider />
