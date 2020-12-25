@@ -2,24 +2,15 @@ import React, {createContext, useState, useContext} from 'react';
 
 const UsersContext = createContext({
   users: [],
-  addUser: () => {},
 });
 
 const UsersProvider = ({children}) => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([{id: 1}, {id: 2}, {id: 3}, {id: 4}]);
 
   return (
     <UsersContext.Provider
       value={{
         users,
-        addUser: (id) => {
-          setUsers((oldUsers) => [...oldUsers, {id}]);
-        },
-        popUser: () => {
-          const [first, ...rest] = users;
-          setUsers(rest);
-          return first;
-        },
       }}>
       {children}
     </UsersContext.Provider>

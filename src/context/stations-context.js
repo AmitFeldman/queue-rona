@@ -8,7 +8,6 @@ const INITIAL_STATIONS = [
 
 const StationsContext = createContext({
   stations: INITIAL_STATIONS,
-  updateStation: () => {},
 });
 
 const StationsProvider = ({children}) => {
@@ -18,13 +17,6 @@ const StationsProvider = ({children}) => {
     <StationsContext.Provider
       value={{
         stations,
-        updateStation: (stationId, userId) => {
-          const foundIndex = stations.findIndex((s) => s.id === stationId);
-          const copyStations = [...stations];
-
-          copyStations[foundIndex] = {...stations[foundIndex], current: userId};
-          setStations(copyStations);
-        },
       }}>
       {children}
     </StationsContext.Provider>

@@ -27,26 +27,8 @@ const Station = ({name, current}) => {
 };
 
 const ScheduleView = () => {
-  const {users, popUser} = useUsers();
-  const {stations, updateStation} = useStations();
-
-  useEffect(() => {
-    setInterval(() => {
-      const station = stations.find((s) => s.current === undefined);
-
-      if (station) {
-        const user = popUser();
-
-        if (user) {
-          updateStation(station.id, user.id);
-
-          setTimeout(() => {
-            updateStation(station.id, undefined);
-          }, 5000);
-        }
-      }
-    }, 1000);
-  }, []);
+  const {users} = useUsers();
+  const {stations} = useStations();
 
   return (
     <Grid container spacing={2}>
