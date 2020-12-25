@@ -7,6 +7,7 @@ import Box from '@material-ui/core/Box';
 import Pagination from '@material-ui/lab/Pagination';
 
 const USERS_PER_PAGE = 15;
+const PAGE_INTERVAL_TIMEOUT = 2000;
 
 const Title = ({text}) => {
   return (
@@ -58,6 +59,16 @@ const ScheduleView = () => {
   const {stations} = useStations();
   const [page, setPage] = React.useState(1);
   const {root, pagination} = useStyles();
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      setPage((p) => p + 1);
+    }, PAGE_INTERVAL_TIMEOUT);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   return (
     <Grid container spacing={1}>
