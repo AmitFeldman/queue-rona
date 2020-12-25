@@ -21,6 +21,8 @@ const WaitingRoomLayout = ({
   stations,
   UserComponent,
   StationComponent,
+  waitingRoomHeader,
+  stationsHeader,
 }) => {
   const [page, setPage] = React.useState(1);
   const {root, pagination} = useStyles();
@@ -39,28 +41,9 @@ const WaitingRoomLayout = ({
   }, []);
 
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={4}>
-        <Header text={'תחנות'} />
-
-        <Box height="70vh">
-          <Grid
-            container
-            className={root}
-            direction="column"
-            spacing={2}
-            xs={6}>
-            {stations.map((station) => (
-              <Grid item key={station.id}>
-                <StationComponent {...station} />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </Grid>
-
+    <Grid container spacing={4}>
       <Grid item xs={8}>
-        <Header text={'ממתינים בתור'} />
+        <Header text={waitingRoomHeader} />
 
         <Box height="70vh">
           <Grid className={root} container direction="column" spacing={1}>
@@ -80,6 +63,25 @@ const WaitingRoomLayout = ({
             page={page}
             onChange={(e, p) => setPage(p)}
           />
+        </Box>
+      </Grid>
+
+      <Grid item xs={4}>
+        <Header text={stationsHeader} />
+
+        <Box height="70vh">
+          <Grid
+            container
+            className={root}
+            direction="column"
+            spacing={2}
+            xs={6}>
+            {stations.map((station) => (
+              <Grid item key={station.id}>
+                <StationComponent {...station} />
+              </Grid>
+            ))}
+          </Grid>
         </Box>
       </Grid>
     </Grid>

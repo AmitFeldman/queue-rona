@@ -13,6 +13,8 @@ const VaccineWaitingRoom = () => {
 
   return (
     <WaitingRoomLayout
+      waitingRoomHeader={'אזור ממתינים'}
+      stationsHeader={'לעמדת השאול'}
       users={users}
       stations={stations}
       UserComponent={({id}) => (

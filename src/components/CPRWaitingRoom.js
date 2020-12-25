@@ -14,6 +14,8 @@ const CPRWaitingRoom = () => {
 
   return (
     <WaitingRoomLayout
+      waitingRoomHeader={'אזור ממתינים'}
+      stationsHeader={'לעמדת הסיום'}
       users={users}
       stations={stations}
       UserComponent={({id}) => (
