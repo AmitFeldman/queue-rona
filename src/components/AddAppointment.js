@@ -103,7 +103,8 @@ const useStyles = makeStyles(() =>
       width: '100%',
     },
     left: {
-      float: 'left',
+      right: '0',
+      position: 'absolute',
     },
   })
 );
