@@ -5,7 +5,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import Header from './Header';
 
 const USERS_PER_PAGE = 15;
-const PAGE_INTERVAL_TIMEOUT = 3000000;
+const PAGE_INTERVAL_TIMEOUT = 3000;
 
 const useStyles = makeStyles((theme) => ({
   root: {

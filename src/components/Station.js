@@ -1,7 +1,5 @@
-import {Grid, Typography} from '@material-ui/core';
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
+import {Typography, Paper, Box, Divider} from '@material-ui/core';
 
 const ALERT_TIMEOUT = 3000;
 
@@ -20,10 +18,11 @@ const Station = ({name, current}) => {
   return (
     <Paper style={{backgroundColor: alert ? 'lightgreen' : 'white'}}>
       <Box p={1}>
-        <Typography variant="h3">{name}</Typography>
-        <Typography variant="h6">
-          {current !== undefined ? 'חייל : ' + current : 'העמדה פנויה'}
+        <Typography variant="h3">
+          {current !== undefined ? current : 'פנוי'}
         </Typography>
+        <Divider />
+        <Typography variant="h6">{'עמדה: ' + name}</Typography>
       </Box>
     </Paper>
   );
