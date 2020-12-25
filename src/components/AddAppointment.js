@@ -63,16 +63,61 @@ const RadioOptions = ({value, setValue}) => {
   );
 };
 
+const CoolButton = ({text, action}) => {
+  const {button} = useStyles();
+  return (
+    <Button
+      className={button}
+      variant="outlined"
+      color="white"
+      onClick={() => {
+        action();
+      }}>
+      {text}
+    </Button>
+  );
+};
+
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
-      margin: '1%',
+      width: 'fit-content',
+    },
+    background: {
+      'background-color': '#EEEEEE',
+    },
+    center: {
+      display: 'flex',
+      'justify-content': 'center',
+      'align-items': 'center',
+    },
+    bold: {
+      'font-weight': 'bold',
+    },
+    white: {
+      input: {
+        'background-color': 'white !important',
+      },
+    },
+    fullWidth: {
+      width: '100%',
+    },
+    left: {
+      float: 'left',
     },
   })
 );
 
 const AddAppointment = () => {
-  const {button} = useStyles();
+  const {
+    button,
+    background,
+    center,
+    bold,
+    white,
+    fullWidth,
+    left,
+  } = useStyles();
   const [open, setOpen] = React.useState(false);
 
   const [id, setId] = React.useState('');
@@ -81,57 +126,72 @@ const AddAppointment = () => {
   const [q3, setQ3] = React.useState();
 
   return (
-    <>
-      <Box m="auto" width="60%">
-        <Paper>
-          <FormControl>
-            <List>
-              <ListItem>
+    <div>
+      <div className={background}>
+        <FormControl>
+          <List>
+            <ListItem>
+              <label className={center + ' ' + fullWidth}>הזן מספר אישי</label>
+            </ListItem>
+            <ListItem>
+              <div className={fullWidth}>
                 <TextField
-                  placeholder="מספר אישי"
+                  className={center + ' ' + white}
+                  variant="outlined"
                   value={id}
                   onChange={(e) => setId(e?.target?.value)}
                 />
-              </ListItem>
-              <ListItem>
-                <FormLabel component="legend">
-                  האם פיתחת בעבר תגובה חמורה לאחר שחוסנת בחיסון קורונה או חיסון
-                  אחר?
-                </FormLabel>
-                <RadioOptions value={q1} setValue={setQ1} />
-              </ListItem>
+              </div>
+            </ListItem>
+            <ListItem>
+              <label className={bold}>אנא ענו על השאלות הבאות</label>
+            </ListItem>
+            <ListItem>
+              <label component="legend">
+                האם סבלת ממחלה עם חום מעל 38° ביומיים האחרונים ?
+              </label>
+              <RadioOptions value={q1} setValue={setQ1} />
+            </ListItem>
 
-              <ListItem>
-                <FormLabel component="legend">
-                  האם ידועה אלרגיה לתרופה/חיסון/מזון?
-                </FormLabel>
-                <RadioOptions value={q2} setValue={setQ2} />
-              </ListItem>
+            <ListItem>
+              <label component="legend">
+                האם ידועה אלרגיה לתרופה, חיסון או מזון ?
+              </label>
+              <RadioOptions value={q2} setValue={setQ2} />
+            </ListItem>
 
-              <ListItem>
-                <FormLabel component="legend">
-                  האם את/ה סובל/ת ממחלת חום?
-                </FormLabel>
-                <RadioOptions value={q3} setValue={setQ3} />
-              </ListItem>
-            </List>
+            <ListItem>
+              <label component="legend">
+                האם בידך מזרק אפיפן בעקבות תגובה אלרגית משמעותית ?
+              </label>
+              <RadioOptions value={q3} setValue={setQ3} />
+            </ListItem>
 
-            <Button
-              className={button}
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                setOpen(true);
-                setTimeout(() => setOpen(false), TIMEOUT);
-              }}>
-              שלח
-            </Button>
-          </FormControl>
-        </Paper>
-      </Box>
-
+            <ListItem>
+              <label>
+                האם פותחה בעבר תגובה אלרגית חמורה לאחר מנת החיסון הראשונה לנגיף
+                הקורונה ?
+              </label>
+            </ListItem>
+            <ListItem>
+              <RadioOptions value={q3} setValue={setQ3} />
+            </ListItem>
+            <ListItem>
+              <div className={left}>
+                <CoolButton
+                  text="שלח"
+                  action={() => {
+                    setOpen(true);
+                    setTimeout(() => setOpen(false), TIMEOUT);
+                  }}
+                />
+              </div>
+            </ListItem>
+          </List>
+        </FormControl>
+      </div>
       <SimpleDialog open={open} />
-    </>
+    </div>
   );
 };
 
