@@ -3,15 +3,13 @@ import FormControl from '@material-ui/core/FormControl';
 import {
   Button,
   FormControlLabel,
-  FormLabel,
   List,
   ListItem,
-  Paper,
   Radio,
   RadioGroup,
   TextField,
   Typography,
-  Box,
+  Grid,
   createStyles,
 } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
@@ -69,7 +67,7 @@ const CoolButton = ({text, action}) => {
     <Button
       className={button}
       variant="outlined"
-      color="white"
+      color="default"
       onClick={() => {
         action();
       }}>
@@ -103,22 +101,18 @@ const useStyles = makeStyles(() =>
       width: '100%',
     },
     left: {
-      right: '0',
-      position: 'absolute',
+      float: 'right',
+    },
+    grid: {
+      'text-align': 'left !important',
+      width: '50%',
+      display: 'inline-block !important',
     },
   })
 );
 
 const AddAppointment = () => {
-  const {
-    button,
-    background,
-    center,
-    bold,
-    white,
-    fullWidth,
-    left,
-  } = useStyles();
+  const {background, center, bold, white, fullWidth, left, grid} = useStyles();
   const [open, setOpen] = React.useState(false);
 
   const [id, setId] = React.useState('');
@@ -144,50 +138,67 @@ const AddAppointment = () => {
                 />
               </div>
             </ListItem>
-            <ListItem>
-              <label className={bold}>אנא ענו על השאלות הבאות</label>
-            </ListItem>
-            <ListItem>
-              <label component="legend">
-                האם סבלת ממחלה עם חום מעל 38° ביומיים האחרונים ?
-              </label>
-              <RadioOptions value={q1} setValue={setQ1} />
-            </ListItem>
-
-            <ListItem>
-              <label component="legend">
-                האם ידועה אלרגיה לתרופה, חיסון או מזון ?
-              </label>
-              <RadioOptions value={q2} setValue={setQ2} />
-            </ListItem>
-
-            <ListItem>
-              <label component="legend">
-                האם בידך מזרק אפיפן בעקבות תגובה אלרגית משמעותית ?
-              </label>
-              <RadioOptions value={q3} setValue={setQ3} />
-            </ListItem>
-
-            <ListItem>
-              <label>
-                האם פותחה בעבר תגובה אלרגית חמורה לאחר מנת החיסון הראשונה לנגיף
-                הקורונה ?
-              </label>
-            </ListItem>
-            <ListItem>
-              <RadioOptions value={q3} setValue={setQ3} />
-            </ListItem>
-            <ListItem>
-              <div className={left}>
-                <CoolButton
-                  text="שלח"
-                  action={() => {
-                    setOpen(true);
-                    setTimeout(() => setOpen(false), TIMEOUT);
-                  }}
-                />
-              </div>
-            </ListItem>
+            <div className={grid + ' ' + center}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <label className={bold}>אנא ענו על השאלות הבאות</label>
+                </Grid>
+                <Grid item xs={8}>
+                  <div>
+                    <label component="legend">
+                      האם סבלת ממחלה עם חום מעל 38° ביומיים האחרונים ?
+                    </label>
+                  </div>
+                </Grid>
+                <Grid item xs={4}>
+                  <div className={left}>
+                    <RadioOptions value={q1} setValue={setQ1} />
+                  </div>
+                </Grid>
+                <Grid item xs={8}>
+                  <label component="legend">
+                    האם ידועה אלרגיה לתרופה, חיסון או מזון ?
+                  </label>
+                </Grid>
+                <Grid item xs={4}>
+                  <div className={left}>
+                    <RadioOptions value={q2} setValue={setQ2} />
+                  </div>
+                </Grid>
+                <Grid item xs={8}>
+                  <label component="legend">
+                    האם בידך מזרק אפיפן בעקבות תגובה אלרגית משמעותית ?
+                  </label>
+                </Grid>
+                <Grid item xs={4}>
+                  <div className={left}>
+                    <RadioOptions value={q3} setValue={setQ3} />
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <label>
+                    האם פותחה בעבר תגובה אלרגית חמורה לאחר מנת החיסון הראשונה
+                    לנגיף הקורונה ?
+                  </label>
+                </Grid>
+                <Grid item xs={12}>
+                  <div className={left}>
+                    <RadioOptions value={q3} setValue={setQ3} />
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <div className={left}>
+                    <CoolButton
+                      text="שלח"
+                      action={() => {
+                        setOpen(true);
+                        setTimeout(() => setOpen(false), TIMEOUT);
+                      }}
+                    />
+                  </div>
+                </Grid>
+              </Grid>
+            </div>
           </List>
         </FormControl>
       </div>
