@@ -1,46 +1,109 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import FormControl from '@material-ui/core/FormControl';
+import axios from 'axios';
 import {
   Button,
-  Grid,
+  FormControlLabel,
   FormLabel,
+  Grid,
   List,
+  ListItem,
   Paper,
-  ButtonGroup,
-  FormControl,
-  makeStyles,
+  Radio,
+  RadioGroup,
+  TextField,
+  createStyles,
 } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const IsSoldierArrived = () => {
-  const soldierId = 123456;
-  useEffect(() => {
-    // Update the document title using the browser API
-  });
+const RadioOptions = ({value, setValue}) => {
+  return (
+    <RadioGroup row aria-label="position" name="position" defaultValue="top">
+      <FormControlLabel
+        control={
+          <Radio
+            color="primary"
+            checked={value === true}
+            onChange={() => setValue(true)}
+          />
+        }
+        label="כן"
+        labelPlacement="start"
+      />
+      <FormControlLabel
+        control={
+          <Radio
+            color="primary"
+            checked={value === false}
+            onChange={() => setValue(false)}
+          />
+        }
+        label="לא"
+        labelPlacement="start"
+      />
+    </RadioGroup>
+  );
+};
 
-  const useStyles = makeStyles((theme) => ({
-    formLable: {
-      padding: '3vh',
-      fontSize: '210%',
-    },
+const useStyles = makeStyles(() =>
+  createStyles({
     button: {
-      fontSize: '23px',
-      width: '120px',
-      marginRight: '2vw',
+      backgroundColor: 'gray',
     },
-    buttonGroup: {
-      display: 'flex',
-      justifyContent: 'center',
-      padding: '20px',
+    radio: {
+      display: 'none',
     },
-    paper: {
-      width: '40vw',
-      fontSize: '20px',
+    radioBox: {
+      backgroundColor: 'white',
+      cursor: 'default',
+      border: 'solid 1px lightGray',
+      display: 'block',
+      padding: '7px',
+      textAlign: 'center',
+      border: 'solid 1px lightGray',
+      outline: '0',
     },
-    grid: {
-      minHeight: '80vh',
-    },
-  }));
+  })
+);
 
-  const {button, formLable, buttonGroup, paper, grid} = useStyles();
+function VaccineConfirmation() {
+  const {button} = useStyles();
+  const {radio} = useStyles();
+  const {radioBox} = useStyles();
+  const [soldierId, setId] = React.useState('8215936');
+  const [wasVaccinated, setWasVaccinated] = React.useState('');
+
+  async function getResult() {
+    const params = new URLSearchParams();
+    let soldierIdInteger = parseInt(soldierId);
+    let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
+    let soldierJson = {
+      soldierId: soldierIdWithoutZeroPrefix,
+      wasVaccinated: wasVaccinated,
+    };
+    params.append('0', JSON.stringify(soldierJson));
+    debugger;
+    return await axios.post(
+      `http://127.0.0.1:8080/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
+      params
+    );
+  }
+
+  function isInputValid() {
+    return (
+      (soldierId.length == 7 || soldierId.length == 8) && wasVaccinated !== ''
+    );
+  }
+
+  function give() {
+    getResult()
+      .then((res) => {
+        alert(res.data.data);
+      })
+      .catch((rej) => {
+        alert(JSON.stringify(rej));
+      });
+  }
   return (
     <Grid
       container
@@ -48,38 +111,119 @@ const IsSoldierArrived = () => {
       direction="column"
       alignItems="center"
       justify="center"
-      className={grid}>
-      <Paper className={paper}>
-        <List dense></List>
-        <FormControl>
-          <FormLabel component="legend" spacing={30} className={formLable}>
-            {' '}
-            מספר אישי: <b>{soldierId} </b>
-          </FormLabel>
+      style={{minHeight: '50vh'}}>
+      <FormControl>
+        <List>
+          <ListItem
+            style={{
+              display: 'flex',
+              'justify-content': 'center',
+              'align-items': 'center',
+              'font-weight': 'bold',
+              'font-size': '18px',
+            }}>
+            מספר אישי{' '}
+          </ListItem>
+          <ListItem
+            style={{
+              display: 'flex',
+              'justify-content': 'center',
+              'align-items': 'center',
+            }}></ListItem>
+          <ListItem
+            style={{
+              display: 'flex',
+              'justify-content': 'center',
+              'align-items': 'center',
+            }}>
+            <TextField
+              disabled={true}
+              id="filled-basic"
+              label={soldierId}
+              variant="filled"
+            />
+          </ListItem>
+          <ListItem
+            style={{
+              display: 'flex',
+              'justify-content': 'center',
+              'align-items': 'center',
+              'font-weight': 'bold',
+              'font-size': '18px',
+            }}>
+            האם החייל הגיע לעמדה?{' '}
+          </ListItem>
+          <ListItem>
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              defaultValue="top">
+              <ListItem
+                style={{
+                  display: 'flex',
+                  'justify-content': 'center',
+                  'align-items': 'center',
+                }}>
+                <FormControlLabel
+                  className={radioBox}
+                  style={{
+                    backgroundColor: wasVaccinated ? 'lightGray' : 'white',
+                  }}
+                  tabindex="1"
+                  control={
+                    <Radio
+                      className={radio}
+                      color="primary"
+                      checked={wasVaccinated === true}
+                      onChange={() => {
+                        setWasVaccinated(true);
+                      }}
+                    />
+                  }
+                  label="בוצע אימות זיהוי"
+                  labelPlacement="start"
+                />
+              </ListItem>
+              <ListItem
+                style={{
+                  display: 'flex',
+                  'justify-content': 'center',
+                  'align-items': 'center',
+                }}>
+                <FormControlLabel
+                  className={radioBox}
+                  style={{
+                    backgroundColor: wasVaccinated ? 'white' : 'lightGray',
+                  }}
+                  tabindex="2"
+                  control={
+                    <Radio
+                      className={radio}
+                      color="primary"
+                      checked={wasVaccinated === false}
+                      onChange={() => setWasVaccinated(false)}
+                    />
+                  }
+                  label="לא בוצע אימות"
+                  labelPlacement="start"
+                />
+              </ListItem>
+            </RadioGroup>
+          </ListItem>
+        </List>
 
-          <FormLabel className={formLable}>האם החייל הגיע לעמדה?</FormLabel>
-
-          <ButtonGroup
-            className={buttonGroup}
-            row
-            aria-label="position"
-            name="position"
-            defaultValue="top">
-            <Button
-              className={button}
-              href="./VaccineApproval"
-              variant="contained"
-              color="primary">
-              הגיע
-            </Button>
-            <Button className={button} variant="contained" color="primary">
-              לא הגיע
-            </Button>
-          </ButtonGroup>
-        </FormControl>
-      </Paper>
+        <Button
+          className={button}
+          disabled={!isInputValid(soldierId)}
+          variant="contained"
+          color="primary"
+          onClick={give}>
+          שלח
+        </Button>
+      </FormControl>
     </Grid>
   );
-};
+}
 
-export default IsSoldierArrived;
+export default VaccineConfirmation;
