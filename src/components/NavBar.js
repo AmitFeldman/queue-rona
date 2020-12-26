@@ -23,21 +23,30 @@ const NavBar = () => {
   const {bar, image} = useStyles();
 
   return (
-    <AppBar position="sticky" className={bar}>
-      <Grid container alignItems="center">
-        <Grid item xs={3}>
-          <Avatar alt="Palmahim" src={Palmahim} className={image} />
+    <>
+      <AppBar position="sticky" className={bar}>
+        <Grid container alignItems="center">
+          <Grid item xs={3}>
+            <Avatar
+              alt="AirForce"
+              variant="square"
+              src={AirForce}
+              className={image}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <Typography variant="h4">
+              ברוכים הבאים למרכז החיסונים בפלמחים
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Avatar alt="Palmahim" src={Palmahim} className={image} />
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Typography variant="h4">
-            ברוכים הבאים למרכז החיסונים בפלמחים
-          </Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Avatar alt="AirForce" src={AirForce} className={image} />
-        </Grid>
-      </Grid>
-    </AppBar>
+        <Grid></Grid>
+      </AppBar>
+    </>
   );
 };
 
