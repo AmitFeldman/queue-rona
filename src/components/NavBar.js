@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) =>
     bar: {
       padding: '10px 0',
       textAlign: '-webkit-center',
+      backgroundColor: '#FAFAFA',
     },
     image: {
       width: theme.spacing(10),
@@ -36,7 +37,7 @@ const NavBar = () => {
           </Grid>
 
           <Grid item xs={6}>
-            <Typography variant="h4">
+            <Typography style={{color: 'black'}} variant="h4">
               ברוכים הבאים למרכז החיסונים בפלמחים
             </Typography>
           </Grid>

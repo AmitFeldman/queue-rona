@@ -1,6 +1,8 @@
+@import url(//fonts.googleapis.com/css?family=Assistant);
+
 body {
   margin: 0;
-  font-family: 'assistanat', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+  font-family: 'Assistant', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
