@@ -14,8 +14,6 @@ function App() {
     <div className="App">
       <NavBar />
 
-      <br />
-
       <Container>
         <Switch>
           <Route exact path="/" component={AddAppointment} />

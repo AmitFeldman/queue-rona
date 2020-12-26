@@ -5,15 +5,13 @@ import axios from 'axios';
 import {
   Button,
   FormControlLabel,
-  FormLabel,
   List,
   ListItem,
-  Paper,
   Radio,
   RadioGroup,
   TextField,
   Typography,
-  Box,
+  Grid,
   createStyles,
 } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
@@ -65,16 +63,58 @@ const RadioOptions = ({value, setValue}) => {
   );
 };
 
+const CoolButton = ({text, action}) => {
+  const {button} = useStyles();
+  return (
+    <Button
+      className={button}
+      variant="outlined"
+      color="default"
+      onClick={() => {
+        action();
+      }}>
+      {text}
+    </Button>
+  );
+};
+
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
-      margin: '1%',
+      width: 'fit-content',
+    },
+    background: {
+      'background-color': '#EEEEEE',
+    },
+    center: {
+      display: 'flex',
+      'justify-content': 'center',
+      'align-items': 'center',
+    },
+    bold: {
+      'font-weight': 'bold',
+    },
+    white: {
+      input: {
+        'background-color': 'white !important',
+      },
+    },
+    fullWidth: {
+      width: '100%',
+    },
+    left: {
+      float: 'right',
+    },
+    grid: {
+      'text-align': 'left !important',
+      width: '50%',
+      display: 'inline-block !important',
     },
   })
 );
 
 const AddAppointment = () => {
-  const {button} = useStyles();
+  const {background, center, bold, white, fullWidth, left, grid} = useStyles();
   const [open, setOpen] = React.useState(false);
 
   const [soldierId, setId] = React.useState('');
@@ -103,58 +143,90 @@ const AddAppointment = () => {
       });
   }
   return (
-    <>
-      <Box m="auto" width="60%">
-        <Paper>
-          <FormControl>
-            <List>
-              <ListItem>
+    <div>
+      <div className={background}>
+        <FormControl>
+          <List>
+            <ListItem>
+              <label className={center + ' ' + fullWidth}>הזן מספר אישי</label>
+            </ListItem>
+            <ListItem>
+              <div className={fullWidth}>
                 <TextField
-                  placeholder="מספר אישי"
-                  value={soldierId}
+                  className={center + ' ' + white}
+                  variant="outlined"
+                  value={id}
                   onChange={(e) => setId(e?.target?.value)}
                 />
-              </ListItem>
-              <ListItem>
-                <FormLabel component="legend">
-                  האם פיתחת בעבר תגובה חמורה לאחר שחוסנת בחיסון קורונה או חיסון
-                  אחר?
-                </FormLabel>
-                <RadioOptions value={q1} setValue={setQ1} />
-              </ListItem>
-
-              <ListItem>
-                <FormLabel component="legend">
-                  האם ידועה אלרגיה לתרופה/חיסון/מזון?
-                </FormLabel>
-                <RadioOptions value={q2} setValue={setQ2} />
-              </ListItem>
-
-              <ListItem>
-                <FormLabel component="legend">
-                  האם את/ה סובל/ת ממחלת חום?
-                </FormLabel>
-                <RadioOptions value={q3} setValue={setQ3} />
-              </ListItem>
-            </List>
-
-            <Button
-              className={button}
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                setOpen(true);
-                give();
-                setTimeout(() => setOpen(false), TIMEOUT);
-              }}>
-              שלח
-            </Button>
-          </FormControl>
-        </Paper>
-      </Box>
+              </div>
+            </ListItem>
+            <div className={grid + ' ' + center}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <label className={bold}>אנא ענו על השאלות הבאות</label>
+                </Grid>
+                <Grid item xs={8}>
+                  <div>
+                    <label component="legend">
+                      האם סבלת ממחלה עם חום מעל 38° ביומיים האחרונים ?
+                    </label>
+                  </div>
+                </Grid>
+                <Grid item xs={4}>
+                  <div className={left}>
+                    <RadioOptions value={q1} setValue={setQ1} />
+                  </div>
+                </Grid>
+                <Grid item xs={8}>
+                  <label component="legend">
+                    האם ידועה אלרגיה לתרופה, חיסון או מזון ?
+                  </label>
+                </Grid>
+                <Grid item xs={4}>
+                  <div className={left}>
+                    <RadioOptions value={q2} setValue={setQ2} />
+                  </div>
+                </Grid>
+                <Grid item xs={8}>
+                  <label component="legend">
+                    האם בידך מזרק אפיפן בעקבות תגובה אלרגית משמעותית ?
+                  </label>
+                </Grid>
+                <Grid item xs={4}>
+                  <div className={left}>
+                    <RadioOptions value={q3} setValue={setQ3} />
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <label>
+                    האם פותחה בעבר תגובה אלרגית חמורה לאחר מנת החיסון הראשונה
+                    לנגיף הקורונה ?
+                  </label>
+                </Grid>
+                <Grid item xs={12}>
+                  <div className={left}>
+                    <RadioOptions value={q3} setValue={setQ3} />
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <div className={left}>
+                    <CoolButton
+                      text="שלח"
+                      action={() => {
+                        setOpen(true);
+                        setTimeout(() => setOpen(false), TIMEOUT);
+                      }}
+                    />
+                  </div>
+                </Grid>
+              </Grid>
+            </div>
+          </List>
+        </FormControl>
+      </div>
 
       <SimpleDialog open={open} />
-    </>
+    </div>
   );
 };
 
