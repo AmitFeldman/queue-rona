@@ -19,7 +19,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const TIMEOUT = 3000;
+const TIMEOUT = 1000;
 
 function SimpleDialog({open}) {
   return (
@@ -121,8 +121,12 @@ const AddAppointment = () => {
               variant="contained"
               color="primary"
               onClick={() => {
-                setOpen(true);
-                setTimeout(() => setOpen(false), TIMEOUT);
+                const newId = Number(id);
+
+                if (newId) {
+                  setOpen(true);
+                  setTimeout(() => setOpen(false), TIMEOUT);
+                }
               }}>
               שלח
             </Button>

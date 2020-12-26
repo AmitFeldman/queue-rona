@@ -4,8 +4,10 @@ import AddAppointment from './components/AddAppointment';
 import IsSoldierArrived from './components/IsSoldierArrived';
 import Container from '@material-ui/core/Container';
 import {Route, Switch} from 'react-router-dom';
-import ScheduleView from './components/ScheduleView';
+import WaitingRoomLayout from './components/WaitingRoomLayout';
 import NavBar from './components/NavBar';
+import VaccineWaitingRoom from './components/VaccineWaitingRoom';
+import CPRWaitingRoom from './components/CPRWaitingRoom';
 
 function App() {
   return (
@@ -14,11 +16,12 @@ function App() {
 
       <br />
 
-      <Container>
+      <Container disableGutters maxWidth="lg">
         <Switch>
           <Route exact path="/" component={AddAppointment} />
           <Route path="/soldierArrival" component={IsSoldierArrived} />
-          <Route path="/schedule" component={ScheduleView} />
+          <Route path="/vaccine" component={VaccineWaitingRoom} />
+          <Route path="/cpr" component={CPRWaitingRoom} />
         </Switch>
       </Container>
     </div>
