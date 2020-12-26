@@ -19,7 +19,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const TIMEOUT = 3000;
+const TIMEOUT = 1000;
 
 function SimpleDialog({open}) {
   return (
@@ -158,6 +158,7 @@ const AddAppointment = () => {
                   value={id}
                   onChange={(e) => setId(e?.target?.value)}
                 />
+
               </div>
             </ListItem>
             <div className={grid + ' ' + center}>
@@ -224,6 +225,7 @@ const AddAppointment = () => {
           </List>
         </FormControl>
       </div>
+
 
       <SimpleDialog open={open} />
     </div>

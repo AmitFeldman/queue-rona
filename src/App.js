@@ -6,13 +6,16 @@ import VaccineConfirmation from './components/VaccineConfirmation';
 
 import Container from '@material-ui/core/Container';
 import {Route, Switch} from 'react-router-dom';
-import ScheduleView from './components/ScheduleView';
+import WaitingRoomLayout from './components/WaitingRoomLayout';
 import NavBar from './components/NavBar';
+import VaccineWaitingRoom from './components/VaccineWaitingRoom';
+import CPRWaitingRoom from './components/CPRWaitingRoom';
 
 function App() {
   return (
     <div className="App">
       <NavBar />
+
 
       <Container>
         <Switch>
@@ -20,6 +23,9 @@ function App() {
           <Route path="/soldierArrival" component={IsSoldierArrived} />
           <Route path="/vaccineConfirmation" component={VaccineConfirmation} />
           <Route path="/schedule" component={ScheduleView} />
+           <Route path="/vaccine" component={VaccineWaitingRoom} />
+          <Route path="/cpr" component={CPRWaitingRoom} />
+
         </Switch>
       </Container>
     </div>
