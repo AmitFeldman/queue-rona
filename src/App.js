@@ -14,6 +14,7 @@ import CPRWaitingRoom from './components/CPRWaitingRoom';
 function App() {
   return (
     <div className="App Background">
+      <NavBar />
       <Container disableGutters maxWidth="lg">
         <Switch>
           <Route exact path="/" component={AddAppointment} />
