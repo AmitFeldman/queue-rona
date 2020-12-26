@@ -57,22 +57,11 @@ const useStyles = makeStyles(() =>
       backgroundColor: 'white',
       cursor: 'default',
       border: 'solid 1px lightGray',
-      width: '70px',
       display: 'block',
+      padding: '7px',
       textAlign: 'center',
-      '&:click': {
-        border: 'solid 1px lightGray',
-        background: 'lightGray',
-        outline: '0',
-      },
-      '&:hover': {
-        backgroundColor: 'lightGray',
-      },
-      '&:focus': {
-        border: 'solid 1px lightGray',
-        background: 'lightGray',
-        outline: '0',
-      },
+      border: 'solid 1px lightGray',
+      outline: '0',
     },
   })
 );
@@ -123,65 +112,81 @@ function VaccineConfirmation() {
       alignItems="center"
       justify="center"
       style={{minHeight: '50vh'}}>
-      <Paper>
-        <FormControl>
-          <List>
-            <ListItem
-              style={{
-                display: 'flex',
-                'justify-content': 'center',
-                'align-items': 'center',
-              }}>
-              הזן מספר אישי
-            </ListItem>
-            <ListItem
-              style={{
-                display: 'flex',
-                'justify-content': 'center',
-                'align-items': 'center',
-              }}>
-              <TextField
-                variant="outlined"
-                value={soldierId}
-                onChange={(e) => setId(e?.target?.value)}
-              />
-            </ListItem>
-            <ListItem
-              style={{
-                display: 'flex',
-                'justify-content': 'center',
-                'align-items': 'center',
-              }}>
-              <FormLabel component="legend">האם התחסנת?</FormLabel>
-            </ListItem>
-            <ListItem
-              style={{
-                display: 'flex',
-                'justify-content': 'right',
-                'align-items': 'center',
-                'margin-right': '20px',
-              }}>
-              <RadioGroup
-                row
-                aria-label="position"
-                name="position"
-                defaultValue="top">
+      <FormControl>
+        <List>
+          <ListItem
+            style={{
+              display: 'flex',
+              'justify-content': 'center',
+              'align-items': 'center',
+              'font-weight': 'bold',
+              'font-size': '18px',
+            }}>
+            עליך להמתין במתחם במשך 15 דקות לאישור
+          </ListItem>
+          <ListItem
+            style={{
+              display: 'flex',
+              'justify-content': 'center',
+              'align-items': 'center',
+            }}>
+            הזן מספר אישי על מנת להיכנס לתור
+          </ListItem>
+          <ListItem
+            style={{
+              display: 'flex',
+              'justify-content': 'center',
+              'align-items': 'center',
+            }}>
+            <TextField
+              variant="outlined"
+              value={soldierId}
+              onChange={(e) => setId(e?.target?.value)}
+            />
+          </ListItem>
+          <ListItem>
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              defaultValue="top">
+              <ListItem
+                style={{
+                  display: 'flex',
+                  'justify-content': 'center',
+                  'align-items': 'center',
+                }}>
                 <FormControlLabel
                   className={radioBox}
+                  style={{
+                    backgroundColor: wasVaccinated ? 'lightGray' : 'white',
+                  }}
                   tabindex="1"
                   control={
                     <Radio
                       className={radio}
                       color="primary"
                       checked={wasVaccinated === true}
-                      onChange={() => setWasVaccinated(true)}
+                      onChange={() => {
+                        setWasVaccinated(true);
+                      }}
                     />
                   }
-                  label="כן"
+                  label="התחסנתי"
                   labelPlacement="start"
                 />
+              </ListItem>
+              <ListItem
+                style={{
+                  display: 'flex',
+                  'justify-content': 'center',
+                  'align-items': 'center',
+                }}>
                 <FormControlLabel
                   className={radioBox}
+                  style={{
+                    backgroundColor: wasVaccinated ? 'white' : 'lightGray',
+                  }}
                   tabindex="2"
                   control={
                     <Radio
@@ -191,23 +196,23 @@ function VaccineConfirmation() {
                       onChange={() => setWasVaccinated(false)}
                     />
                   }
-                  label="לא"
+                  label="משהו השתבש, לא התחסנתי"
                   labelPlacement="start"
                 />
-              </RadioGroup>
-            </ListItem>
-          </List>
+              </ListItem>
+            </RadioGroup>
+          </ListItem>
+        </List>
 
-          <Button
-            className={button}
-            disabled={!isInputValid(soldierId)}
-            variant="contained"
-            color="primary"
-            onClick={give}>
-            שלח
-          </Button>
-        </FormControl>
-      </Paper>
+        <Button
+          className={button}
+          disabled={!isInputValid(soldierId)}
+          variant="contained"
+          color="primary"
+          onClick={give}>
+          שלח
+        </Button>
+      </FormControl>
     </Grid>
   );
 }
