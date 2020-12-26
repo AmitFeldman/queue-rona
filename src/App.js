@@ -2,6 +2,8 @@ import './App.css';
 import React from 'react';
 import AddAppointment from './components/AddAppointment';
 import IsSoldierArrived from './components/IsSoldierArrived';
+import VaccineConfirmation from './components/VaccineConfirmation';
+
 import Container from '@material-ui/core/Container';
 import {Route, Switch} from 'react-router-dom';
 import WaitingRoomLayout from './components/WaitingRoomLayout';
@@ -11,11 +13,7 @@ import CPRWaitingRoom from './components/CPRWaitingRoom';
 
 function App() {
   return (
-    <div className="App">
-      <NavBar />
-
-      <br />
-
+    <div className="App Background">
       <Container disableGutters maxWidth="lg">
         <Switch>
           <Route exact path="/" component={AddAppointment} />
