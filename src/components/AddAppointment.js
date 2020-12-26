@@ -155,7 +155,7 @@ const AddAppointment = () => {
                 <TextField
                   className={center + ' ' + white}
                   variant="outlined"
-                  value={id}
+                  value={soldierId}
                   onChange={(e) => setId(e?.target?.value)}
                 />
               </div>
