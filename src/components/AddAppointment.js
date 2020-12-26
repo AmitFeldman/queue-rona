@@ -133,7 +133,7 @@ const useStyles = makeStyles(() =>
     },
     grid: {
       'text-align': 'left !important',
-      width: '50%',
+      width: '75%',
       display: 'inline-block !important',
     },
     radio: {
