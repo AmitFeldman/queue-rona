@@ -207,6 +207,11 @@ const AddAppointment = () => {
   async function give() {
     await getResultAddSoldierToSoldierTable();
     await getResultAddSoliderToArrivalQueue();
+    setId('');
+    setQ1('');
+    setQ2('');
+    setQ3('');
+    setQ4('');
   }
 
   function isValid() {
@@ -248,7 +253,7 @@ const AddAppointment = () => {
                 <Grid item xs={8}>
                   <div>
                     <label component="legend">
-                      האם סבלת ממחלה עם חום מעל 38° ביומיים האחרונים ?
+                      האם סבלת ממחלה עם חום מעל 38° ביומיים האחרונים?
                     </label>
                   </div>
                 </Grid>
@@ -303,7 +308,7 @@ const AddAppointment = () => {
                 </Grid>
                 <Grid item xs={8}>
                   <label component="legend">
-                    האם ידועה אלרגיה לתרופה, חיסון או מזון ?
+                    האם ידועה אלרגיה לתרופה, חיסון או מזון?
                   </label>
                 </Grid>
                 <Grid item xs={4}>
@@ -357,7 +362,7 @@ const AddAppointment = () => {
                 </Grid>
                 <Grid item xs={8}>
                   <label component="legend">
-                    האם בידך מזרק אפיפן בעקבות תגובה אלרגית משמעותית ?
+                    האם בידך מזרק אפיפן בעקבות תגובה אלרגית משמעותית?
                   </label>
                 </Grid>
                 <Grid item xs={4}>
@@ -412,7 +417,7 @@ const AddAppointment = () => {
                 <Grid item xs={12}>
                   <label>
                     האם פותחה בעבר תגובה אלרגית חמורה לאחר מנת החיסון הראשונה
-                    לנגיף הקורונה ?
+                    לנגיף הקורונה?
                   </label>
                 </Grid>
                 <Grid item xs={12}>
