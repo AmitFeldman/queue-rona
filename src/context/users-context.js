@@ -1,13 +1,26 @@
-import React, {createContext, useState, useContext} from 'react';
+import React, {createContext, useState, useContext, useEffect} from 'react';
+import {getTopSoldiers} from '../utils/api';
 
 const UsersContext = createContext({
   users: [],
 });
 
+const USERS_TIMEOUT = 5000;
+
 const UsersProvider = ({children}) => {
-  const [users, setUsers] = useState(
-    [...Array(50).keys()].map((id) => ({id: id + 1}))
-  );
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      getTopSoldiers().then((res) => {
+        setUsers(res.data);
+      });
+    }, USERS_TIMEOUT);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   return (
     <UsersContext.Provider

@@ -1,26 +1,25 @@
-import React, {createContext, useState, useContext} from 'react';
-
-const INITIAL_STATIONS = [
-  {id: 1, name: 'א', current: undefined},
-  {id: 2, name: 'ב', current: undefined},
-  {id: 3, name: 'ג', current: undefined},
-  {id: 4, name: 'גגגג', current: undefined},
-  {id: 5, name: 'גגגגגגג', current: undefined},
-];
+import React, {createContext, useState, useContext, useEffect} from 'react';
+import {getStages} from '../utils/api';
 
 const StationsContext = createContext({
-  stations: INITIAL_STATIONS,
+  stations: [],
 });
 
-const StationsProvider = ({children}) => {
-  const [stations, setStations] = useState(INITIAL_STATIONS);
+const STATIONS_TIMEOUT = 5000;
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      const [first, ...rest] = INITIAL_STATIONS;
-      first.current = 11233;
-      setStations([first, ...rest]);
-    }, 5000);
+const StationsProvider = ({children}) => {
+  const [stations, setStations] = useState([]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      getStages().then((res) => {
+        setStations(res.data);
+      });
+    }, STATIONS_TIMEOUT);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   return (
