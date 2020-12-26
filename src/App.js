@@ -20,6 +20,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={AddAppointment} />
           <Route path="/soldierArrival" component={IsSoldierArrived} />
+          <Route path="/vaccineConfirmation" component={VaccineConfirmation} />
           <Route path="/schedule" component={ScheduleView} />
         </Switch>
       </Container>
