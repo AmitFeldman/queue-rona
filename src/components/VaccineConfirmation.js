@@ -159,7 +159,8 @@ function VaccineConfirmation() {
                 <FormControlLabel
                   className={radioBox}
                   style={{
-                    backgroundColor: wasVaccinated ? 'lightGray' : 'white',
+                    backgroundColor:
+                      wasVaccinated === true ? 'lightGray' : 'white',
                   }}
                   tabindex="1"
                   control={
@@ -185,7 +186,8 @@ function VaccineConfirmation() {
                 <FormControlLabel
                   className={radioBox}
                   style={{
-                    backgroundColor: wasVaccinated ? 'white' : 'lightGray',
+                    backgroundColor:
+                      wasVaccinated === false ? 'lightGray' : 'white',
                   }}
                   tabindex="2"
                   control={
