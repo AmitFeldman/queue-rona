@@ -8,7 +8,6 @@ import {
   List,
   ListItem,
   Radio,
-  RadioGroup,
   TextField,
   Typography,
   Grid,
@@ -19,29 +18,80 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const TIMEOUT = 3000;
+const TIMEOUT = 6000;
 
-function SimpleDialog({open}) {
+function SimpleDialog({open, soldierId, setOpen, give, setOpen2}) {
+  const {center, text} = useStyles();
+
   return (
-    <Dialog open={open}>
-      <DialogTitle>תורך נשלח!</DialogTitle>
+    <Dialog open={open} style={{margin: '3rem'}}>
+      <DialogTitle className={center}>
+        <p>רגע לפני כניסה לאזור ההמתנה באולם,</p>
+        <p>וודאו כי המספר האישי שהוזן תקין</p>
+      </DialogTitle>
       <DialogContent>
         <Typography variant="body1">
-          אנא הכנס לאולם והמתן ביציע החיסונים
+          <div style={{marginBottom: '3rem'}}>
+            <TextField
+              size={'small'}
+              className={center + ' ' + text}
+              variant="outlined"
+              value={soldierId}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </div>
+          <List>
+            <ListItem>
+              <div style={{marginLeft: '2rem'}}>
+                <CoolButton
+                  text="לא, חזרה לעריכה"
+                  action={() => {
+                    setOpen(false);
+                  }}
+                />
+              </div>
+              <CoolButton
+                text="המספר תקין, תודה"
+                action={() => {
+                  give();
+                  setOpen(false);
+                  setOpen2(true);
+                  setTimeout(() => setOpen2(false), TIMEOUT);
+                }}
+              />
+            </ListItem>
+          </List>
         </Typography>
       </DialogContent>
     </Dialog>
   );
 }
 
-const CoolButton = ({text, action}) => {
+function SimpleDialog2({open}) {
+  const {center, text} = useStyles();
+
+  return (
+    <Dialog open={open}>
+      <DialogTitle className={center}>
+        <p>זה נראה קרוב מתמיד,</p>
+        <p>אבל אנחנו עדיין מוגבלים בכמות האנשים באולם בעקבות ההנחיות</p>
+        <p>המתינו מספר דקות ונאשר את כניסתכם</p>
+      </DialogTitle>
+    </Dialog>
+  );
+}
+
+const CoolButton = ({text, action, isDisabled}) => {
   const {button} = useStyles();
   return (
     <Button
       className={button}
-      style={{'background-color': 'white'}}
+      style={{backgroundColor: 'white'}}
       variant="outlined"
       color="default"
+      disabled={isDisabled}
       onClick={() => {
         action();
       }}>
@@ -62,13 +112,17 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       'justify-content': 'center',
       'align-items': 'center',
+      textAlign: 'center',
     },
     bold: {
       'font-weight': 'bold',
     },
     text: {
-      '.MuiInputBase-input': {
-        'background-color': 'white !important',
+      '& .MuiInputBase-input': {
+        backgroundColor: 'white !important',
+        fontSize: '110%',
+        textAlign: 'center',
+        width: '7rem',
       },
     },
     fullWidth: {
@@ -90,12 +144,12 @@ const useStyles = makeStyles(() =>
       cursor: 'default',
       border: 'solid 1px lightGray',
       display: 'block',
-      'padding-right': '1.5rem',
-      'padding-top': '0.1rem',
-      'padding-bottom': '0.1rem',
-      'padding-left': '1.5rem',
+      paddingRight: '1.5rem',
+      paddingTop: '0.1rem',
+      paddingBottom: '0.1rem',
+      paddingLeft: '1.5rem',
       'border-radius': '5px',
-      'margin-left': '0',
+      marginLeft: '0',
       textAlign: 'center',
       border: 'solid 1px lightGray',
       outline: '0',
@@ -117,33 +171,50 @@ const AddAppointment = () => {
     text,
   } = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
 
   const [soldierId, setId] = React.useState('');
-  const [q1, setQ1] = React.useState();
-  const [q2, setQ2] = React.useState();
-  const [q3, setQ3] = React.useState();
-  const [q4, setQ4] = React.useState();
+  const [q1, setQ1] = React.useState('');
+  const [q2, setQ2] = React.useState('');
+  const [q3, setQ3] = React.useState('');
+  const [q4, setQ4] = React.useState('');
 
-  async function getResult() {
-    const params = new URLSearchParams();
-    let article = {ID: soldierId};
-    params.append('0', JSON.stringify(article));
+  async function getResultAddSoldierToSoldierTable() {
+    let data = {
+      soldierId: soldierId,
+      arrivalTime: 123,
+      q1: q1,
+      q2: q2,
+      q3: q3,
+      q4: q4,
+    };
     return await axios.post(
-      'http://127.0.0.1:5000/AddSoldierToArrivalQueue',
-      params
+      'http://corona-server.azurewebsites.net/addSoldierToSoldierTable',
+      data,
+      {headers: {'Content-Type': 'application/json'}}
     );
   }
 
-  const [data, setData] = useState({hits: []});
-  function give() {
-    getResult()
-      .then((res) => {
-        alert(res.data.data);
-      })
-      .catch((res) => {
-        alert(res.data.data);
-      });
+  async function getResultAddSoliderToArrivalQueue() {
+    let article = {soldierId: soldierId};
+    return await axios.post(
+      'http://corona-server.azurewebsites.net/addSoliderToArrivalQueue',
+      article,
+      {headers: {'Content-Type': 'application/json'}}
+    );
   }
+
+  async function give() {
+    await getResultAddSoldierToSoldierTable();
+    await getResultAddSoliderToArrivalQueue();
+  }
+
+  function isValid() {
+    return (
+      soldierId.length === 7 && q1 !== '' && q2 !== '' && q3 !== '' && q4 !== ''
+    );
+  }
+
   return (
     <div>
       <div className={background}>
@@ -158,6 +229,11 @@ const AddAppointment = () => {
             </ListItem>
             <div className={fullWidth}>
               <TextField
+                size={'small'}
+                inputProps={{
+                  maxLength: 7,
+                }}
+                error={soldierId.length !== 7}
                 className={center + ' ' + text}
                 variant="outlined"
                 value={soldierId}
@@ -169,24 +245,24 @@ const AddAppointment = () => {
                 <Grid item xs={12}>
                   <label className={bold}>אנא ענו על השאלות הבאות</label>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={8}>
                   <div>
                     <label component="legend">
                       האם סבלת ממחלה עם חום מעל 38° ביומיים האחרונים ?
                     </label>
                   </div>
                 </Grid>
-                <Grid item xs={12}>
-                  <div>
+                <Grid item xs={4}>
+                  <div className={left}>
                     <List style={{padding: 0}}>
-                      <ListItem style={{'padding-right': 0, padding: 0}}>
+                      <ListItem style={{paddingRight: 0, padding: 0}}>
                         <FormControlLabel
                           className={radioBox}
                           style={{
                             backgroundColor: q1 === true ? '#000066' : 'white',
                             color: q1 == true ? 'white' : 'black',
                           }}
-                          tabindex="1"
+                          tabIndex="1"
                           control={
                             <Radio
                               className={radio}
@@ -204,10 +280,10 @@ const AddAppointment = () => {
                           className={radioBox}
                           style={{
                             backgroundColor: q1 === false ? '#000066' : 'white',
-                            color: q1 == false ? 'white' : 'black',
-                            'margin-right': '1rem',
+                            color: q1 === false ? 'white' : 'black',
+                            marginRight: '1rem',
                           }}
-                          tabindex="1"
+                          tabIndex="1"
                           control={
                             <Radio
                               className={radio}
@@ -225,22 +301,22 @@ const AddAppointment = () => {
                     </List>
                   </div>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={8}>
                   <label component="legend">
                     האם ידועה אלרגיה לתרופה, חיסון או מזון ?
                   </label>
                 </Grid>
-                <Grid item xs={12}>
-                  <div>
+                <Grid item xs={4}>
+                  <div className={left}>
                     <List style={{padding: 0}}>
-                      <ListItem style={{'padding-right': 0, padding: 0}}>
+                      <ListItem style={{paddingRight: 0, padding: 0}}>
                         <FormControlLabel
                           className={radioBox}
                           style={{
                             backgroundColor: q2 === true ? '#000066' : 'white',
-                            color: q2 == true ? 'white' : 'black',
+                            color: q2 === true ? 'white' : 'black',
                           }}
-                          tabindex="1"
+                          tabIndex="1"
                           control={
                             <Radio
                               className={radio}
@@ -258,10 +334,10 @@ const AddAppointment = () => {
                           className={radioBox}
                           style={{
                             backgroundColor: q2 === false ? '#000066' : 'white',
-                            color: q2 == false ? 'white' : 'black',
-                            'margin-right': '1rem',
+                            color: q2 === false ? 'white' : 'black',
+                            marginRight: '1rem',
                           }}
-                          tabindex="1"
+                          tabIndex="1"
                           control={
                             <Radio
                               className={radio}
@@ -279,22 +355,22 @@ const AddAppointment = () => {
                     </List>
                   </div>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={8}>
                   <label component="legend">
                     האם בידך מזרק אפיפן בעקבות תגובה אלרגית משמעותית ?
                   </label>
                 </Grid>
-                <Grid item xs={12}>
-                  <div>
+                <Grid item xs={4}>
+                  <div className={left}>
                     <List style={{padding: 0}}>
-                      <ListItem style={{'padding-right': 0, padding: 0}}>
+                      <ListItem style={{paddingRight: 0, padding: 0}}>
                         <FormControlLabel
                           className={radioBox}
                           style={{
                             backgroundColor: q3 === true ? '#000066' : 'white',
-                            color: q3 == true ? 'white' : 'black',
+                            color: q3 === true ? 'white' : 'black',
                           }}
-                          tabindex="1"
+                          tabIndex="1"
                           control={
                             <Radio
                               className={radio}
@@ -312,10 +388,10 @@ const AddAppointment = () => {
                           className={radioBox}
                           style={{
                             backgroundColor: q3 === false ? '#000066' : 'white',
-                            color: q3 == false ? 'white' : 'black',
-                            'margin-right': '1rem',
+                            color: q3 === false ? 'white' : 'black',
+                            marginRight: '1rem',
                           }}
-                          tabindex="1"
+                          tabIndex="1"
                           control={
                             <Radio
                               className={radio}
@@ -340,16 +416,16 @@ const AddAppointment = () => {
                   </label>
                 </Grid>
                 <Grid item xs={12}>
-                  <div>
+                  <div className={left}>
                     <List style={{padding: 0}}>
-                      <ListItem style={{'padding-right': 0, padding: 0}}>
+                      <ListItem style={{paddingRight: 0, padding: 0}}>
                         <FormControlLabel
                           className={radioBox}
                           style={{
                             backgroundColor: q4 === 'yes' ? '#000066' : 'white',
                             color: q4 === 'yes' ? 'white' : 'black',
                           }}
-                          tabindex="1"
+                          tabIndex="1"
                           control={
                             <Radio
                               className={radio}
@@ -368,9 +444,9 @@ const AddAppointment = () => {
                           style={{
                             backgroundColor: q4 === 'no' ? '#000066' : 'white',
                             color: q4 === 'no' ? 'white' : 'black',
-                            'margin-right': '1rem',
+                            marginRight: '1rem',
                           }}
-                          tabindex="1"
+                          tabIndex="1"
                           control={
                             <Radio
                               className={radio}
@@ -390,9 +466,9 @@ const AddAppointment = () => {
                             backgroundColor:
                               q4 === 'first' ? '#000066' : 'white',
                             color: q4 === 'first' ? 'white' : 'black',
-                            'margin-right': '1rem',
+                            marginRight: '1rem',
                           }}
-                          tabindex="1"
+                          tabIndex="1"
                           control={
                             <Radio
                               className={radio}
@@ -410,14 +486,16 @@ const AddAppointment = () => {
                     </List>
                   </div>
                 </Grid>
-                <Grid item xs={12}>
-                  <div className={left}>
+                <Grid item xs={12} style={{paddingLeft: 0}}>
+                  <div className={left} style={{marginTop: '1rem'}}>
                     <CoolButton
                       text="שלח"
                       action={() => {
-                        setOpen(true);
-                        setTimeout(() => setOpen(false), TIMEOUT);
+                        if (isValid()) {
+                          setOpen(true);
+                        }
                       }}
+                      isDisabled={!isValid()}
                     />
                   </div>
                 </Grid>
@@ -427,7 +505,14 @@ const AddAppointment = () => {
         </FormControl>
       </div>
 
-      <SimpleDialog open={open} />
+      <SimpleDialog
+        open={open}
+        soldierId={soldierId}
+        setOpen={setOpen}
+        give={give}
+        setOpen2={setOpen2}
+      />
+      {/* <SimpleDialog2 open={open2}/> */}
     </div>
   );
 };
