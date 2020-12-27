@@ -42,13 +42,22 @@ const useStyles = makeStyles(() =>
       textAlign: 'center',
       outline: '0',
     },
+    text: {
+      '& .MuiInputBase-input': {
+        backgroundColor: 'white !important',
+        fontSize: '300%',
+        textAlign: 'center',
+        width: '60vw',
+        height: '20vh',
+      },
+    },
   })
 );
 
 function IsSoldierArrived() {
   const {button} = useStyles();
   const {radio} = useStyles();
-  const {radioBox} = useStyles();
+  const {radioBox, text} = useStyles();
   const [soldierId, setId] = React.useState('');
 
   const [wasArrived, setWasArrived] = React.useState('');
@@ -145,12 +154,13 @@ function IsSoldierArrived() {
               'align-items': 'center',
             }}>
             <TextField
-              style={{
-                'text-align': 'center',
-              }}
+              className={text}
               disabled="true"
               variant="outlined"
               value={soldierId}
+              InputProps={{
+                readOnly: true,
+              }}
               //onChange={(e) => setId(e?.target?.value)}
             />
           </ListItem>
@@ -160,7 +170,6 @@ function IsSoldierArrived() {
               'justify-content': 'center',
               'align-items': 'center',
               'font-size': '18px',
-              paddingTop: '80px',
             }}>
             האם המתחסן הגיע? (לא לשכוח לבצע אימות באמצעות חוגר){' '}
           </ListItem>
@@ -180,6 +189,8 @@ function IsSoldierArrived() {
                 style={{
                   backgroundColor: wasArrived === false ? '#333460' : 'white',
                   color: wasArrived === false ? 'white' : 'black',
+                  marginRight: 0,
+                  width: '10rem',
                 }}
                 tabindex="2"
                 control={
@@ -201,6 +212,7 @@ function IsSoldierArrived() {
                 style={{
                   backgroundColor: wasArrived === true ? '#333460' : 'white',
                   color: wasArrived === true ? 'white' : 'black',
+                  width: '10rem',
                 }}
                 tabindex="1"
                 control={
@@ -224,7 +236,6 @@ function IsSoldierArrived() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
-              paddingTop: '80px',
             }}>
             <Button
               variant="contained"

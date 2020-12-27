@@ -211,12 +211,12 @@ const AddAppointment = () => {
         console.log(rej);
       });
     await getResultAddSoliderToArrivalQueue();
-    // setId('');
-    // setQ1('');
-    // setQ2('');
-    // setQ3('');
-    // setQ4('');
-    // setQSemi('');
+    setId('');
+    setQ1('');
+    setQ2('');
+    setQ3('');
+    setQ4('');
+    setQSemi('');
   }
 
   function isValid() {
