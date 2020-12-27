@@ -54,61 +54,59 @@ function IsSoldierArrived() {
   const [wasArrived, setWasArrived] = React.useState('');
   const [isRadiosEnabled, setIsRadiosEnabled] = React.useState(true);
   const [isBusyWithSoldier, setIsBusyWithSoldier] = React.useState(false);
+  let url = window.location.href;
+  let stationId = url.substring(url.lastIndexOf('/') + 1);
+  let stationIdFixed = stationId - 1;
   const history = useHistory();
+  const [shouldGetSoldier, setShouldGetSoldier] = React.useState(true);
 
-  async function dedicateSoldierToStage() {
+  const dedicateSoldierToStage = async () => {
     return await axios.post(
       'https://corona-server.azurewebsites.net/dedicateSoldierToStage',
-      {stageId: 2}
+      {stageId: stationIdFixed}
     );
-  }
-  async function declareSoldierMissing(soldierId) {
+  };
+  const declareSoldierMissing = async () => {
     return await axios.put(
       `https://corona-server.azurewebsites.net/${soldierId}/soldierDidntArrive`
     );
-  }
+  };
   const handleOnClick = (url) => {
     if (wasArrived) history.push(`${url}/${soldierId}`);
     else {
-      // declareSoldierMissing(soldierId).then((res) => {
-      //   console.log(JSON.stringify(res));
-      //   dedicateSoldierToStage()
-      //     .then((res) => {
-      //       setId(res.data);
-      //       setIsBusyWithSoldier(true);
-      //     })
-      //     .catch((rej) => {
-      //       setId('אין מתחסן קרוב בינתיים');
-      //     });
-      // });
-      // setIsBusyWithSoldier(false);
-      pollSoldier();
+      declareSoldierMissing();
+      getSoldier();
     }
   };
-  let url = window.location.href;
-  let stationId = url.substring(url.lastIndexOf('/') + 1);
 
   const [counter, setCounter] = React.useState(0);
   React.useEffect(() => {
-    pollSoldier();
+    getSoldier();
     setCounter(counter + 1);
+    return () => {
+      setShouldGetSoldier(false);
+    };
   }, []);
 
-  function pollSoldier() {
-    const interval = setTimeout(() => {
-      console.log('get soldier');
-      dedicateSoldierToStage()
-        .then((res) => {
-          setId(res.data);
-          setIsBusyWithSoldier(true);
-        })
-        .catch((rej) => {
-          console.log('there are no people');
-          setId('אין מתחסן קרוב בינתיים');
-          pollSoldier();
-        });
-    }, 1000);
-  }
+  const getSoldier = () => {
+    console.log('get soldier');
+    if (!shouldGetSoldier) {
+      return;
+    }
+    dedicateSoldierToStage()
+      .then((res) => {
+        setId(res.data);
+        setIsBusyWithSoldier(true);
+      })
+      .catch((rej) => {
+        console.log('there are no people');
+        setId('אין מתחסן קרוב בינתיים');
+        if (shouldGetSoldier)
+          setTimeout(() => {
+            getSoldier();
+          }, 1000);
+      });
+  };
 
   function isCanCallNextSoldier() {
     return wasArrived !== '' && isBusyWithSoldier === true;
