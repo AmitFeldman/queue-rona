@@ -58,7 +58,7 @@ function IsSoldierArrived() {
   let stationId = url.substring(url.lastIndexOf('/') + 1);
   let stationIdFixed = stationId - 1;
   const history = useHistory();
-  let shouldGetSoldier = true;
+  const [shouldGetSoldier, setShouldGetSoldier] = React.useState(true);
 
   const dedicateSoldierToStage = async () => {
     return await axios.post(
@@ -84,7 +84,7 @@ function IsSoldierArrived() {
     getSoldier();
     setCounter(counter + 1);
     return () => {
-      shouldGetSoldier = false;
+      setShouldGetSoldier(false);
     };
   }, []);
 
@@ -242,4 +242,5 @@ function IsSoldierArrived() {
     </Grid>
   );
 }
+
 export default IsSoldierArrived;
