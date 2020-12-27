@@ -1,9 +1,7 @@
 import React from 'react';
 import {createStyles, makeStyles} from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar';
 import Ofek from '../images/OfekLogo.png';
 import Matnam from '../images/MatnamLogo.png';
-import {Image} from 'react';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -16,18 +14,14 @@ const useStyles = makeStyles((theme) =>
       justifyContent: 'center',
       alignItems: 'center',
     },
-    image: {
-      width: theme.spacing(10),
-      height: theme.spacing(10),
-    },
   })
 );
 
 const FooterBar = () => {
-  const {image} = useStyles();
+  const {bar} = useStyles();
 
   return (
-    <div style={bar}>
+    <div className={bar}>
       <div
         style={{
           display: 'flex',
