@@ -54,26 +54,64 @@ function ArrivalToCprStationConfirmation() {
   let url = window.location.href;
   let stationId = url.substring(url.lastIndexOf('/') + 1);
   let stationIdFixed = stationId - 1;
+  const [shouldGetSoldier, setShouldGetSoldier] = React.useState(true);
+
+  // const [counter, setCounter] = React.useState(0);
+  // React.useEffect(() => {
+  //   const interval = setTimeout(() => {
+  //     if (isBusyWithSoldier === false) {
+  //       axios
+  //         .put(
+  //           `https://corona-server.azurewebsites.net/${stationIdFixed}/callNextSoldierToCprStation`,
+  //           {headers: {'Content-Type': 'application/json'}}
+  //         )
+  //         .then((res) => {
+  //           setIsBusyWithSoldier(true);
+  //           setId(res.data);
+  //         })
+  //         .catch((rej) => {
+  //           setId('אין מתחסן קרוב בינתיים');
+  //         });
+  //     }
+  //     setCounter(counter + 1);
+  //   }, 1000);
+  // }, []);
+
+  const dedicateSoldierToStage = async () => {
+    return await axios.put(
+      `https://corona-server.azurewebsites.net/${stationIdFixed}/callNextSoldierToCprStation`,
+      {headers: {'Content-Type': 'application/json'}}
+    );
+  };
+
   const [counter, setCounter] = React.useState(0);
   React.useEffect(() => {
-    const interval = setTimeout(() => {
-      if (isBusyWithSoldier === false) {
-        axios
-          .put(
-            `https://corona-server.azurewebsites.net/${stationIdFixed}/callNextSoldierToCprStation`,
-            {headers: {'Content-Type': 'application/json'}}
-          )
-          .then((res) => {
-            setIsBusyWithSoldier(true);
-            setId(res.data);
-          })
-          .catch((rej) => {
-            setId('אין מתחסן קרוב בינתיים');
-          });
-      }
-      setCounter(counter + 1);
-    }, 1000);
+    getSoldier();
+    setCounter(counter + 1);
+    return () => {
+      setShouldGetSoldier(false);
+    };
   }, []);
+
+  const getSoldier = () => {
+    console.log('get soldier');
+    if (!shouldGetSoldier) {
+      return;
+    }
+    dedicateSoldierToStage()
+      .then((res) => {
+        setId(res.data);
+        setIsBusyWithSoldier(true);
+      })
+      .catch((rej) => {
+        console.log('there are no people');
+        setId('אין מתחסן קרוב בינתיים');
+        if (shouldGetSoldier)
+          setTimeout(() => {
+            getSoldier();
+          }, 1000);
+      });
+  };
 
   React.useEffect(() => {
     if (wasArrived !== '') giveArrivedResult();
