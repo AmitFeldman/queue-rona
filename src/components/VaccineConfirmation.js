@@ -61,7 +61,6 @@ const useStyles = makeStyles(() =>
       display: 'block',
       padding: '7px',
       textAlign: 'center',
-      border: 'solid 1px lightGray',
       outline: '0',
     },
   })
