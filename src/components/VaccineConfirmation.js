@@ -1,6 +1,8 @@
 import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
+import VIcon from '../images/v.png';
+import XIcon from '../images/x.png';
 import {
   Button,
   FormControlLabel,
@@ -26,7 +28,8 @@ const useStyles = makeStyles(() =>
     },
     radioBox: {
       backgroundColor: 'white',
-      width: '150px',
+      width: '170px',
+      height: '40px',
       cursor: 'default',
       border: 'solid 1px lightGray',
       display: 'block',
@@ -143,7 +146,7 @@ function VaccineConfirmation() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
-              paddingTop: 0,
+              padding: 0,
             }}>
             <RadioGroup
               style={{width: '100%', display: 'flex', justifyContent: 'center'}}
@@ -169,7 +172,26 @@ function VaccineConfirmation() {
                     }}
                   />
                 }
-                label="✔️ כן, התחסן"
+                label={
+                  <>
+                    <ListItem
+                      style={{
+                        display: 'flex',
+                        'justify-content': 'center',
+                        'align-items': 'center',
+                        padding: 0,
+                      }}>
+                      <img
+                        src={VIcon}
+                        className="profile-img"
+                        width="35px"
+                        height="auto"
+                        style={{}}
+                      />
+                      <div>כן, התחסן</div>
+                    </ListItem>
+                  </>
+                }
                 labelPlacement="start"
               />
               <FormControlLabel
@@ -187,7 +209,26 @@ function VaccineConfirmation() {
                     onChange={() => setWasVaccinated(false)}
                   />
                 }
-                label="❌ לא, משהו השתבש"
+                label={
+                  <>
+                    <ListItem
+                      style={{
+                        display: 'flex',
+                        'justify-content': 'center',
+                        'align-items': 'center',
+                        padding: 0,
+                      }}>
+                      <img
+                        src={XIcon}
+                        className="profile-img"
+                        width="35px"
+                        height="auto"
+                        style={{}}
+                      />
+                      <div>לא, משהו השתבש</div>
+                    </ListItem>
+                  </>
+                }
                 labelPlacement="start"
               />
             </RadioGroup>
