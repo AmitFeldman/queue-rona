@@ -20,7 +20,7 @@ function App() {
 
       <Container disableGutters maxWidth="lg">
         <Switch>
-          <Route exact path="/" component={AddAppointment} />
+          <Route exact path="/" component={Home} />
           <Route path="/addAppointment" component={AddAppointment} />
           <Route
             path="/arrivalToCprStationConfirmation/1"
