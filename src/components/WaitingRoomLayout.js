@@ -9,7 +9,7 @@ const CAROUSEL_TIMEOUT = 4000;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '80vh',
+    height: '85vh',
   },
   waitingCol: {
     height: '100%',
