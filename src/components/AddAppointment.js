@@ -189,7 +189,7 @@ const AddAppointment = () => {
       q4: q4,
     };
     return await axios.post(
-      'http://corona-server.azurewebsites.net/addSoldierToSoldierTable',
+      'https://corona-server.azurewebsites.net/addSoldierToSoldierTable',
       data,
       {headers: {'Content-Type': 'application/json'}}
     );
@@ -198,7 +198,7 @@ const AddAppointment = () => {
   async function getResultAddSoliderToArrivalQueue() {
     let article = {soldierId: soldierId};
     return await axios.post(
-      'http://corona-server.azurewebsites.net/addSoliderToArrivalQueue',
+      'https://corona-server.azurewebsites.net/addSoliderToArrivalQueue',
       article,
       {headers: {'Content-Type': 'application/json'}}
     );
