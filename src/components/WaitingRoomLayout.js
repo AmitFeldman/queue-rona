@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import {makeStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Pagination from '@material-ui/lab/Pagination';
+import Box from '@material-ui/core/Box';
 
 const ITEMS_PER_PAGE = 10;
 const ITEMS_PER_DONE_PAGE = 4;
@@ -177,7 +178,9 @@ const WaitingRoomLayout = ({
             )
             .map((soldier) => (
               <Grid item xs={3} key={soldier.soldierId}>
-                <SoldierCard {...soldier} />
+                <Box p={2}>
+                  <SoldierCard {...soldier} />
+                </Box>
               </Grid>
             ))}
         </Grid>
