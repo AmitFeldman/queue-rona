@@ -5,17 +5,53 @@ import WaitingRoomLayout from './WaitingRoomLayout';
 import Typography from '@material-ui/core/Typography';
 import StationCard from './StationCard';
 import SoldierCardWrapper from './SoldierCardWrapper';
+import Grid from '@material-ui/core/Grid';
+import {AiOutlineCloseCircle, AiOutlineCheckCircle} from 'react-icons/ai';
+import Box from '@material-ui/core/Box';
 
-const SoldierCard = ({soldierId}) => {
+const PERCENTAGE_DONE = 100;
+
+const SoldierCard = ({
+  soldierId,
+  waintingPrecentage,
+  wasArrivedToCPRStation,
+}) => {
+  const cprDone = Boolean(wasArrivedToCPRStation);
+  const done = waintingPrecentage === PERCENTAGE_DONE && cprDone;
+
   return (
-    <SoldierCardWrapper>
-      <Typography variant="h4">{soldierId}</Typography>
+    <SoldierCardWrapper greenBorder={done}>
+      <Box height={1 / 2}>
+        {done ? (
+          <Typography variant="h6" style={{color: 'green'}}>
+            רשאי ללכת <AiOutlineCheckCircle />
+          </Typography>
+        ) : (
+          <Grid container>
+            {/*<CircularProgress variant="determinate" value={time} size={20} />*/}
+            <Grid item xs={6}>
+              <Typography variant="h6">זמן המתנה</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                variant="h6"
+                style={{color: cprDone ? 'green' : 'red'}}>
+                {cprDone ? <AiOutlineCheckCircle /> : <AiOutlineCloseCircle />}
+                CPR
+              </Typography>
+            </Grid>
+          </Grid>
+        )}
+      </Box>
+      <Box height={1 / 2}>
+        <Typography variant="h5">{soldierId}</Typography>
+      </Box>
     </SoldierCardWrapper>
   );
 };
 
 const CPRWaitingRoom = () => {
-  const {vaccineSoldiers} = useSoldiers();
+  const {cprSoldiers} = useSoldiers();
   const {vaccineStations} = useStations();
 
   return (
@@ -23,7 +59,7 @@ const CPRWaitingRoom = () => {
       waitingHeader="סטטוס שחרור"
       nextHeader="הבאים בתור"
       stationHeader="לעמדת ה-CPR"
-      soldiers={vaccineSoldiers}
+      soldiers={cprSoldiers}
       stations={vaccineStations}
       SoldierCard={SoldierCard}
       StationCard={StationCard}

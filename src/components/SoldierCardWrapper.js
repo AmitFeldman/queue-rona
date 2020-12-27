@@ -1,7 +1,7 @@
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
 
-const SoldierCardWrapper = ({children}) => {
+const SoldierCardWrapper = ({children, greenBorder = false}) => {
   return (
     <Paper
       style={{
@@ -9,7 +9,7 @@ const SoldierCardWrapper = ({children}) => {
         width: '70%',
         margin: 'auto',
         backgroundColor: 'rgba(247, 247, 255)',
-        border: 'solid rgba(212, 211, 216) 1px',
+        border: `solid ${greenBorder ? 'green' : 'rgba(212, 211, 216)'} 2px`,
       }}>
       {children}
     </Paper>

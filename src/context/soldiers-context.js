@@ -1,19 +1,25 @@
 import React, {createContext, useState, useContext, useEffect} from 'react';
-import {getTopSoldiers} from '../utils/api';
+import {getTopSoldiers, getCPRSoldiers} from '../utils/api';
 
 const SoldiersContext = createContext({
   vaccineSoldiers: [],
+  cprSoldiers: [],
 });
 
 const USERS_TIMEOUT = 5000;
 
 const SoldiersProvider = ({children}) => {
   const [vaccineSoldiers, setVaccineSoldiers] = useState([]);
+  const [cprSoldiers, setCPRSoldiers] = useState([]);
 
   useEffect(() => {
     const updateSoldiers = () => {
       getTopSoldiers().then((res) => {
         setVaccineSoldiers(res.data);
+      });
+
+      getCPRSoldiers().then((res) => {
+        setCPRSoldiers(res.data);
       });
     };
 
@@ -29,6 +35,7 @@ const SoldiersProvider = ({children}) => {
     <SoldiersContext.Provider
       value={{
         vaccineSoldiers,
+        cprSoldiers,
       }}>
       {children}
     </SoldiersContext.Provider>
