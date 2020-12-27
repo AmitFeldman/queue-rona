@@ -80,14 +80,13 @@ function ArrivalToCprStationConfirmation() {
   }, [wasArrived]);
 
   async function getArrivedResult() {
-    const params = new URLSearchParams();
     let soldierIdInteger = parseInt(soldierId);
     let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
     let soldierJson = {
       soldierId: soldierIdWithoutZeroPrefix,
       wasArrivedToCprStation: wasArrived,
     };
-    params.append('0', JSON.stringify(soldierJson));
+
     return await axios.put(
       `https://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
       soldierJson
