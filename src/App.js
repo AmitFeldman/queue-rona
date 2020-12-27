@@ -16,16 +16,13 @@ function App() {
     <div className="App">
       <NavBar />
 
-
       <Container>
         <Switch>
           <Route exact path="/" component={AddAppointment} />
           <Route path="/soldierArrival" component={IsSoldierArrived} />
           <Route path="/vaccineConfirmation" component={VaccineConfirmation} />
-          <Route path="/schedule" component={ScheduleView} />
-           <Route path="/vaccine" component={VaccineWaitingRoom} />
+          <Route path="/vaccine" component={VaccineWaitingRoom} />
           <Route path="/cpr" component={CPRWaitingRoom} />
-
         </Switch>
       </Container>
     </div>
