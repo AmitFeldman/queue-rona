@@ -98,7 +98,8 @@ function ArrivalToCprStationConfirmation() {
   function giveArrivedResult() {
     getArrivedResult()
       .then((res) => {
-        alert(res.data.data);
+        //alert(res.data.data);
+        window.location.reload(false);
       })
       .catch((rej) => {
         alert(JSON.stringify(rej));
