@@ -132,7 +132,7 @@ const useStyles = makeStyles(() =>
     },
     grid: {
       'text-align': 'left !important',
-      width: '75%',
+      width: '60%',
       display: 'inline-block !important',
     },
     radio: {
@@ -175,6 +175,7 @@ const AddAppointment = () => {
   const [q2, setQ2] = React.useState('');
   const [q3, setQ3] = React.useState('');
   const [q4, setQ4] = React.useState('');
+  const [qSemi, setQSemi] = React.useState('');
 
   async function getResultAddSoldierToSoldierTable() {
     let data = {
@@ -183,7 +184,7 @@ const AddAppointment = () => {
       q1: q1,
       q2: q2,
       q3: q3,
-      q4: q4,
+      q4: qSemi === true ? 'first' : q4,
     };
     return await axios.post(
       'https://corona-server.azurewebsites.net/addSoldierToSoldierTable',
@@ -215,12 +216,24 @@ const AddAppointment = () => {
     setQ2('');
     setQ3('');
     setQ4('');
+    setQSemi('');
   }
 
   function isValid() {
-    return (
-      soldierId.length === 7 && q1 !== '' && q2 !== '' && q3 !== '' && q4 !== ''
-    );
+    if (qSemi === '') {
+      return false;
+    }
+    if (!qSemi) {
+      return (
+        soldierId.length === 7 &&
+        q1 !== '' &&
+        q2 !== '' &&
+        q3 !== '' &&
+        q4 !== ''
+      );
+    } else {
+      return soldierId.length === 7 && q1 !== '' && q2 !== '' && q3 !== '';
+    }
   }
 
   return (
@@ -257,7 +270,7 @@ const AddAppointment = () => {
                 }}
               />
             </div>
-            <div className={grid + ' ' + center}>
+            <div className={grid + ' ' + center} style={{marginTop: '1rem'}}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <label className={bold}>אנא ענו על השאלות הבאות</label>
@@ -426,30 +439,30 @@ const AddAppointment = () => {
                     </List>
                   </div>
                 </Grid>
-                <Grid item xs={12}>
-                  <label>
-                    האם פותחה בעבר תגובה אלרגית חמורה לאחר מנת החיסון הראשונה
-                    לנגיף הקורונה?
+                <Grid item xs={8}>
+                  <label component="legend">
+                    האם אתה מתחסן בפעם הראשונה לקורונה?
                   </label>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={4}>
                   <div className={left}>
                     <List style={{padding: 0}}>
                       <ListItem style={{paddingRight: 0, padding: 0}}>
                         <FormControlLabel
                           className={radioBox}
                           style={{
-                            backgroundColor: q4 === 'yes' ? '#000066' : 'white',
-                            color: q4 === 'yes' ? 'white' : 'black',
+                            backgroundColor:
+                              qSemi === true ? '#000066' : 'white',
+                            color: qSemi === true ? 'white' : 'black',
                           }}
                           tabIndex="1"
                           control={
                             <Radio
                               className={radio}
                               color="primary"
-                              checked={q4 === 'yes'}
+                              checked={qSemi === true}
                               onChange={() => {
-                                setQ4('yes');
+                                setQSemi(true);
                               }}
                             />
                           }
@@ -459,8 +472,9 @@ const AddAppointment = () => {
                         <FormControlLabel
                           className={radioBox}
                           style={{
-                            backgroundColor: q4 === 'no' ? '#000066' : 'white',
-                            color: q4 === 'no' ? 'white' : 'black',
+                            backgroundColor:
+                              qSemi === false ? '#000066' : 'white',
+                            color: qSemi === false ? 'white' : 'black',
                             marginRight: '1rem',
                           }}
                           tabIndex="1"
@@ -468,41 +482,80 @@ const AddAppointment = () => {
                             <Radio
                               className={radio}
                               color="primary"
-                              checked={q4 === 'no'}
+                              checked={qSemi === false}
                               onChange={() => {
-                                setQ4('no');
+                                setQSemi(false);
                               }}
                             />
                           }
                           label="לא"
                           labelPlacement="start"
                         />
-                        <FormControlLabel
-                          className={radioBox}
-                          style={{
-                            backgroundColor:
-                              q4 === 'first' ? '#000066' : 'white',
-                            color: q4 === 'first' ? 'white' : 'black',
-                            marginRight: '1rem',
-                          }}
-                          tabIndex="1"
-                          control={
-                            <Radio
-                              className={radio}
-                              color="primary"
-                              checked={q4 === 'first'}
-                              onChange={() => {
-                                setQ4('first');
-                              }}
-                            />
-                          }
-                          label="חיסון קורונה ראשון"
-                          labelPlacement="start"
-                        />
                       </ListItem>
                     </List>
                   </div>
                 </Grid>
+                {qSemi === false ? (
+                  <Grid item xs={8}>
+                    <label>
+                      האם פותחה בעבר תגובה אלרגית חמורה לאחר מנת החיסון הראשונה
+                      לנגיף הקורונה?
+                    </label>
+                  </Grid>
+                ) : null}
+                {qSemi === false ? (
+                  <Grid item xs={4}>
+                    <div className={left}>
+                      <List style={{padding: 0}}>
+                        <ListItem style={{paddingRight: 0, padding: 0}}>
+                          <FormControlLabel
+                            className={radioBox}
+                            style={{
+                              backgroundColor:
+                                q4 === 'yes' ? '#000066' : 'white',
+                              color: q4 === 'yes' ? 'white' : 'black',
+                            }}
+                            tabIndex="1"
+                            control={
+                              <Radio
+                                className={radio}
+                                color="primary"
+                                checked={q4 === 'yes'}
+                                onChange={() => {
+                                  setQ4('yes');
+                                }}
+                              />
+                            }
+                            label="כן"
+                            labelPlacement="start"
+                          />
+                          <FormControlLabel
+                            className={radioBox}
+                            style={{
+                              backgroundColor:
+                                q4 === 'no' ? '#000066' : 'white',
+                              color: q4 === 'no' ? 'white' : 'black',
+                              marginRight: '1rem',
+                            }}
+                            tabIndex="1"
+                            control={
+                              <Radio
+                                className={radio}
+                                color="primary"
+                                checked={q4 === 'no'}
+                                onChange={() => {
+                                  setQ4('no');
+                                }}
+                              />
+                            }
+                            label="לא"
+                            labelPlacement="start"
+                          />
+                        </ListItem>
+                      </List>
+                    </div>
+                  </Grid>
+                ) : null}
                 <Grid item xs={12} style={{paddingLeft: 0}}>
                   <div className={left} style={{marginTop: '1rem'}}>
                     <CoolButton
