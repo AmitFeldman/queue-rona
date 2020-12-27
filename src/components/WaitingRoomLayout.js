@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
 const ColumnHeaderWrapper = ({header, children}) => {
   return (
     <Grid item container direction="column" style={{height: '100%'}}>
-      <Grid item style={{height: '7%'}}>
-        <Typography variant="h5">{header}</Typography>
+      <Grid item style={{height: '8%'}}>
+        <Typography variant="h4">{header}</Typography>
       </Grid>
-      <Grid item style={{height: '93%'}}>
+      <Grid item style={{height: '92%'}}>
         {children}
       </Grid>
     </Grid>
