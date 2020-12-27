@@ -100,7 +100,7 @@ const CanGetVaccinated = () => {
     text,
   } = useStyles();
   const [open, setOpen] = React.useState(false);
-
+  const history = useHistory();
   const [soldierId, setId] = React.useState('');
   const [q1, setQ1] = React.useState();
   const [q2, setQ2] = React.useState();
@@ -157,7 +157,6 @@ const CanGetVaccinated = () => {
           isAbleToVaccinate: q5,
         }
       )
-
       .catch((rej) => {
         console.log(rej);
       });
@@ -494,6 +493,8 @@ const CanGetVaccinated = () => {
                       action={() => {
                         //      if (isValid()) {
                         getResultDeclareSoldierVaccinable();
+                        //TODO hardcoded stationsnssssnsnsnsns
+                        history.push(`/soldierArrival/` + 2);
                         setOpen(true);
                         setTimeout(() => setOpen(false), TIMEOUT);
                         //    }

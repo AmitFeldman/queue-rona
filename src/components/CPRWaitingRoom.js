@@ -1,32 +1,99 @@
 import React from 'react';
+import {useSoldiers} from '../context/soldiers-context';
 import {useStations} from '../context/stations-context';
 import WaitingRoomLayout from './WaitingRoomLayout';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Station from './Station';
 import Typography from '@material-ui/core/Typography';
-import {LinearProgress} from '@material-ui/core';
-import {useUsers} from '../context/users-context';
+import StationCard from './StationCard';
+import SoldierCardWrapper from './SoldierCardWrapper';
+import Grid from '@material-ui/core/Grid';
+import {AiOutlineCloseCircle, AiOutlineCheckCircle} from 'react-icons/ai';
+import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {makeStyles} from '@material-ui/core';
+
+const PERCENTAGE_DONE = 100;
+
+const useStyles = makeStyles(() => ({
+  svg: {
+    verticalAlign: 'middle',
+  },
+}));
+
+const SoldierCard = ({
+  soldierId,
+  waintingPrecentage,
+  wasArrivedToCPRStation,
+}) => {
+  const {svg} = useStyles();
+
+  const cprDone = Boolean(wasArrivedToCPRStation);
+  const timeDone = waintingPrecentage === PERCENTAGE_DONE;
+  const done = timeDone && cprDone;
+
+  return (
+    <SoldierCardWrapper greenBorder={done}>
+      <Box height={1 / 2}>
+        {done ? (
+          <Typography variant="h6" style={{color: 'green'}}>
+            רשאי ללכת <AiOutlineCheckCircle className={svg} />
+          </Typography>
+        ) : (
+          <Grid container>
+            <Grid item xs={6}>
+              <Typography
+                variant="h6"
+                style={{color: timeDone ? 'green' : 'black'}}>
+                {timeDone ? (
+                  <AiOutlineCheckCircle className={svg} />
+                ) : (
+                  <CircularProgress
+                    classes={{svg}}
+                    variant="determinate"
+                    value={PERCENTAGE_DONE - waintingPrecentage}
+                    size={20}
+                    thickness={22}
+                  />
+                )}
+                זמן המתנה
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                variant="h6"
+                style={{color: cprDone ? 'green' : 'red'}}>
+                {cprDone ? (
+                  <AiOutlineCheckCircle className={svg} />
+                ) : (
+                  <AiOutlineCloseCircle className={svg} />
+                )}
+                CPR
+              </Typography>
+            </Grid>
+          </Grid>
+        )}
+      </Box>
+      <Box height={1 / 2}>
+        <Typography variant="h5">{soldierId}</Typography>
+      </Box>
+    </SoldierCardWrapper>
+  );
+};
 
 const CPRWaitingRoom = () => {
-  const {users} = useUsers();
-  const {stations} = useStations();
+  const {cprSoldiers} = useSoldiers();
+  const {cprStations} = useStations();
 
   return (
     <WaitingRoomLayout
-      waitingRoomHeader={'אזור ממתינים'}
-      stationsHeader={'לעמדת הסיום'}
-      users={users}
-      stations={stations}
-      UserComponent={({id}) => (
-        <Paper>
-          <Box p={1}>
-            <Typography variant="h4">{id}</Typography>
-            <LinearProgress value={20} variant="determinate" />
-          </Box>
-        </Paper>
+      waitingHeader="סטטוס שחרור"
+      nextHeader="הבאים בתור"
+      stationHeader="לעמדת ה-CPR"
+      soldiers={cprSoldiers.sort(({wasArrivedToCPRStation}) =>
+        wasArrivedToCPRStation ? 1 : 0
       )}
-      StationComponent={Station}
+      stations={cprStations}
+      SoldierCard={SoldierCard}
+      StationCard={StationCard}
     />
   );
 };
