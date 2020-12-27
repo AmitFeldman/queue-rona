@@ -7,7 +7,6 @@ import VaccineConfirmation from './components/VaccineConfirmation';
 
 import Container from '@material-ui/core/Container';
 import {Route, Switch} from 'react-router-dom';
-import WaitingRoomLayout from './components/WaitingRoomLayout';
 import NavBar from './components/NavBar';
 import CanGetVaccinated from './components/CanGetVaccinated';
 import VaccineWaitingRoom from './components/VaccineWaitingRoom';
