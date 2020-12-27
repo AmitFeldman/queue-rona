@@ -7,7 +7,6 @@ import StationCard from './StationCard';
 import SoldierCardWrapper from './SoldierCardWrapper';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {createStyles} from '@material-ui/core';
-import {isSoldierDone} from '../utils/soldier-util';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -45,8 +44,8 @@ const VaccineWaitingRoom = () => {
       nextHeader="הבאים בתור"
       stationHeader="לעמדת התשאול"
       footerHeader="מחוסנים"
-      soldiers={vaccineSoldiers.filter((s) => !isSoldierDone(s))}
-      doneSoldiers={vaccineSoldiers.filter((s) => isSoldierDone(s))}
+      soldiers={vaccineSoldiers.filter((s) => !s.soldier.wasVaccinated)}
+      doneSoldiers={vaccineSoldiers.filter((s) => s.soldier.wasVaccinated)}
       stations={vaccineStations}
       SoldierCard={SoldierCard}
       StationCard={StationCard}
