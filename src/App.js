@@ -11,6 +11,7 @@ import NavBar from './components/NavBar';
 import VaccineWaitingRoom from './components/VaccineWaitingRoom';
 import CPRWaitingRoom from './components/CPRWaitingRoom';
 import FooterBar from './components/FooterBar';
+import Home from './components/Home';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
       <NavBar />
       <Container disableGutters maxWidth="lg">
         <Switch>
-          <Route exact path="/" component={AddAppointment} />
+          <Route exact path="/" component={Home} />
+          <Route path="/addAppointment" component={AddAppointment} />
           <Route path="/soldierArrival" component={IsSoldierArrived} />
           <Route path="/vaccine" component={VaccineWaitingRoom} />
           <Route path="/cpr" component={CPRWaitingRoom} />
