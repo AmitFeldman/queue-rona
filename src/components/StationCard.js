@@ -20,7 +20,7 @@ const StationCard = ({stageId, soldierId}) => {
       <Typography
         style={{height: '50%', backgroundColor: stationColor, color: 'white'}}
         variant="h6">
-        {'לעמדה מספר ' + stageId}
+        {'לעמדה מספר ' + (stageId + 1)}
       </Typography>
     </Paper>
   );

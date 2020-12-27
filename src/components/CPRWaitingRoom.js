@@ -9,14 +9,23 @@ import Grid from '@material-ui/core/Grid';
 import {AiOutlineCloseCircle, AiOutlineCheckCircle} from 'react-icons/ai';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {makeStyles} from '@material-ui/core';
 
 const PERCENTAGE_DONE = 100;
+
+const useStyles = makeStyles(() => ({
+  svg: {
+    verticalAlign: 'middle',
+  },
+}));
 
 const SoldierCard = ({
   soldierId,
   waintingPrecentage,
   wasArrivedToCPRStation,
 }) => {
+  const {svg} = useStyles();
+
   const cprDone = Boolean(wasArrivedToCPRStation);
   const timeDone = waintingPrecentage === PERCENTAGE_DONE;
   const done = timeDone && cprDone;
@@ -26,7 +35,7 @@ const SoldierCard = ({
       <Box height={1 / 2}>
         {done ? (
           <Typography variant="h6" style={{color: 'green'}}>
-            רשאי ללכת <AiOutlineCheckCircle />
+            רשאי ללכת <AiOutlineCheckCircle className={svg} />
           </Typography>
         ) : (
           <Grid container>
@@ -35,9 +44,10 @@ const SoldierCard = ({
                 variant="h6"
                 style={{color: timeDone ? 'green' : 'black'}}>
                 {timeDone ? (
-                  <AiOutlineCheckCircle />
+                  <AiOutlineCheckCircle className={svg} />
                 ) : (
                   <CircularProgress
+                    classes={{svg}}
                     variant="determinate"
                     value={PERCENTAGE_DONE - waintingPrecentage}
                     size={20}
@@ -51,7 +61,11 @@ const SoldierCard = ({
               <Typography
                 variant="h6"
                 style={{color: cprDone ? 'green' : 'red'}}>
-                {cprDone ? <AiOutlineCheckCircle /> : <AiOutlineCloseCircle />}
+                {cprDone ? (
+                  <AiOutlineCheckCircle className={svg} />
+                ) : (
+                  <AiOutlineCloseCircle className={svg} />
+                )}
                 CPR
               </Typography>
             </Grid>
