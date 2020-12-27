@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import AddAppointment from './components/AddAppointment';
 import IsSoldierArrived from './components/IsSoldierArrived';
 import ArrivalToCprStationConfirmation from './components/ArrivalToCprStationConfirmation';
@@ -15,16 +15,28 @@ import FooterBar from './components/FooterBar';
 import Home from './components/Home';
 
 function App() {
-  useEffect(() => {
-    // GET request using fetch inside useEffect React hook
-    fetch('/.auth/me').then((response) => response.json());
+  const [user, setUser] = useState('');
 
+  useEffect(
+    () => {
+      // GET request using fetch inside useEffect React hook
+      fetch('/.auth/me').then((response) => {
+        response.json()[0] ? setUser(response.json()[0].user_id) : setUser('');
+      });
+    },
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
-  }, []);
+    []
+  );
 
   const location = useLocation();
 
-  return (
+  const isValidUser = (userName) => {
+    return userName === 'shavit.oren@gmail.com';
+  };
+
+  return !isValidUser(user) ? (
+    <div>no valid user</div>
+  ) : (
     <div className="App Background">
       <NavBar />
 
