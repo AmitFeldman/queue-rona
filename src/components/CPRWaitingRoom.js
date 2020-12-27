@@ -8,8 +8,12 @@ import SoldierCardWrapper from './SoldierCardWrapper';
 import Grid from '@material-ui/core/Grid';
 import {AiOutlineCloseCircle, AiOutlineCheckCircle} from 'react-icons/ai';
 import Box from '@material-ui/core/Box';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import {CircularProgressbar} from 'react-circular-progressbar';
 import {makeStyles} from '@material-ui/core';
+import 'react-circular-progressbar/dist/styles.css';
+
+const PERCENTAGE_DONE = 100;
+const TOTAL_MINUTES = 15;
 import {isSoldierDone, PERCENTAGE_DONE} from '../utils/soldier-util';
 
 const useStyles = makeStyles(() => ({
@@ -27,6 +31,9 @@ const SoldierCard = ({
   const cprDone = Boolean(wasArrivedToCPRStation);
   const timeDone = waintingPrecentage === PERCENTAGE_DONE;
   const done = timeDone && cprDone;
+  const totalTime =
+    TOTAL_MINUTES -
+    Math.ceil((waintingPrecentage / PERCENTAGE_DONE) * TOTAL_MINUTES);
 
   return (
     <SoldierCardWrapper greenBorder={done}>
@@ -44,12 +51,20 @@ const SoldierCard = ({
                 {timeDone ? (
                   <AiOutlineCheckCircle className={svg} />
                 ) : (
-                  <CircularProgress
-                    classes={{svg}}
-                    variant="determinate"
-                    value={PERCENTAGE_DONE - waintingPrecentage}
-                    size={20}
-                    thickness={22}
+                  <CircularProgressbar
+                    value={totalTime}
+                    minValue={0}
+                    maxValue={15}
+                    text={totalTime}
+                    styles={{
+                      root: {
+                        width: '20px',
+                      },
+                      text: {
+                        fontSize: '60px',
+                        fontWeight: 'bold',
+                      },
+                    }}
                   />
                 )}
                 זמן המתנה
