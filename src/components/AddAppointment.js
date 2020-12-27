@@ -127,7 +127,7 @@ const AddAppointment = () => {
     let article = {ID: soldierId};
     params.append('0', JSON.stringify(article));
     return await axios.post(
-      'http://127.0.0.1:5000/AddSoldierToArrivalQueue',
+      'http://corona-server.azurewebsites.net/AddSoldierToArrivalQueue',
       params
     );
   }
@@ -155,10 +155,9 @@ const AddAppointment = () => {
                 <TextField
                   className={center + ' ' + white}
                   variant="outlined"
-                  value={id}
+                  value={soldierId}
                   onChange={(e) => setId(e?.target?.value)}
                 />
-
               </div>
             </ListItem>
             <div className={grid + ' ' + center}>
@@ -225,7 +224,6 @@ const AddAppointment = () => {
           </List>
         </FormControl>
       </div>
-
 
       <SimpleDialog open={open} />
     </div>
