@@ -17,13 +17,16 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
-      backgroundColor: 'gray',
+      backgroundColor: 'white',
+      color: 'black',
     },
+
     radio: {
       display: 'none',
     },
     radioBox: {
       backgroundColor: 'white',
+      width: '150px',
       cursor: 'default',
       border: 'solid 1px lightGray',
       display: 'block',
@@ -69,7 +72,7 @@ function VaccineConfirmation() {
         window.location.reload(false);
       })
       .catch((rej) => {
-        alert(JSON.stringify(rej));
+        alert('מספר אישי זה לא קיים במערכת');
       });
   }
   return (
@@ -140,7 +143,7 @@ function VaccineConfirmation() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
-              padding: 0,
+              paddingTop: 0,
             }}>
             <RadioGroup
               style={{width: '100%', display: 'flex', justifyContent: 'center'}}
@@ -189,16 +192,24 @@ function VaccineConfirmation() {
               />
             </RadioGroup>
           </ListItem>
-        </List>
 
-        <Button
-          className={button}
-          disabled={!isInputValid(soldierId)}
-          variant="contained"
-          color="primary"
-          onClick={give}>
-          שלח
-        </Button>
+          <ListItem
+            style={{
+              paddingTop: '40px',
+              display: 'flex',
+              'justify-content': 'center',
+              'align-items': 'center',
+            }}>
+            <Button
+              className={button}
+              disabled={!isInputValid(soldierId)}
+              variant="contained"
+              color="primary"
+              onClick={give}>
+              שלח
+            </Button>
+          </ListItem>
+        </List>
       </FormControl>
     </Grid>
   );
