@@ -32,7 +32,12 @@ const FooterBar = () => {
         }}>
         <img width="80" alt="logo" src={Ofek} />
         <h3>מערכת הספקי חיסון</h3>
-        <img alt="Matnam" width="60" src={Matnam} />
+        <img
+          alt="Matnam"
+          width="60"
+          src={Matnam}
+          style={{marginRight: ' 10px'}}
+        />
       </div>
     </div>
   );
