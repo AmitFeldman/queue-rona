@@ -59,7 +59,9 @@ const CPRWaitingRoom = () => {
       waitingHeader="סטטוס שחרור"
       nextHeader="הבאים בתור"
       stationHeader="לעמדת ה-CPR"
-      soldiers={cprSoldiers}
+      soldiers={cprSoldiers.sort(({wasArrivedToCPRStation}) =>
+        wasArrivedToCPRStation ? 1 : -1
+      )}
       stations={vaccineStations}
       SoldierCard={SoldierCard}
       StationCard={StationCard}
