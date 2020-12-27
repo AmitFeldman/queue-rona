@@ -5,13 +5,31 @@ import WaitingRoomLayout from './WaitingRoomLayout';
 import Typography from '@material-ui/core/Typography';
 import StationCard from './StationCard';
 import SoldierCardWrapper from './SoldierCardWrapper';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import {createStyles} from '@material-ui/core';
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    cardContainer: {
+      display: 'flex',
+      height: '100%',
+    },
+    text: {
+      margin: 'auto',
+    },
+  })
+);
 
 const SoldierCard = ({soldierId}) => {
+  const {cardContainer, text} = useStyles();
+
   return (
     <SoldierCardWrapper>
-      <Typography variant="h4" style={{}}>
-        {soldierId}
-      </Typography>
+      <div className={cardContainer}>
+        <Typography variant="h4" className={text}>
+          {soldierId}
+        </Typography>
+      </div>
     </SoldierCardWrapper>
   );
 };
