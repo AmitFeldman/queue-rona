@@ -19,7 +19,14 @@ const SoldiersProvider = ({children}) => {
       });
 
       getCPRSoldiers().then((res) => {
-        setCPRSoldiers(res.data);
+        setCPRSoldiers([
+          ...res.data,
+          ...[...Array(23).keys()].map((soldierId) => ({
+            soldierId,
+            waintingPrecentage: 100,
+            wasArrivedToCPRStation: 1,
+          })),
+        ]);
       });
     };
 

@@ -10,8 +10,7 @@ import {AiOutlineCloseCircle, AiOutlineCheckCircle} from 'react-icons/ai';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {makeStyles} from '@material-ui/core';
-
-const PERCENTAGE_DONE = 100;
+import {isSoldierDone, PERCENTAGE_DONE} from '../utils/soldier-util';
 
 const useStyles = makeStyles(() => ({
   svg: {
@@ -25,7 +24,6 @@ const SoldierCard = ({
   wasArrivedToCPRStation,
 }) => {
   const {svg} = useStyles();
-
   const cprDone = Boolean(wasArrivedToCPRStation);
   const timeDone = waintingPrecentage === PERCENTAGE_DONE;
   const done = timeDone && cprDone;
@@ -85,12 +83,14 @@ const CPRWaitingRoom = () => {
 
   return (
     <WaitingRoomLayout
-      waitingHeader="סטטוס שחרור"
-      nextHeader="הבאים בתור"
+      waitingHeader="עמדת המתנה"
+      nextHeader="הבאים בתור ל-CPR"
       stationHeader="לעמדת ה-CPR"
-      soldiers={cprSoldiers.sort(({wasArrivedToCPRStation}) =>
-        wasArrivedToCPRStation ? 1 : 0
-      )}
+      footerHeader="משוחררים"
+      soldiers={cprSoldiers
+        .filter((s) => !isSoldierDone(s))
+        .sort(({wasArrivedToCPRStation}) => (wasArrivedToCPRStation ? 1 : 0))}
+      doneSoldiers={cprSoldiers.filter((s) => isSoldierDone(s))}
       stations={cprStations}
       SoldierCard={SoldierCard}
       StationCard={StationCard}
