@@ -133,7 +133,7 @@ const useStyles = makeStyles(() =>
     },
     grid: {
       'text-align': 'left !important',
-      width: '50%',
+      width: '75%',
       display: 'inline-block !important',
     },
     radio: {
@@ -242,7 +242,16 @@ const AddAppointment = () => {
                 className={center + ' ' + text}
                 variant="outlined"
                 value={soldierId}
-                onChange={(e) => setId(e?.target?.value)}
+                onChange={(e) => {
+                  const value = e?.target?.value;
+                  if (
+                    value.length === 0 ||
+                    (value[value.length - 1] >= '0' &&
+                      value[value.length - 1] <= '9')
+                  ) {
+                    setId(e?.target?.value);
+                  }
+                }}
               />
             </div>
             <div className={grid + ' ' + center}>
