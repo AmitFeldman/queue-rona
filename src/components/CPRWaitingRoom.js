@@ -11,10 +11,9 @@ import Box from '@material-ui/core/Box';
 import {CircularProgressbar} from 'react-circular-progressbar';
 import {makeStyles} from '@material-ui/core';
 import 'react-circular-progressbar/dist/styles.css';
-
-const PERCENTAGE_DONE = 100;
-const TOTAL_MINUTES = 15;
 import {isSoldierDone, PERCENTAGE_DONE} from '../utils/soldier-util';
+
+const TOTAL_MINUTES = 15;
 
 const useStyles = makeStyles(() => ({
   svg: {
