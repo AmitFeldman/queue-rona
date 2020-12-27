@@ -14,35 +14,6 @@ import {
 } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-// const RadioOptions = ({value, setValue}) => {
-//   return (
-//     <RadioGroup row aria-label="position" name="position" defaultValue="top">
-//       <FormControlLabel
-//         control={
-//           <Radio
-//             color="primary"
-//             checked={value === true}
-//             onChange={() => setValue(true)}
-//           />
-//         }
-//         label="כן"
-//         labelPlacement="start"
-//       />
-//       <FormControlLabel
-//         control={
-//           <Radio
-//             color="primary"
-//             checked={value === false}
-//             onChange={() => setValue(false)}
-//           />
-//         }
-//         label="לא"
-//         labelPlacement="start"
-//       />
-//     </RadioGroup>
-//   );
-// };
-
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
@@ -75,14 +46,13 @@ function VaccineConfirmation() {
     let soldierIdInteger = parseInt(soldierId);
     let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
     let soldierJson = {
-      soldierId: soldierIdWithoutZeroPrefix,
       wasVaccinated: wasVaccinated,
     };
     params.append('0', JSON.stringify(soldierJson));
-    debugger;
-    return await axios.post(
-      `http://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
-      params
+    return await axios.put(
+      `https://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/was_vaccinated`,
+      soldierJson,
+      {headers: {'Content-Type': 'application/json'}}
     );
   }
 
@@ -118,6 +88,7 @@ function VaccineConfirmation() {
               'align-items': 'center',
               'font-weight': 'bold',
               'font-size': '18px',
+              paddingTop: '50px',
             }}>
             יש לסרוק את הברקוד המופיע על החוגר
           </ListItem>
@@ -159,6 +130,7 @@ function VaccineConfirmation() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
+              paddingTop: '30px',
             }}>
             האם החייל התחסן?
           </ListItem>

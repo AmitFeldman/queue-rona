@@ -50,17 +50,17 @@ function ArrivalToCprStationConfirmation() {
   const {radioBox} = useStyles();
   const [soldierId, setId] = React.useState('');
   const [wasArrived, setWasArrived] = React.useState('');
-  const [isRadiosEnabled, setIsRadiosEnabled] = React.useState(true);
   const [isBusyWithSoldier, setIsBusyWithSoldier] = React.useState(false);
-  // let url = window.location.href;
-  // let stationId = url.substring(url.lastIndexOf('/') + 1);
+  let url = window.location.href;
+  let stationId = url.substring(url.lastIndexOf('/') + 1);
 
+  const [counter, setCounter] = React.useState(0);
   React.useEffect(() => {
-    setInterval(() => {
+    setTimeout(() => {
       if (isBusyWithSoldier === false) {
         axios
           .get(
-            'http://corona-server.azurewebsites.net/callNextSoldierToCprStation'
+            `https://corona-server.azurewebsites.net/${stationId}/callNextSoldierToCprStation`
           )
           .then((res) => {
             setId(res.data);
@@ -70,8 +70,9 @@ function ArrivalToCprStationConfirmation() {
             setId('אין מתחסן קרוב בינתיים');
           });
       }
+      setCounter(counter + 1);
     }, 1000);
-  }, []);
+  }, [counter]);
 
   React.useEffect(() => {
     if (wasArrived !== '') giveArrivedResult();
@@ -88,8 +89,9 @@ function ArrivalToCprStationConfirmation() {
     params.append('0', JSON.stringify(soldierJson));
     debugger;
     return await axios.put(
-      `http://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
-      params
+      `https://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
+      params,
+      {headers: {'Content-Type': 'application/json'}}
     );
   }
 
@@ -102,21 +104,6 @@ function ArrivalToCprStationConfirmation() {
         alert(JSON.stringify(rej));
       });
   }
-
-  // async function callNext() {
-  //   const paramsCallNext = new URLSearchParams();
-  //   let stationIdIntegerMinus1 = parseInt(stationId) - 1;
-  //   let stationIdMinus1 = stationIdIntegerMinus1.toString();
-  //   let cprStationJson = {
-  //     cprStationId: stationIdMinus1,
-  //   };
-  //   paramsCallNext.append('0', JSON.stringify(cprStationJson));
-  //   debugger;
-  //   return await axios.put(
-  //     `http://corona-server.azurewebsites.net/callNextSoldierToCprStation`,
-  //     paramsCallNext
-  //   );
-  // }
 
   function isCanCallNextSoldier() {
     return wasArrived !== '' && isBusyWithSoldier === true;
@@ -156,13 +143,10 @@ function ArrivalToCprStationConfirmation() {
               'align-items': 'center',
             }}>
             <TextField
-              style={{
-                'text-align': 'center',
-              }}
+              inputProps={{style: {textAlign: 'center'}}}
               disabled="true"
               variant="outlined"
               value={soldierId}
-              //onChange={(e) => setId(e?.target?.value)}
             />
           </ListItem>
           <ListItem
@@ -189,29 +173,6 @@ function ArrivalToCprStationConfirmation() {
               <FormControlLabel
                 className={radioBox}
                 style={{
-                  backgroundColor: wasArrived === false ? '#333460' : 'white',
-                  color: wasArrived === false ? 'white' : 'black',
-                }}
-                tabindex="2"
-                control={
-                  <Radio
-                    className={radio}
-                    disabled={!isCanCallNextSoldier()}
-                    color="primary"
-                    checked={wasArrived === false}
-                    onChange={() => {
-                      setWasArrived(false);
-                      setIsRadiosEnabled(false);
-                      // giveArrivedResult()
-                    }}
-                  />
-                }
-                label="לא, דלג להבא בתור"
-                labelPlacement="start"
-              />
-              <FormControlLabel
-                className={radioBox}
-                style={{
                   backgroundColor: wasArrived === true ? '#333460' : 'white',
                   color: wasArrived === true ? 'white' : 'black',
                 }}
@@ -222,13 +183,29 @@ function ArrivalToCprStationConfirmation() {
                     disabled={!isCanCallNextSoldier()}
                     color="primary"
                     checked={wasArrived === true}
-                    onChange={() => {
-                      setWasArrived(true);
-                      setIsRadiosEnabled(false);
-                    }}
+                    onChange={() => setWasArrived(true)}
                   />
                 }
                 label="כן, המתחסן הוזן במערכת"
+                labelPlacement="start"
+              />
+              <FormControlLabel
+                className={radioBox}
+                style={{
+                  backgroundColor: wasArrived === false ? '#333460' : 'white',
+                  color: wasArrived === false ? 'white' : 'black',
+                }}
+                tabindex="2"
+                control={
+                  <Radio
+                    className={radio}
+                    disabled={!isCanCallNextSoldier()}
+                    color="primary"
+                    checked={wasArrived === false}
+                    onChange={() => setWasArrived(false)}
+                  />
+                }
+                label="לא, דלג להבא בתור"
                 labelPlacement="start"
               />
             </RadioGroup>
