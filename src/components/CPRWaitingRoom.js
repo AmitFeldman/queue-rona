@@ -8,10 +8,12 @@ import SoldierCardWrapper from './SoldierCardWrapper';
 import Grid from '@material-ui/core/Grid';
 import {AiOutlineCloseCircle, AiOutlineCheckCircle} from 'react-icons/ai';
 import Box from '@material-ui/core/Box';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import {CircularProgressbar} from 'react-circular-progressbar';
 import {makeStyles} from '@material-ui/core';
+import 'react-circular-progressbar/dist/styles.css';
+import {isSoldierDone, PERCENTAGE_DONE} from '../utils/soldier-util';
 
-const PERCENTAGE_DONE = 100;
+const TOTAL_MINUTES = 15;
 
 const useStyles = makeStyles(() => ({
   svg: {
@@ -25,10 +27,12 @@ const SoldierCard = ({
   wasArrivedToCPRStation,
 }) => {
   const {svg} = useStyles();
-
   const cprDone = Boolean(wasArrivedToCPRStation);
   const timeDone = waintingPrecentage === PERCENTAGE_DONE;
   const done = timeDone && cprDone;
+  const totalTime =
+    TOTAL_MINUTES -
+    Math.floor((waintingPrecentage / PERCENTAGE_DONE) * TOTAL_MINUTES);
 
   return (
     <SoldierCardWrapper greenBorder={done}>
@@ -46,12 +50,20 @@ const SoldierCard = ({
                 {timeDone ? (
                   <AiOutlineCheckCircle className={svg} />
                 ) : (
-                  <CircularProgress
-                    classes={{svg}}
-                    variant="determinate"
-                    value={PERCENTAGE_DONE - waintingPrecentage}
-                    size={20}
-                    thickness={22}
+                  <CircularProgressbar
+                    value={totalTime}
+                    minValue={0}
+                    maxValue={15}
+                    text={totalTime}
+                    styles={{
+                      root: {
+                        width: '20px',
+                      },
+                      text: {
+                        fontSize: '60px',
+                        fontWeight: 'bold',
+                      },
+                    }}
                   />
                 )}
                 זמן המתנה
@@ -85,12 +97,14 @@ const CPRWaitingRoom = () => {
 
   return (
     <WaitingRoomLayout
-      waitingHeader="סטטוס שחרור"
-      nextHeader="הבאים בתור"
+      waitingHeader="עמדת המתנה"
+      nextHeader="הבאים בתור ל-CPR"
       stationHeader="לעמדת ה-CPR"
-      soldiers={cprSoldiers.sort(({wasArrivedToCPRStation}) =>
-        wasArrivedToCPRStation ? 1 : 0
-      )}
+      footerHeader="משוחררים"
+      soldiers={cprSoldiers
+        .filter((s) => !isSoldierDone(s))
+        .sort(({wasArrivedToCPRStation}) => (wasArrivedToCPRStation ? 1 : 0))}
+      doneSoldiers={cprSoldiers.filter((s) => isSoldierDone(s))}
       stations={cprStations}
       SoldierCard={SoldierCard}
       StationCard={StationCard}
