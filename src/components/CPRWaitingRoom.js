@@ -32,7 +32,7 @@ const SoldierCard = ({
   const done = timeDone && cprDone;
   const totalTime =
     TOTAL_MINUTES -
-    Math.ceil((waintingPrecentage / PERCENTAGE_DONE) * TOTAL_MINUTES);
+    Math.floor((waintingPrecentage / PERCENTAGE_DONE) * TOTAL_MINUTES);
 
   return (
     <SoldierCardWrapper greenBorder={done}>
