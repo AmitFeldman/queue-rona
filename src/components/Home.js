@@ -36,12 +36,14 @@ const Home = () => {
         <Grid item xs={3}>
           <Paper
             className={classes.paper}
-            onClick={() => handleOnClick('vaccine')}>
+            onClick={() => handleOnClick('vaccineWait')}>
             מסך ממתינים לתשאול
           </Paper>
         </Grid>
         <Grid item xs={3}>
-          <Paper className={classes.paper} onClick={() => handleOnClick('cpr')}>
+          <Paper
+            className={classes.paper}
+            onClick={() => handleOnClick('cprWait')}>
             מסך ממתינים לCPR
           </Paper>
         </Grid>

@@ -6,12 +6,13 @@ async function addSoldierToArrivalQueue(soldierId) {
   return await axios.post(`${URL}/addSoliderToArrivalQueue`, {soldierId});
 }
 
-async function addSoldier(soldierId, q1, q2, q3) {
+async function addSoldier(soldierId, q1, q2, q3, q4) {
   return await axios.post(`${URL}/addSoldierToSoldierTable`, {
-    soldierId: soldierId,
-    q1: q1,
-    q2: q2,
-    q3: q3,
+    soldierId,
+    q1,
+    q2,
+    q3,
+    q4,
   });
 }
 
@@ -27,7 +28,11 @@ async function getStages() {
   return await axios.get(`${URL}/GetStageDedicatedSoldiers`);
 }
 
-async function getAllCountdowns() {
+async function getCPRStages() {
+  return await axios.get(`${URL}//GetCPRStages`);
+}
+
+async function getCPRSoldiers() {
   return await axios.get(`${URL}/GetAllCountdowns`);
 }
 
@@ -44,10 +49,11 @@ async function updateSoldierVaccinable(soldierId) {
 export {
   addSoldier,
   addSoldierToArrivalQueue,
-  getAllCountdowns,
+  getCPRSoldiers,
   getStages,
   getTopSoldiers,
   sendSoldierToStage,
   updateSoldierVaccinable,
   updateSoldierVaccinated,
+  getCPRStages,
 };

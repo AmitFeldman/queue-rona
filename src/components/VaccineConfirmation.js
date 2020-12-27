@@ -71,11 +71,15 @@ function VaccineConfirmation() {
   function give() {
     getResult()
       .then((res) => {
+        console.log(res.data.data);
+      })
+      .catch((rej) => {
+        console.log(JSON.stringify(rej));
         //alert(res.data.data);
         window.location.reload(false);
       })
       .catch((rej) => {
-        alert('מספר אישי זה לא קיים במערכת');
+        console.log('מספר אישי זה לא קיים במערכת');
       });
   }
   return (

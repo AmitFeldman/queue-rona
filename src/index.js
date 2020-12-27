@@ -13,16 +13,16 @@ import {
   jssPreset,
 } from '@material-ui/core/styles';
 import theme from './theme/mui-theme';
-import {UsersProvider} from './context/users-context';
+import {SoldiersProvider} from './context/soldiers-context';
 import {StationsProvider} from './context/stations-context';
 
 // Configure JSS
 const jss = create({plugins: [...jssPreset().plugins, rtl()]});
 
 const ContextProvider = ({children}) => (
-  <UsersProvider>
+  <SoldiersProvider>
     <StationsProvider>{children}</StationsProvider>
-  </UsersProvider>
+  </SoldiersProvider>
 );
 
 ReactDOM.render(
