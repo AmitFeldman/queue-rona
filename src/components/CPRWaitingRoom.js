@@ -8,6 +8,7 @@ import SoldierCardWrapper from './SoldierCardWrapper';
 import Grid from '@material-ui/core/Grid';
 import {AiOutlineCloseCircle, AiOutlineCheckCircle} from 'react-icons/ai';
 import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const PERCENTAGE_DONE = 100;
 
@@ -28,9 +29,15 @@ const SoldierCard = ({
           </Typography>
         ) : (
           <Grid container>
-            {/*<CircularProgress variant="determinate" value={time} size={20} />*/}
             <Grid item xs={6}>
-              <Typography variant="h6">זמן המתנה</Typography>
+              <Typography variant="h6">
+                <CircularProgress
+                  variant="determinate"
+                  value={waintingPrecentage}
+                  size={20}
+                />
+                זמן המתנה
+              </Typography>
             </Grid>
             <Grid item xs={6}>
               <Typography
