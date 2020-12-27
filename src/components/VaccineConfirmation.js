@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
+import Avatar from '@material-ui/core/Avatar';
 import {
   Button,
   FormControlLabel,
@@ -84,7 +85,7 @@ function VaccineConfirmation() {
     params.append('0', JSON.stringify(soldierJson));
     debugger;
     return await axios.post(
-      `http://127.0.0.1:8080/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
+      `http://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
       params
     );
   }
@@ -122,7 +123,7 @@ function VaccineConfirmation() {
               'font-weight': 'bold',
               'font-size': '18px',
             }}>
-            עליך להמתין במתחם במשך 15 דקות לאישור
+            יש לסרוק את הברקוד המופיע על החוגר
           </ListItem>
           <ListItem
             style={{
@@ -140,68 +141,70 @@ function VaccineConfirmation() {
             }}>
             <TextField
               variant="outlined"
+              inputProps={{
+                maxLength: '8',
+              }}
               value={soldierId}
               onChange={(e) => setId(e?.target?.value)}
             />
           </ListItem>
-          <ListItem>
+          <ListItem
+            style={{
+              display: 'flex',
+              'justify-content': 'center',
+              'align-items': 'center',
+            }}>
+            האם החייל התחסן?
+          </ListItem>
+          <ListItem
+            style={{
+              display: 'flex',
+              'justify-content': 'center',
+              'align-items': 'center',
+            }}>
             <RadioGroup
               row
               aria-label="position"
               name="position"
               defaultValue="top">
-              <ListItem
+              <FormControlLabel
+                className={radioBox}
                 style={{
-                  display: 'flex',
-                  'justify-content': 'center',
-                  'align-items': 'center',
-                }}>
-                <FormControlLabel
-                  className={radioBox}
-                  style={{
-                    backgroundColor:
-                      wasVaccinated === true ? 'lightGray' : 'white',
-                  }}
-                  tabindex="1"
-                  control={
-                    <Radio
-                      className={radio}
-                      color="primary"
-                      checked={wasVaccinated === true}
-                      onChange={() => {
-                        setWasVaccinated(true);
-                      }}
-                    />
-                  }
-                  label="התחסנתי"
-                  labelPlacement="start"
-                />
-              </ListItem>
-              <ListItem
+                  backgroundColor:
+                    wasVaccinated === false ? 'lightGray' : 'white',
+                }}
+                tabindex="2"
+                control={
+                  <Radio
+                    className={radio}
+                    color="primary"
+                    checked={wasVaccinated === false}
+                    onChange={() => setWasVaccinated(false)}
+                  />
+                }
+                label="❌ לא, משהו השתבש"
+                labelPlacement="start"
+              />
+              <FormControlLabel
+                className={radioBox}
                 style={{
-                  display: 'flex',
-                  'justify-content': 'center',
-                  'align-items': 'center',
-                }}>
-                <FormControlLabel
-                  className={radioBox}
-                  style={{
-                    backgroundColor:
-                      wasVaccinated === false ? 'lightGray' : 'white',
-                  }}
-                  tabindex="2"
-                  control={
-                    <Radio
-                      className={radio}
-                      color="primary"
-                      checked={wasVaccinated === false}
-                      onChange={() => setWasVaccinated(false)}
-                    />
-                  }
-                  label="משהו השתבש, לא התחסנתי"
-                  labelPlacement="start"
-                />
-              </ListItem>
+                  backgroundColor:
+                    wasVaccinated === true ? 'lightGray' : 'white',
+                }}
+                tabindex="1"
+                control={
+                  <Radio
+                    className={radio}
+                    color="primary"
+                    checked={wasVaccinated === true}
+                    onChange={() => {
+                      setWasVaccinated(true);
+                    }}
+                  />
+                }
+                label="✔️ כן, התחסן"
+                labelPlacement="start"
+              />
             </RadioGroup>
           </ListItem>
         </List>

@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import AddAppointment from './components/AddAppointment';
-import IsSoldierArrived from './components/IsSoldierArrived';
+import ArrivalToCprStationConfirmation from './components/ArrivalToCprStationConfirmation';
 import VaccineConfirmation from './components/VaccineConfirmation';
 
 import Container from '@material-ui/core/Container';
@@ -16,16 +16,32 @@ function App() {
     <div className="App">
       <NavBar />
 
-
       <Container>
         <Switch>
           <Route exact path="/" component={AddAppointment} />
-          <Route path="/soldierArrival" component={IsSoldierArrived} />
+          <Route
+            path="/arrivalToCprStationConfirmation/1"
+            component={ArrivalToCprStationConfirmation}
+          />
+          <Route
+            path="/arrivalToCprStationConfirmation/2"
+            component={ArrivalToCprStationConfirmation}
+          />
+          <Route
+            path="/arrivalToCprStationConfirmation/3"
+            component={ArrivalToCprStationConfirmation}
+          />
+          <Route
+            path="/arrivalToCprStationConfirmation/4"
+            component={ArrivalToCprStationConfirmation}
+          />
+          <Route
+            path="/arrivalToCprStationConfirmation/5"
+            component={ArrivalToCprStationConfirmation}
+          />
           <Route path="/vaccineConfirmation" component={VaccineConfirmation} />
-          <Route path="/schedule" component={ScheduleView} />
-           <Route path="/vaccine" component={VaccineWaitingRoom} />
+          <Route path="/vaccine" component={VaccineWaitingRoom} />
           <Route path="/cpr" component={CPRWaitingRoom} />
-
         </Switch>
       </Container>
     </div>
