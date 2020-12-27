@@ -59,7 +59,7 @@ function ArrivalToCprStationConfirmation() {
     setTimeout(() => {
       if (isBusyWithSoldier === false) {
         axios
-          .get(
+          .put(
             `https://corona-server.azurewebsites.net/${stationId}/callNextSoldierToCprStation`
           )
           .then((res) => {
