@@ -491,13 +491,10 @@ const CanGetVaccinated = (props) => {
                     <CoolButton
                       text="שלח"
                       action={() => {
-                        //      if (isValid()) {
                         props.history.goBack();
                         getResultDeclareSoldierVaccinable();
-                        //TODO hardcoded stationsnssssnsnsnsns
                         setOpen(true);
                         setTimeout(() => setOpen(false), TIMEOUT);
-                        //    }
                       }}
                     />
                   </div>

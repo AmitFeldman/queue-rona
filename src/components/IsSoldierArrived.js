@@ -62,17 +62,26 @@ function IsSoldierArrived() {
 
   const [wasArrived, setWasArrived] = React.useState('');
   const [isRadiosEnabled, setIsRadiosEnabled] = React.useState(true);
-  const [isBusyWithSoldier, setIsBusyWithSoldier] = React.useState(false);
   let url = window.location.href;
-  let stationId = url.substring(url.lastIndexOf('/') + 1);
-  let stationIdFixed = stationId - 1;
+  let stationId = url.substring(url.lastIndexOf('/') + 1) - 1;
   const history = useHistory();
   const [shouldGetSoldier, setShouldGetSoldier] = React.useState(true);
 
   const dedicateSoldierToStage = async () => {
     return await axios.post(
       'https://corona-server.azurewebsites.net/dedicateSoldierToStage',
-      {stageId: stationIdFixed}
+      {stageId: stationId}
+    );
+  };
+  const getSoldierFromStage = async () => {
+    return await axios.get(
+      `https://corona-server.azurewebsites.net/${stationId}/getSoldierDedicatedToStage`
+    );
+  };
+
+  const removeSoldierFromStage = async () => {
+    return await axios.put(
+      `https://corona-server.azurewebsites.net/${stationId}/removeSoldierFromStage`
     );
   };
   const declareSoldierMissing = async () => {
@@ -81,11 +90,14 @@ function IsSoldierArrived() {
     );
   };
   const handleOnClick = (url) => {
-    if (wasArrived) history.push(`${url}/${soldierId}`);
-    else {
-      declareSoldierMissing();
-      getSoldier();
-    }
+    removeSoldierFromStage().then(() => {
+      if (wasArrived) history.push(`${url}/${soldierId}`);
+      else {
+        declareSoldierMissing();
+        getSoldier();
+        setWasArrived('');
+      }
+    });
   };
 
   const [counter, setCounter] = React.useState(0);
@@ -102,23 +114,32 @@ function IsSoldierArrived() {
     if (!shouldGetSoldier) {
       return;
     }
-    dedicateSoldierToStage()
-      .then((res) => {
-        setId(res.data);
-        setIsBusyWithSoldier(true);
+    getSoldierFromStage()
+      .then((stageSoldierId) => {
+        if (stageSoldierId.data.soldierId) {
+          setId(stageSoldierId.data.soldierId);
+        } else {
+          dedicateSoldierToStage()
+            .then((res) => {
+              setId(res.data);
+            })
+            .catch((rej) => {
+              console.log('there are no people');
+              setId('אין מתחסן קרוב בינתיים');
+              if (shouldGetSoldier)
+                setTimeout(() => {
+                  getSoldier();
+                }, 1000);
+            });
+        }
       })
-      .catch((rej) => {
-        console.log('there are no people');
-        setId('אין מתחסן קרוב בינתיים');
-        if (shouldGetSoldier)
-          setTimeout(() => {
-            getSoldier();
-          }, 1000);
+      .catch((e) => {
+        console.error(e);
       });
   };
 
   function isCanCallNextSoldier() {
-    return wasArrived !== '' && isBusyWithSoldier === true;
+    return wasArrived !== '' && soldierId;
   }
   return (
     <Grid
