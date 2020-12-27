@@ -151,9 +151,7 @@ const useStyles = makeStyles(() =>
       'border-radius': '5px',
       marginLeft: '0',
       textAlign: 'center',
-      border: 'solid 1px lightGray',
       outline: '0',
-      cursor: 'pointer',
     },
   })
 );
