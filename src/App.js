@@ -5,8 +5,7 @@ import ArrivalToCprStationConfirmation from './components/ArrivalToCprStationCon
 import VaccineConfirmation from './components/VaccineConfirmation';
 
 import Container from '@material-ui/core/Container';
-import {Route, Switch} from 'react-router-dom';
-import WaitingRoomLayout from './components/WaitingRoomLayout';
+import {Route, Switch, useLocation} from 'react-router-dom';
 import NavBar from './components/NavBar';
 import VaccineWaitingRoom from './components/VaccineWaitingRoom';
 import CPRWaitingRoom from './components/CPRWaitingRoom';
@@ -14,6 +13,8 @@ import FooterBar from './components/FooterBar';
 import Home from './components/Home';
 
 function App() {
+  const location = useLocation();
+
   return (
     <div className="App Background">
       <NavBar />
@@ -43,11 +44,12 @@ function App() {
             component={ArrivalToCprStationConfirmation}
           />
           <Route path="/vaccineConfirmation" component={VaccineConfirmation} />
-          <Route path="/vaccine" component={VaccineWaitingRoom} />
-          <Route path="/cpr" component={CPRWaitingRoom} />
+          <Route path="/vaccineWait" component={VaccineWaitingRoom} />
+          <Route path="/cprWait" component={CPRWaitingRoom} />
         </Switch>
       </Container>
-      <FooterBar />
+
+      {!location.pathname.includes('Wait') && <FooterBar />}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
 
@@ -69,19 +69,19 @@ function SimpleDialog({open, soldierId, setOpen, give, setOpen2}) {
   );
 }
 
-function SimpleDialog2({open}) {
-  const {center, text} = useStyles();
-
-  return (
-    <Dialog open={open}>
-      <DialogTitle className={center}>
-        <p>זה נראה קרוב מתמיד,</p>
-        <p>אבל אנחנו עדיין מוגבלים בכמות האנשים באולם בעקבות ההנחיות</p>
-        <p>המתינו מספר דקות ונאשר את כניסתכם</p>
-      </DialogTitle>
-    </Dialog>
-  );
-}
+// function SimpleDialog2({open}) {
+//   const {center, text} = useStyles();
+//
+//   return (
+//     <Dialog open={open}>
+//       <DialogTitle className={center}>
+//         <p>זה נראה קרוב מתמיד,</p>
+//         <p>אבל אנחנו עדיין מוגבלים בכמות האנשים באולם בעקבות ההנחיות</p>
+//         <p>המתינו מספר דקות ונאשר את כניסתכם</p>
+//       </DialogTitle>
+//     </Dialog>
+//   );
+// }
 
 const CoolButton = ({text, action, isDisabled}) => {
   const {button} = useStyles();
@@ -151,9 +151,7 @@ const useStyles = makeStyles(() =>
       'border-radius': '5px',
       marginLeft: '0',
       textAlign: 'center',
-      border: 'solid 1px lightGray',
       outline: '0',
-      cursor: 'pointer',
     },
   })
 );
@@ -274,7 +272,7 @@ const AddAppointment = () => {
                           className={radioBox}
                           style={{
                             backgroundColor: q1 === true ? '#000066' : 'white',
-                            color: q1 == true ? 'white' : 'black',
+                            color: q1 === true ? 'white' : 'black',
                           }}
                           tabIndex="1"
                           control={
