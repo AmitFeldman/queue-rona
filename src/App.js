@@ -10,6 +10,7 @@ import WaitingRoomLayout from './components/WaitingRoomLayout';
 import NavBar from './components/NavBar';
 import VaccineWaitingRoom from './components/VaccineWaitingRoom';
 import CPRWaitingRoom from './components/CPRWaitingRoom';
+import FooterBar from './components/FooterBar';
 import Home from './components/Home';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/cpr" component={CPRWaitingRoom} />
         </Switch>
       </Container>
+      <FooterBar />
     </div>
   );
 }
