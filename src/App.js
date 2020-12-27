@@ -20,12 +20,12 @@ function App() {
   useEffect(
     () => {
       // GET request using fetch inside useEffect React hook
-      fetch('/.auth/me').then((response) => {
-        console.log(response.json());
-        console.log(response);
-        console.log(response.json()[0]);
-        response.json()[0] ? setUser(response.json()[0].user_id) : setUser('');
-      });
+      fetch('/.auth/me')
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          data[0] ? setUser(data[0].user_id) : setUser('');
+        });
     },
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
     []
