@@ -222,7 +222,6 @@ const AddAppointment = () => {
 
   return (
     <div>
-      <h1>ALON</h1>
       <div className={background}>
         <FormControl>
           <List>
