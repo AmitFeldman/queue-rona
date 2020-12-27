@@ -13,6 +13,7 @@ import VaccineWaitingRoom from './components/VaccineWaitingRoom';
 import CPRWaitingRoom from './components/CPRWaitingRoom';
 import FooterBar from './components/FooterBar';
 import Home from './components/Home';
+import Management from './components/Management';
 
 function App() {
   const [user, setUser] = useState('');
@@ -58,8 +59,8 @@ function App() {
           <Route path="/soldierArrival/5" component={IsSoldierArrived} />
           {/* <Route path="/schedule" component={ScheduleView} /> */}
           <Route path="/CanGetVaccinated" component={CanGetVaccinated} />
-          <Route exact path="/" component={Home} />
           <Route path="/addAppointment" component={AddAppointment} />
+          <Route path="/management" component={Management} />
           <Route
             path="/arrivalToCprStationConfirmation/1"
             component={ArrivalToCprStationConfirmation}
