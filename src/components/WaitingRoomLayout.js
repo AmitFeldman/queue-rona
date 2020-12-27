@@ -12,12 +12,15 @@ const useStyles = makeStyles((theme) => ({
     height: '80vh',
   },
   waitingCol: {
+    height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
   },
   nextCol: {
+    height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.025)',
   },
   stationCol: {
+    height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0)',
   },
   pagination: {
@@ -27,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ColumnHeaderWrapper = ({header, children}) => {
   return (
-    <Grid item container direction="column">
+    <Grid item container direction="column" style={{height: '100%'}}>
       <Grid item style={{height: '7%'}}>
         <Typography variant="h5">{header}</Typography>
       </Grid>
@@ -74,7 +77,10 @@ const WaitingRoomLayout = ({
               .slice(5)
               .slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
               .map((soldier) => (
-                <Grid item key={soldier.soldierId} style={{height: '16%'}}>
+                <Grid
+                  item
+                  key={soldier.soldierId}
+                  style={{height: '16.66667%'}}>
                   <SoldierCard {...soldier} />
                 </Grid>
               ))}

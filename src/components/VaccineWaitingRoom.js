@@ -9,7 +9,9 @@ import SoldierCardWrapper from './SoldierCardWrapper';
 const SoldierCard = ({soldierId}) => {
   return (
     <SoldierCardWrapper>
-      <Typography variant="h4">{soldierId}</Typography>
+      <Typography variant="h4" style={{}}>
+        {soldierId}
+      </Typography>
     </SoldierCardWrapper>
   );
 };
