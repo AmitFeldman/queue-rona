@@ -60,7 +60,7 @@ function ArrivalToCprStationConfirmation() {
       if (isBusyWithSoldier === false) {
         axios
           .get(
-            'http://corona-server.azurewebsites.net/callNextSoldierToCprStation'
+            'https://corona-server.azurewebsites.net/callNextSoldierToCprStation'
           )
           .then((res) => {
             setId(res.data);
@@ -88,8 +88,9 @@ function ArrivalToCprStationConfirmation() {
     params.append('0', JSON.stringify(soldierJson));
     debugger;
     return await axios.put(
-      `http://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
-      params
+      `https://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
+      params,
+      {headers: {'Content-Type': 'application/json'}}
     );
   }
 

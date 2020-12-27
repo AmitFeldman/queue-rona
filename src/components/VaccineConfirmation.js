@@ -84,8 +84,9 @@ function VaccineConfirmation() {
     params.append('0', JSON.stringify(soldierJson));
     debugger;
     return await axios.post(
-      `http://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
-      params
+      `https://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
+      params,
+      {headers: {'Content-Type': 'application/json'}}
     );
   }
 
