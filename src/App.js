@@ -10,15 +10,18 @@ import WaitingRoomLayout from './components/WaitingRoomLayout';
 import NavBar from './components/NavBar';
 import VaccineWaitingRoom from './components/VaccineWaitingRoom';
 import CPRWaitingRoom from './components/CPRWaitingRoom';
+import FooterBar from './components/FooterBar';
+import Home from './components/Home';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App Background">
       <NavBar />
 
-      <Container>
+      <Container disableGutters maxWidth="lg">
         <Switch>
           <Route exact path="/" component={AddAppointment} />
+          <Route path="/addAppointment" component={AddAppointment} />
           <Route
             path="/arrivalToCprStationConfirmation/1"
             component={ArrivalToCprStationConfirmation}
@@ -44,6 +47,7 @@ function App() {
           <Route path="/cpr" component={CPRWaitingRoom} />
         </Switch>
       </Container>
+      <FooterBar />
     </div>
   );
 }
