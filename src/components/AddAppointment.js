@@ -68,6 +68,18 @@ function SimpleDialog({open, soldierId, setOpen, give, setOpen2}) {
   );
 }
 
+function SimpleDialog3({open}) {
+  const {center} = useStyles();
+  return (
+    <Dialog open={open}>
+      <DialogTitle className={center}>
+        <p>קרתה שגיאה!</p>
+        <p>שים לב שהזנת את מספרך האישי בצורה נכונה</p>
+      </DialogTitle>
+    </Dialog>
+  );
+}
+
 // function SimpleDialog2({open}) {
 //   const {center, text} = useStyles();
 //
@@ -168,6 +180,7 @@ const AddAppointment = () => {
     text,
   } = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [open3, setOpen3] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
 
   const [soldierId, setId] = React.useState('');
@@ -205,13 +218,16 @@ const AddAppointment = () => {
   }
 
   async function give() {
-    await getResultAddSoldierToSoldierTable()
+    getResultAddSoldierToSoldierTable()
       .then((res) => {
         console.log(res);
       })
       .catch((rej) => {
+        setOpen3(true);
+        setTimeout(() => setOpen3(false), TIMEOUT);
         console.log(rej);
       });
+
     await getResultAddSoliderToArrivalQueue();
     setId('');
     setQ1('');
@@ -677,6 +693,7 @@ const AddAppointment = () => {
         setOpen2={setOpen2}
       />
       {/* <SimpleDialog2 open={open2}/> */}
+      <SimpleDialog3 open={open3} />
     </div>
   );
 };
