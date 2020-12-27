@@ -2,20 +2,23 @@ import React, {createContext, useState, useContext, useEffect} from 'react';
 import {getStages} from '../utils/api';
 
 const StationsContext = createContext({
-  stations: [],
+  vaccineStations: [],
 });
 
 const STATIONS_TIMEOUT = 5000;
 
 const StationsProvider = ({children}) => {
-  const [stations, setStations] = useState([]);
+  const [vaccineStations, setVaccineStations] = useState([]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    const updateStations = () => {
       getStages().then((res) => {
-        setStations(res.data);
+        setVaccineStations(res.data);
       });
-    }, STATIONS_TIMEOUT);
+    };
+
+    updateStations();
+    const intervalId = setInterval(updateStations, STATIONS_TIMEOUT);
 
     return () => {
       clearInterval(intervalId);
@@ -25,7 +28,7 @@ const StationsProvider = ({children}) => {
   return (
     <StationsContext.Provider
       value={{
-        stations,
+        vaccineStations,
       }}>
       {children}
     </StationsContext.Provider>

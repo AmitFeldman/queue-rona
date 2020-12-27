@@ -1,32 +1,32 @@
 import React from 'react';
+import {useSoldiers} from '../context/soldiers-context';
 import {useStations} from '../context/stations-context';
 import WaitingRoomLayout from './WaitingRoomLayout';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Station from './Station';
 import Typography from '@material-ui/core/Typography';
-import {LinearProgress} from '@material-ui/core';
-import {useUsers} from '../context/users-context';
+import StationCard from './StationCard';
+import SoldierCardWrapper from './SoldierCardWrapper';
+
+const SoldierCard = ({soldierId}) => {
+  return (
+    <SoldierCardWrapper>
+      <Typography variant="h4">{soldierId}</Typography>
+    </SoldierCardWrapper>
+  );
+};
 
 const CPRWaitingRoom = () => {
-  const {users} = useUsers();
-  const {stations} = useStations();
+  const {vaccineSoldiers} = useSoldiers();
+  const {vaccineStations} = useStations();
 
   return (
     <WaitingRoomLayout
-      waitingRoomHeader={'אזור ממתינים'}
-      stationsHeader={'לעמדת הסיום'}
-      users={users}
-      stations={stations}
-      UserComponent={({id}) => (
-        <Paper>
-          <Box p={1}>
-            <Typography variant="h4">{id}</Typography>
-            <LinearProgress value={20} variant="determinate" />
-          </Box>
-        </Paper>
-      )}
-      StationComponent={Station}
+      waitingHeader="סטטוס שחרור"
+      nextHeader="הבאים בתור"
+      stationHeader="לעמדת ה-CPR"
+      soldiers={vaccineSoldiers}
+      stations={vaccineStations}
+      SoldierCard={SoldierCard}
+      StationCard={StationCard}
     />
   );
 };

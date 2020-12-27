@@ -6,12 +6,13 @@ async function addSoldierToArrivalQueue(soldierId) {
   return await axios.post(`${URL}/addSoliderToArrivalQueue`, {soldierId});
 }
 
-async function addSoldier(soldierId, q1, q2, q3) {
+async function addSoldier(soldierId, q1, q2, q3, q4) {
   return await axios.post(`${URL}/addSoldierToSoldierTable`, {
-    soldierId: soldierId,
-    q1: q1,
-    q2: q2,
-    q3: q3,
+    soldierId,
+    q1,
+    q2,
+    q3,
+    q4,
   });
 }
 

@@ -1,92 +1,119 @@
 import React from 'react';
-import {Grid, makeStyles} from '@material-ui/core';
-import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import {makeStyles} from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import Pagination from '@material-ui/lab/Pagination';
-import Header from './Header';
 
-const USERS_PER_PAGE = 15;
-const PAGE_INTERVAL_TIMEOUT = 3000;
+const ITEMS_PER_PAGE = 12;
+const CAROUSEL_TIMEOUT = 4000;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100%',
-    margin: '0 auto',
+    height: '80vh',
   },
-  border: {
-    borderLeft: 'rgba(0, 0, 0, 0.12) 2px solid',
+  waitingCol: {
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+  },
+  nextCol: {
+    backgroundColor: 'rgba(0, 0, 0, 0.025)',
+  },
+  stationCol: {
+    backgroundColor: 'rgba(0, 0, 0, 0)',
   },
   pagination: {
     justifyContent: 'center',
   },
 }));
 
+const ColumnHeaderWrapper = ({header, children}) => {
+  return (
+    <Grid item container direction="column">
+      <Grid item style={{height: '7%'}}>
+        <Typography variant="h5">{header}</Typography>
+      </Grid>
+      <Grid item style={{height: '93%'}}>
+        {children}
+      </Grid>
+    </Grid>
+  );
+};
+
 const WaitingRoomLayout = ({
-  users,
+  waitingHeader,
+  nextHeader,
+  stationHeader,
+  soldiers,
   stations,
-  UserComponent,
-  StationComponent,
-  waitingRoomHeader,
-  stationsHeader,
+  SoldierCard,
+  StationCard,
 }) => {
+  const {root, waitingCol, nextCol, stationCol, pagination} = useStyles();
+
   const [page, setPage] = React.useState(1);
-  const {root, pagination, border} = useStyles();
+  const pageCount = Math.ceil(soldiers.slice(5).length / 12);
 
   React.useEffect(() => {
     const intervalId = setInterval(() => {
-      setPage((p) => {
-        const pagesCount = Math.ceil(users.length / USERS_PER_PAGE);
-        return p < pagesCount ? p + 1 : 1;
+      setPage((currPage) => {
+        return currPage < pageCount ? currPage + 1 : 1;
       });
-    }, PAGE_INTERVAL_TIMEOUT);
+    }, CAROUSEL_TIMEOUT);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [pageCount]);
 
   return (
-    <Grid container spacing={4}>
-      <Grid item xs={8}>
-        <Header text={waitingRoomHeader} />
-
-        <Box height="70vh">
-          <Grid className={root} container direction="column" spacing={1}>
-            {users
-              .slice((page - 1) * USERS_PER_PAGE, page * USERS_PER_PAGE)
-              .map((user) => (
-                <Grid item key={user.id}>
-                  <UserComponent {...user} />
+    <Grid container className={root}>
+      {/*Waiting Room*/}
+      <Grid item container className={waitingCol} xs={6}>
+        <ColumnHeaderWrapper header={waitingHeader}>
+          <Grid container direction="column" style={{height: '92%'}}>
+            {soldiers
+              .slice(5)
+              .slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
+              .map((soldier) => (
+                <Grid item key={soldier.soldierId} style={{height: '16%'}}>
+                  <SoldierCard {...soldier} />
                 </Grid>
               ))}
           </Grid>
 
           <Pagination
             classes={{ul: pagination}}
-            count={Math.ceil(users.length / USERS_PER_PAGE)}
-            variant="outlined"
             page={page}
-            onChange={(e, p) => setPage(p)}
+            count={pageCount}
+            variant="outlined"
+            onChange={(_, p) => setPage(p)}
           />
-        </Box>
+        </ColumnHeaderWrapper>
       </Grid>
 
-      <Grid item xs={4} className={border}>
-        <Header text={stationsHeader} />
-
-        <Box height="70vh">
-          <Grid
-            container
-            className={root}
-            direction="column"
-            spacing={1}
-            xs={6}>
-            {stations.map((station) => (
-              <Grid item key={station.id}>
-                <StationComponent {...station} />
+      {/*Next Up*/}
+      <Grid item container className={nextCol} xs={3}>
+        <ColumnHeaderWrapper header={nextHeader}>
+          <Grid container direction="column" style={{height: '100%'}}>
+            {soldiers.slice(0, 5).map((soldier) => (
+              <Grid item key={soldier.soldierId} style={{height: '20%'}}>
+                <SoldierCard {...soldier} />
               </Grid>
             ))}
           </Grid>
-        </Box>
+        </ColumnHeaderWrapper>
+      </Grid>
+
+      {/*Stations*/}
+      <Grid item container className={stationCol} xs={3}>
+        <ColumnHeaderWrapper header={stationHeader}>
+          <Grid container direction="column" style={{height: '100%'}}>
+            {stations.map((station) => (
+              <Grid item key={station.stageId} style={{height: '20%'}}>
+                <StationCard {...station} />
+              </Grid>
+            ))}
+          </Grid>
+        </ColumnHeaderWrapper>
       </Grid>
     </Grid>
   );

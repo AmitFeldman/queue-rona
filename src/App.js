@@ -19,8 +19,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={AddAppointment} />
           <Route path="/soldierArrival" component={IsSoldierArrived} />
-          <Route path="/vaccine" component={VaccineWaitingRoom} />
           <Route path="/cpr" component={CPRWaitingRoom} />
+          <Route path="/vaccine" component={VaccineWaitingRoom} />
         </Switch>
       </Container>
     </div>
