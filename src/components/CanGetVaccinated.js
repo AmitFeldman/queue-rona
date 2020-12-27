@@ -492,9 +492,9 @@ const CanGetVaccinated = () => {
                       text="שלח"
                       action={() => {
                         //      if (isValid()) {
+                        history.goBeck();
                         getResultDeclareSoldierVaccinable();
                         //TODO hardcoded stationsnssssnsnsnsns
-                        history.push(`/soldierArrival/` + 2);
                         setOpen(true);
                         setTimeout(() => setOpen(false), TIMEOUT);
                         //    }

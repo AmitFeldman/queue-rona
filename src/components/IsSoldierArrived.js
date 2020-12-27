@@ -70,17 +70,19 @@ function IsSoldierArrived() {
   const handleOnClick = (url) => {
     if (wasArrived) history.push(`${url}/${soldierId}`);
     else {
-      declareSoldierMissing(soldierId).then((res) => {
-        console.log(JSON.stringify(res));
-        dedicateSoldierToStage()
-          .then((res) => {
-            setId(res.data);
-            setIsBusyWithSoldier(true);
-          })
-          .catch((rej) => {
-            setId('אין מתחסן קרוב בינתיים');
-          });
-      });
+      // declareSoldierMissing(soldierId).then((res) => {
+      //   console.log(JSON.stringify(res));
+      //   dedicateSoldierToStage()
+      //     .then((res) => {
+      //       setId(res.data);
+      //       setIsBusyWithSoldier(true);
+      //     })
+      //     .catch((rej) => {
+      //       setId('אין מתחסן קרוב בינתיים');
+      //     });
+      // });
+      // setIsBusyWithSoldier(false);
+      pollSoldier();
     }
   };
   let url = window.location.href;
@@ -88,56 +90,29 @@ function IsSoldierArrived() {
 
   const [counter, setCounter] = React.useState(0);
   React.useEffect(() => {
-    const interval = setTimeout(() => {
-      if (isBusyWithSoldier === false) {
-        dedicateSoldierToStage()
-          .then((res) => {
-            setId(res.data);
-            setIsBusyWithSoldier(true);
-          })
-          .catch((rej) => {
-            setId('אין מתחסן קרוב בינתיים');
-          });
-      }
-      setCounter(counter + 1);
-    });
+    pollSoldier();
+    setCounter(counter + 1);
   }, []);
 
-  function isInputValid() {
-    return (
-      (soldierId.length == 7 || soldierId.length == 8) && wasArrived !== ''
-    );
-  }
-
-  async function callNext() {
-    const paramsCallNext = new URLSearchParams();
-    let stationIdIntegerMinus1 = parseInt(stationId) - 1;
-    let stationIdMinus1 = stationIdIntegerMinus1.toString();
-    let cprStationJson = {
-      cprStationId: stationIdMinus1,
-    };
-    paramsCallNext.append('0', JSON.stringify(cprStationJson));
-    debugger;
-    return await axios.put(
-      `https://corona-server.azurewebsites.net/callNextSoldierToCprStation`,
-      paramsCallNext
-    );
+  function pollSoldier() {
+    const interval = setTimeout(() => {
+      console.log('get soldier');
+      dedicateSoldierToStage()
+        .then((res) => {
+          setId(res.data);
+          setIsBusyWithSoldier(true);
+        })
+        .catch((rej) => {
+          console.log('there are no people');
+          setId('אין מתחסן קרוב בינתיים');
+          pollSoldier();
+        });
+    }, 1000);
   }
 
   function isCanCallNextSoldier() {
     return wasArrived !== '' && isBusyWithSoldier === true;
   }
-
-  function callNextSoldier() {
-    callNext()
-      .then((res) => {
-        console.log(res.data.data);
-      })
-      .catch((rej) => {
-        console.log(JSON.stringify(rej));
-      });
-  }
-
   return (
     <Grid
       container
@@ -212,13 +187,11 @@ function IsSoldierArrived() {
                 control={
                   <Radio
                     className={radio}
-                    // disabled={!isRadiosEnabled}
                     color="primary"
                     checked={wasArrived === false}
                     onChange={() => {
                       setWasArrived(false);
                       setIsRadiosEnabled(false);
-                      // giveArrivedResult()
                     }}
                   />
                 }
@@ -235,7 +208,6 @@ function IsSoldierArrived() {
                 control={
                   <Radio
                     className={radio}
-                    // disabled={!isRadiosEnabled}
                     color="primary"
                     checked={wasArrived === true}
                     onChange={() => {
