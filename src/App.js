@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import AddAppointment from './components/AddAppointment';
 import IsSoldierArrived from './components/IsSoldierArrived';
 import ArrivalToCprStationConfirmation from './components/ArrivalToCprStationConfirmation';
@@ -15,9 +15,36 @@ import FooterBar from './components/FooterBar';
 import Home from './components/Home';
 
 function App() {
+  const [user, setUser] = useState('');
+  const authorizedUsers = ['coronapalmachim@gmail.com'];
+
+  useEffect(
+    () => {
+      if (window.location.hostname === 'localhost') {
+        setUser('coronapalmachim@gmail.com');
+      } else {
+        // GET request using fetch inside useEffect React hook
+        fetch('/.auth/me')
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            data[0] ? setUser(data[0].user_id) : setUser('');
+          });
+      }
+    },
+    // empty dependency array means this effect will only run once (like componentDidMount in classes)
+    []
+  );
+
   const location = useLocation();
 
-  return (
+  const isValidUser = (userName) => {
+    return authorizedUsers.includes(userName);
+  };
+
+  return !isValidUser(user) ? (
+    <div>no valid user</div>
+  ) : (
     <div className="App Background">
       <NavBar />
 
