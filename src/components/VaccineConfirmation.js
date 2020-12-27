@@ -70,7 +70,7 @@ function VaccineConfirmation() {
   const {button} = useStyles();
   const {radio} = useStyles();
   const {radioBox} = useStyles();
-  const [soldierId, setId] = React.useState('8215936');
+  const [soldierId, setId] = React.useState('');
   const [wasVaccinated, setWasVaccinated] = React.useState('');
 
   async function getResult() {
@@ -122,14 +122,16 @@ function VaccineConfirmation() {
               'font-weight': 'bold',
               'font-size': '18px',
             }}>
-            מספר אישי{' '}
+            עליך להמתין במתחם במשך 15 דקות לאישור
           </ListItem>
           <ListItem
             style={{
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
-            }}></ListItem>
+            }}>
+            הזן מספר אישי על מנת להיכנס לתור
+          </ListItem>
           <ListItem
             style={{
               display: 'flex',
@@ -137,21 +139,10 @@ function VaccineConfirmation() {
               'align-items': 'center',
             }}>
             <TextField
-              disabled={true}
-              id="filled-basic"
-              label={soldierId}
-              variant="filled"
+              variant="outlined"
+              value={soldierId}
+              onChange={(e) => setId(e?.target?.value)}
             />
-          </ListItem>
-          <ListItem
-            style={{
-              display: 'flex',
-              'justify-content': 'center',
-              'align-items': 'center',
-              'font-weight': 'bold',
-              'font-size': '18px',
-            }}>
-            האם החייל הגיע לעמדה?{' '}
           </ListItem>
           <ListItem>
             <RadioGroup
@@ -168,7 +159,8 @@ function VaccineConfirmation() {
                 <FormControlLabel
                   className={radioBox}
                   style={{
-                    backgroundColor: wasVaccinated ? 'lightGray' : 'white',
+                    backgroundColor:
+                      wasVaccinated === true ? 'lightGray' : 'white',
                   }}
                   tabindex="1"
                   control={
@@ -181,7 +173,7 @@ function VaccineConfirmation() {
                       }}
                     />
                   }
-                  label="בוצע אימות זיהוי"
+                  label="התחסנתי"
                   labelPlacement="start"
                 />
               </ListItem>
@@ -194,7 +186,8 @@ function VaccineConfirmation() {
                 <FormControlLabel
                   className={radioBox}
                   style={{
-                    backgroundColor: wasVaccinated ? 'white' : 'lightGray',
+                    backgroundColor:
+                      wasVaccinated === false ? 'lightGray' : 'white',
                   }}
                   tabindex="2"
                   control={
@@ -205,7 +198,7 @@ function VaccineConfirmation() {
                       onChange={() => setWasVaccinated(false)}
                     />
                   }
-                  label="לא בוצע אימות"
+                  label="משהו השתבש, לא התחסנתי"
                   labelPlacement="start"
                 />
               </ListItem>
