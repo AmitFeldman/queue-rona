@@ -89,7 +89,7 @@ function ArrivalToCprStationConfirmation() {
     };
     params.append('0', JSON.stringify(soldierJson));
     return await axios.put(
-      `http://localhost:8080/setWasArrivedToCprStation`,
+      `https://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
       soldierJson
     );
   }
