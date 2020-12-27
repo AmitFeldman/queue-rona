@@ -18,7 +18,8 @@ const SoldierCard = ({
   wasArrivedToCPRStation,
 }) => {
   const cprDone = Boolean(wasArrivedToCPRStation);
-  const done = waintingPrecentage === PERCENTAGE_DONE && cprDone;
+  const timeDone = waintingPrecentage === PERCENTAGE_DONE;
+  const done = timeDone && cprDone;
 
   return (
     <SoldierCardWrapper greenBorder={done}>
@@ -30,12 +31,19 @@ const SoldierCard = ({
         ) : (
           <Grid container>
             <Grid item xs={6}>
-              <Typography variant="h6">
-                <CircularProgress
-                  variant="determinate"
-                  value={waintingPrecentage}
-                  size={20}
-                />
+              <Typography
+                variant="h6"
+                style={{color: timeDone ? 'green' : 'black'}}>
+                {timeDone ? (
+                  <AiOutlineCheckCircle />
+                ) : (
+                  <CircularProgress
+                    variant="determinate"
+                    value={PERCENTAGE_DONE - waintingPrecentage}
+                    size={20}
+                    thickness={22}
+                  />
+                )}
                 זמן המתנה
               </Typography>
             </Grid>
