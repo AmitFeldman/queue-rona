@@ -13,9 +13,17 @@ import {
   jssPreset,
 } from '@material-ui/core/styles';
 import theme from './theme/mui-theme';
+import {UsersProvider} from './context/users-context';
+import {StationsProvider} from './context/stations-context';
 
 // Configure JSS
 const jss = create({plugins: [...jssPreset().plugins, rtl()]});
+
+const ContextProvider = ({children}) => (
+  <UsersProvider>
+    <StationsProvider>{children}</StationsProvider>
+  </UsersProvider>
+);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -23,7 +31,9 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <CssBaseline>
           <BrowserRouter>
-            <App />
+            <ContextProvider>
+              <App />
+            </ContextProvider>
           </BrowserRouter>
         </CssBaseline>
       </ThemeProvider>
