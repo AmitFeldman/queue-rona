@@ -38,7 +38,7 @@ const NavBar = () => {
 
           <Grid item xs={6}>
             <Typography style={{color: 'black'}} variant="h4">
-              ברוכים הבאים למרכז החיסונים בפלמחים
+              מרכז החיסונים החיילי בפלמחים
             </Typography>
           </Grid>
           <Grid item xs={3}>
