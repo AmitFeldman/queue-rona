@@ -21,6 +21,9 @@ function App() {
     () => {
       // GET request using fetch inside useEffect React hook
       fetch('/.auth/me').then((response) => {
+        console.log(response.json());
+        console.log(response);
+        console.log(response.json()[0]);
         response.json()[0] ? setUser(response.json()[0].user_id) : setUser('');
       });
     },
