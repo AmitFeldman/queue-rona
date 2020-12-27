@@ -67,7 +67,7 @@ const SoldierCard = ({
 
 const CPRWaitingRoom = () => {
   const {cprSoldiers} = useSoldiers();
-  const {vaccineStations} = useStations();
+  const {cprStations} = useStations();
 
   return (
     <WaitingRoomLayout
@@ -77,7 +77,7 @@ const CPRWaitingRoom = () => {
       soldiers={cprSoldiers.sort(({wasArrivedToCPRStation}) =>
         wasArrivedToCPRStation ? 1 : -1
       )}
-      stations={vaccineStations}
+      stations={cprStations}
       SoldierCard={SoldierCard}
       StationCard={StationCard}
     />

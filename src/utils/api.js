@@ -28,6 +28,10 @@ async function getStages() {
   return await axios.get(`${URL}/GetStageDedicatedSoldiers`);
 }
 
+async function getCPRStages() {
+  return await axios.get(`${URL}//GetCPRStages`);
+}
+
 async function getCPRSoldiers() {
   return await axios.get(`${URL}/GetAllCountdowns`);
 }
@@ -51,4 +55,5 @@ export {
   sendSoldierToStage,
   updateSoldierVaccinable,
   updateSoldierVaccinated,
+  getCPRStages,
 };
