@@ -53,14 +53,14 @@ function ArrivalToCprStationConfirmation() {
   const [isBusyWithSoldier, setIsBusyWithSoldier] = React.useState(false);
   let url = window.location.href;
   let stationId = url.substring(url.lastIndexOf('/') + 1);
-
+  let stationIdFixed = stationId - 1;
   const [counter, setCounter] = React.useState(0);
   React.useEffect(() => {
     const interval = setTimeout(() => {
       if (isBusyWithSoldier === false) {
         axios
           .put(
-            `https://corona-server.azurewebsites.net/${stationId}/callNextSoldierToCprStation`,
+            `https://corona-server.azurewebsites.net/${stationIdFixed}/callNextSoldierToCprStation`,
             {headers: {'Content-Type': 'application/json'}}
           )
           .then((res) => {
