@@ -21,7 +21,7 @@ function App() {
 
       <Container disableGutters maxWidth="lg">
         <Switch>
-          <Route exact path="/" component={AddAppointment} />
+          <Route exact path="/" component={Home} />
           <Route path="/soldierArrival/1" component={IsSoldierArrived} />
           <Route path="/soldierArrival/2" component={IsSoldierArrived} />
           <Route path="/soldierArrival/3" component={IsSoldierArrived} />

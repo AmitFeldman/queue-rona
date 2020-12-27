@@ -168,3 +168,4 @@ Temporary Items
 
 # End of https://www.gitignore.io/api/macos,visualstudiocode
 .eslintcache
+debug.log

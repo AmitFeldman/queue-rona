@@ -55,8 +55,33 @@ function IsSoldierArrived() {
   const [isRadiosEnabled, setIsRadiosEnabled] = React.useState(true);
   const [isBusyWithSoldier, setIsBusyWithSoldier] = React.useState(false);
   const history = useHistory();
+
+  async function dedicateSoldierToStage() {
+    return await axios.post(
+      'https://corona-server.azurewebsites.net/dedicateSoldierToStage',
+      {stageId: 2}
+    );
+  }
+  async function declareSoldierMissing(soldierId) {
+    return await axios.put(
+      `https://corona-server.azurewebsites.net/${soldierId}/soldierDidntArrive`
+    );
+  }
   const handleOnClick = (url) => {
-    history.push(`${url}/${soldierId}`);
+    if (wasArrived) history.push(`${url}/${soldierId}`);
+    else {
+      declareSoldierMissing(soldierId).then((res) => {
+        console.log(JSON.stringify(res));
+        dedicateSoldierToStage()
+          .then((res) => {
+            setId(res.data);
+            setIsBusyWithSoldier(true);
+          })
+          .catch((rej) => {
+            setId('אין מתחסן קרוב בינתיים');
+          });
+      });
+    }
   };
   let url = window.location.href;
   let stationId = url.substring(url.lastIndexOf('/') + 1);
@@ -65,11 +90,7 @@ function IsSoldierArrived() {
   React.useEffect(() => {
     const interval = setTimeout(() => {
       if (isBusyWithSoldier === false) {
-        axios
-          .post(
-            'https://corona-server.azurewebsites.net/dedicateSoldierToStage',
-            {stageId: 2}
-          )
+        dedicateSoldierToStage()
           .then((res) => {
             setId(res.data);
             setIsBusyWithSoldier(true);
@@ -98,7 +119,7 @@ function IsSoldierArrived() {
     paramsCallNext.append('0', JSON.stringify(cprStationJson));
     debugger;
     return await axios.put(
-      `http://corona-server.azurewebsites.net/callNextSoldierToCprStation`,
+      `https://corona-server.azurewebsites.net/callNextSoldierToCprStation`,
       paramsCallNext
     );
   }
@@ -110,10 +131,10 @@ function IsSoldierArrived() {
   function callNextSoldier() {
     callNext()
       .then((res) => {
-        alert(res.data.data);
+        console.log(res.data.data);
       })
       .catch((rej) => {
-        alert(JSON.stringify(rej));
+        console.log(JSON.stringify(rej));
       });
   }
 

@@ -17,9 +17,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import {useHistory, useParams} from 'react-router-dom';
 
 const TIMEOUT = 3000;
-
 function SimpleDialog({open}) {
   const {center} = useStyles();
 
@@ -32,23 +32,6 @@ function SimpleDialog({open}) {
     </Dialog>
   );
 }
-
-const CoolButton = ({text, action}) => {
-  const {button} = useStyles();
-  return (
-    <Button
-      // disabled={q5 !== null}
-      className={button}
-      style={{backgroundColor: 'white'}}
-      variant="outlined"
-      color="default"
-      onClick={() => {
-        action();
-      }}>
-      {text}
-    </Button>
-  );
-};
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -124,41 +107,59 @@ const CanGetVaccinated = () => {
   const [q3, setQ3] = React.useState();
   const [q4, setQ4] = React.useState('');
   const [q5, setQ5] = React.useState(null);
-
+  const CoolButton = ({text, action}) => {
+    const {button} = useStyles();
+    return (
+      <Button
+        // disabled={q5 !== null}
+        className={button}
+        disabled={q5 === null || q5 === undefined}
+        style={{backgroundColor: 'white'}}
+        variant="outlined"
+        color="default"
+        onClick={() => {
+          action();
+        }}>
+        {text}
+      </Button>
+    );
+  };
   useEffect(() => {
     getSoldierInfo();
   }, []);
-
   async function getInfo() {
+    let currentSoldierId = window.location.href.substring(
+      window.location.href.lastIndexOf('/') + 1
+    );
     return await axios.get(
-      `https://corona-server.azurewebsites.net/SoldierInfo/100`
+      `https://corona-server.azurewebsites.net/SoldierInfo/${currentSoldierId}`
     );
   }
   function getSoldierInfo() {
     getInfo()
       .then((res) => {
         const data = res['data'];
-        setId('');
+        setId(data.soldierId);
         setQ1(data.q1);
         setQ2(data.q2);
         setQ3(data.q3);
         setQ4(data.q4);
       })
       .catch((rej) => {
-        alert(rej);
+        console.log(rej);
       });
   }
   async function getResultDeclareSoldierVaccinable() {
     return await axios
       .put(
-        `http://corona-server.azurewebsites.net/${soldierId}/vaccination_ability`,
+        `https://corona-server.azurewebsites.net/${soldierId}/vaccination_ability`,
         {
           isAbleToVaccinate: q5,
         }
       )
 
       .catch((rej) => {
-        alert(rej);
+        console.log(rej);
       });
   }
 
@@ -489,7 +490,6 @@ const CanGetVaccinated = () => {
                 <Grid item xs={12} style={{paddingLeft: 0}}>
                   <div className={left}>
                     <CoolButton
-                      disabled={true}
                       text="שלח"
                       action={() => {
                         //      if (isValid()) {

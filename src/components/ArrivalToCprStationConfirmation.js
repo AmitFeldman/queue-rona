@@ -98,10 +98,10 @@ function ArrivalToCprStationConfirmation() {
   function giveArrivedResult() {
     getArrivedResult()
       .then((res) => {
-        alert(res.data.data);
+        console.log(res.data.data);
       })
       .catch((rej) => {
-        alert(JSON.stringify(rej));
+        console.log(JSON.stringify(rej));
       });
   }
 

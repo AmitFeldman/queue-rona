@@ -17,25 +17,15 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
-      backgroundColor: 'white',
-      color: 'black',
-      cursor: 'default',
-      border: 'solid 1px lightGray',
-      'border-radius': '5px',
-      display: 'block',
-      padding: '7px',
-      textAlign: 'center',
-      outline: '0',
-      boxShadow: '0 0 0 0',
+      backgroundColor: 'gray',
     },
     radio: {
       display: 'none',
     },
     radioBox: {
-      backgroundColor: '#333460',
+      backgroundColor: 'white',
       cursor: 'default',
       border: 'solid 1px lightGray',
-      'border-radius': '5px',
       display: 'block',
       padding: '7px',
       textAlign: 'center',
@@ -72,16 +62,15 @@ function VaccineConfirmation() {
     );
   }
 
-  function callNextSoldier() {
-    callNext()
+  function give() {
+    getResult()
       .then((res) => {
-        alert(res.data.data);
+        console.log(res.data.data);
       })
       .catch((rej) => {
-        alert(JSON.stringify(rej));
+        console.log(JSON.stringify(rej));
       });
   }
-
   return (
     <Grid
       container
@@ -97,6 +86,7 @@ function VaccineConfirmation() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
+              'font-weight': 'bold',
               'font-size': '18px',
               paddingTop: '50px',
             }}>
@@ -198,25 +188,16 @@ function VaccineConfirmation() {
               />
             </RadioGroup>
           </ListItem>
-          <ListItem
-            style={{
-              display: 'flex',
-              'justify-content': 'center',
-              'align-items': 'center',
-              paddingTop: '80px',
-            }}>
-            <Button
-              variant="contained"
-              disabled={!isCanCallNextSoldier()}
-              className={button}
-              color="primary"
-              onClick={() => {
-                handleOnClick('/CanGetVaccinated');
-              }}>
-              המשך
-            </Button>
-          </ListItem>
         </List>
+
+        <Button
+          className={button}
+          disabled={!isInputValid(soldierId)}
+          variant="contained"
+          color="primary"
+          onClick={give}>
+          שלח
+        </Button>
       </FormControl>
     </Grid>
   );
