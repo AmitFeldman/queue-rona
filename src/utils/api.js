@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL = 'http://corona-server.azurewebsites.net';
+const URL = 'https://corona-server.azurewebsites.net';
 
 async function addSoldierToArrivalQueue(soldierId) {
   return await axios.post(`${URL}/addSoliderToArrivalQueue`, {soldierId});
