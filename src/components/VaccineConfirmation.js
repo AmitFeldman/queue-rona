@@ -1,7 +1,6 @@
 import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
-import Avatar from '@material-ui/core/Avatar';
 import {
   Button,
   FormControlLabel,
@@ -14,7 +13,6 @@ import {
   createStyles,
 } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -53,23 +51,25 @@ function VaccineConfirmation() {
   const [soldierId, setId] = React.useState('');
   const [wasVaccinated, setWasVaccinated] = React.useState('');
 
-  async function callNext() {
-    const paramsCallNext = new URLSearchParams();
-    let stationIdIntegerMinus1 = parseInt(stationId) - 1;
-    let stationIdMinus1 = stationIdIntegerMinus1.toString();
-    let cprStationJson = {
-      cprStationId: stationIdMinus1,
+  async function getResult() {
+    const params = new URLSearchParams();
+    let soldierIdInteger = parseInt(soldierId);
+    let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
+    let soldierJson = {
+      wasVaccinated: wasVaccinated,
     };
-    paramsCallNext.append('0', JSON.stringify(cprStationJson));
-    debugger;
-    return await axios.post(
-      `http://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
-      params
+    params.append('0', JSON.stringify(soldierJson));
+    return await axios.put(
+      `https://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/was_vaccinated`,
+      soldierJson,
+      {headers: {'Content-Type': 'application/json'}}
     );
   }
 
-  function isCanCallNextSoldier() {
-    return wasArrived !== '' && isBusyWithSoldier === true;
+  function isInputValid() {
+    return (
+      (soldierId.length === 7 || soldierId.length === 8) && wasVaccinated !== ''
+    );
   }
 
   function callNextSoldier() {
@@ -140,6 +140,7 @@ function VaccineConfirmation() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
+              paddingTop: '30px',
             }}>
             האם החייל התחסן?
           </ListItem>

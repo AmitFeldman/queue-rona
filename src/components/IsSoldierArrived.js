@@ -45,7 +45,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function isSoldierArrived() {
+function IsSoldierArrived() {
   const {button} = useStyles();
   const {radio} = useStyles();
   const {radioBox} = useStyles();
@@ -252,4 +252,4 @@ function isSoldierArrived() {
   );
 }
 
-export default isSoldierArrived;
+export default IsSoldierArrived;
