@@ -132,7 +132,7 @@ const useStyles = makeStyles(() =>
     },
     grid: {
       'text-align': 'left !important',
-      width: '75%',
+      width: '60%',
       display: 'inline-block !important',
     },
     radio: {
@@ -270,7 +270,7 @@ const AddAppointment = () => {
                 }}
               />
             </div>
-            <div className={grid + ' ' + center}>
+            <div className={grid + ' ' + center} style={{marginTop: '1rem'}}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <label className={bold}>אנא ענו על השאלות הבאות</label>
