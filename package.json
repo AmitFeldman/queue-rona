@@ -21,6 +21,7 @@
     "jss-rtl": "^0.3.0",
     "jwt-decode": "^3.1.2",
     "react": "^17.0.1",
+    "react-circular-progressbar": "^2.0.3",
     "react-dom": "^17.0.1",
     "react-icons": "^4.1.0",
     "react-router-dom": "^5.2.0",
