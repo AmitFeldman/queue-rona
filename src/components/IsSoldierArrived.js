@@ -47,7 +47,7 @@ const useStyles = makeStyles(() =>
         backgroundColor: 'white !important',
         fontSize: '300%',
         textAlign: 'center',
-        width: '60vw',
+        width: '35vw',
         height: '20vh',
       },
     },
@@ -135,7 +135,7 @@ function IsSoldierArrived() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
-              'font-size': '18px',
+              'font-size': '30px',
               paddingTop: '50px',
             }}>
             המתחסן הקרוב
@@ -155,7 +155,6 @@ function IsSoldierArrived() {
             }}>
             <TextField
               className={text}
-              disabled="true"
               variant="outlined"
               value={soldierId}
               InputProps={{
@@ -169,7 +168,7 @@ function IsSoldierArrived() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
-              'font-size': '18px',
+              'font-size': '20px',
             }}>
             האם המתחסן הגיע? (לא לשכוח לבצע אימות באמצעות חוגר){' '}
           </ListItem>
