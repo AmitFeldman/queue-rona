@@ -87,7 +87,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const CanGetVaccinated = () => {
+const CanGetVaccinated = (props) => {
   const {
     background,
     center,
@@ -114,7 +114,7 @@ const CanGetVaccinated = () => {
         // disabled={q5 !== null}
         className={button}
         disabled={q5 === null || q5 === undefined}
-        style={{backgroundColor: 'white'}}
+        style={{backgroundColor: 'white', zIndex: 1}}
         variant="outlined"
         color="default"
         onClick={() => {
@@ -492,7 +492,7 @@ const CanGetVaccinated = () => {
                       text="שלח"
                       action={() => {
                         //      if (isValid()) {
-                        history.goBeck();
+                        props.history.goBack();
                         getResultDeclareSoldierVaccinable();
                         //TODO hardcoded stationsnssssnsnsnsns
                         setOpen(true);
