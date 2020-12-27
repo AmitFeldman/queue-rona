@@ -74,8 +74,8 @@ function IsSoldierArrived() {
         console.log(JSON.stringify(res));
         dedicateSoldierToStage()
           .then((res) => {
-            setId(res.data);
             setIsBusyWithSoldier(true);
+            setId(res.data);
           })
           .catch((rej) => {
             setId('אין מתחסן קרוב בינתיים');

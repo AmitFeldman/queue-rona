@@ -56,15 +56,16 @@ function ArrivalToCprStationConfirmation() {
 
   const [counter, setCounter] = React.useState(0);
   React.useEffect(() => {
-    setTimeout(() => {
+    const interval = setTimeout(() => {
       if (isBusyWithSoldier === false) {
         axios
           .put(
-            `https://corona-server.azurewebsites.net/${stationId}/callNextSoldierToCprStation`
+            `https://corona-server.azurewebsites.net/${stationId}/callNextSoldierToCprStation`,
+            {headers: {'Content-Type': 'application/json'}}
           )
           .then((res) => {
-            setId(res.data);
             setIsBusyWithSoldier(true);
+            setId(res.data);
           })
           .catch((rej) => {
             setId('אין מתחסן קרוב בינתיים');
@@ -72,7 +73,7 @@ function ArrivalToCprStationConfirmation() {
       }
       setCounter(counter + 1);
     }, 1000);
-  }, [counter]);
+  }, []);
 
   React.useEffect(() => {
     if (wasArrived !== '') giveArrivedResult();
@@ -87,18 +88,15 @@ function ArrivalToCprStationConfirmation() {
       wasArrivedToCprStation: wasArrived,
     };
     params.append('0', JSON.stringify(soldierJson));
-    debugger;
     return await axios.put(
-      `https://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
-      params,
-      {headers: {'Content-Type': 'application/json'}}
+      `http://localhost:8080/setWasArrivedToCprStation`,
+      soldierJson
     );
   }
 
   function giveArrivedResult() {
     getArrivedResult()
       .then((res) => {
-        //alert(res.data.data);
         window.location.reload(false);
       })
       .catch((rej) => {
@@ -181,7 +179,7 @@ function ArrivalToCprStationConfirmation() {
                 control={
                   <Radio
                     className={radio}
-                    disabled={!isCanCallNextSoldier()}
+                    disabled={!isBusyWithSoldier}
                     color="primary"
                     checked={wasArrived === true}
                     onChange={() => setWasArrived(true)}
@@ -200,7 +198,7 @@ function ArrivalToCprStationConfirmation() {
                 control={
                   <Radio
                     className={radio}
-                    disabled={!isCanCallNextSoldier()}
+                    disabled={!isBusyWithSoldier}
                     color="primary"
                     checked={wasArrived === false}
                     onChange={() => setWasArrived(false)}

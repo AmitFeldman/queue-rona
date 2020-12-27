@@ -202,7 +202,13 @@ const AddAppointment = () => {
   }
 
   async function give() {
-    await getResultAddSoldierToSoldierTable();
+    await getResultAddSoldierToSoldierTable()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((rej) => {
+        console.log(rej);
+      });
     await getResultAddSoliderToArrivalQueue();
     setId('');
     setQ1('');
