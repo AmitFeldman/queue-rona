@@ -70,19 +70,17 @@ function IsSoldierArrived() {
   const handleOnClick = (url) => {
     if (wasArrived) history.push(`${url}/${soldierId}`);
     else {
-      // declareSoldierMissing(soldierId).then((res) => {
-      //   console.log(JSON.stringify(res));
-      //   dedicateSoldierToStage()
-      //     .then((res) => {
-      //       setId(res.data);
-      //       setIsBusyWithSoldier(true);
-      //     })
-      //     .catch((rej) => {
-      //       setId('אין מתחסן קרוב בינתיים');
-      //     });
-      // });
-      // setIsBusyWithSoldier(false);
-      pollSoldier();
+      declareSoldierMissing(soldierId).then((res) => {
+        console.log(JSON.stringify(res));
+        dedicateSoldierToStage()
+          .then((res) => {
+            setIsBusyWithSoldier(true);
+            setId(res.data);
+          })
+          .catch((rej) => {
+            setId('אין מתחסן קרוב בינתיים');
+          });
+      });
     }
   };
   let url = window.location.href;

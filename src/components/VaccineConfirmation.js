@@ -61,6 +61,19 @@ function VaccineConfirmation() {
       {headers: {'Content-Type': 'application/json'}}
     );
   }
+  async function addToCPRList() {
+    const params = new URLSearchParams();
+    let soldierIdInteger = parseInt(soldierId);
+    let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
+    let soldierJson = {
+      wasVaccinated: wasVaccinated,
+    };
+    params.append('0', JSON.stringify(soldierJson));
+    return await axios.post(
+      `https://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
+      {headers: {'Content-Type': 'application/json'}}
+    );
+  }
 
   function isInputValid() {
     return (
@@ -71,15 +84,19 @@ function VaccineConfirmation() {
   function give() {
     getResult()
       .then((res) => {
-        console.log(res.data.data);
-      })
-      .catch((rej) => {
-        console.log(JSON.stringify(rej));
-        //alert(res.data.data);
         window.location.reload(false);
+        addToCPRList()
+          .then((res) => {
+            window.location.reload(false);
+          })
+          .catch((rej) => {
+            alert('מספר אישי לא תקין');
+            window.location.reload(false);
+          });
       })
       .catch((rej) => {
-        console.log('מספר אישי זה לא קיים במערכת');
+        alert('מספר אישי לא תקין');
+        window.location.reload(false);
       });
   }
   return (
