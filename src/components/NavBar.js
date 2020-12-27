@@ -1,6 +1,6 @@
 import React from 'react';
 import Palmahim from '../images/Bacha_30_Palmachim.png';
-import AirForce from '../images/Israeli_Air_Force.png';
+import AirForce from '../images/AirForceLogo.png';
 import AppBar from '@material-ui/core/AppBar';
 import {createStyles, Grid, makeStyles} from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) =>
     bar: {
       padding: '10px 0',
       textAlign: '-webkit-center',
+      backgroundColor: '#FAFAFA',
     },
     image: {
       width: theme.spacing(10),
@@ -36,8 +37,8 @@ const NavBar = () => {
           </Grid>
 
           <Grid item xs={6}>
-            <Typography variant="h4">
-              ברוכים הבאים למרכז החיסונים בפלמחים
+            <Typography style={{color: 'black'}} variant="h4">
+              מרכז החיסונים החיילי בפלמחים
             </Typography>
           </Grid>
           <Grid item xs={3}>
