@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
 import {
@@ -52,8 +52,8 @@ function ArrivalToCprStationConfirmation() {
   const [wasArrived, setWasArrived] = React.useState('');
   const [isRadiosEnabled, setIsRadiosEnabled] = React.useState(true);
   const [isBusyWithSoldier, setIsBusyWithSoldier] = React.useState(false);
-  let url = window.location.href;
-  let stationId = url.substring(url.lastIndexOf('/') + 1);
+  // let url = window.location.href;
+  // let stationId = url.substring(url.lastIndexOf('/') + 1);
 
   React.useEffect(() => {
     setInterval(() => {
@@ -93,12 +93,6 @@ function ArrivalToCprStationConfirmation() {
     );
   }
 
-  function isInputValid() {
-    return (
-      (soldierId.length == 7 || soldierId.length == 8) && wasArrived !== ''
-    );
-  }
-
   function giveArrivedResult() {
     getArrivedResult()
       .then((res) => {
@@ -109,33 +103,23 @@ function ArrivalToCprStationConfirmation() {
       });
   }
 
-  async function callNext() {
-    const paramsCallNext = new URLSearchParams();
-    let stationIdIntegerMinus1 = parseInt(stationId) - 1;
-    let stationIdMinus1 = stationIdIntegerMinus1.toString();
-    let cprStationJson = {
-      cprStationId: stationIdMinus1,
-    };
-    paramsCallNext.append('0', JSON.stringify(cprStationJson));
-    debugger;
-    return await axios.put(
-      `http://corona-server.azurewebsites.net/callNextSoldierToCprStation`,
-      paramsCallNext
-    );
-  }
+  // async function callNext() {
+  //   const paramsCallNext = new URLSearchParams();
+  //   let stationIdIntegerMinus1 = parseInt(stationId) - 1;
+  //   let stationIdMinus1 = stationIdIntegerMinus1.toString();
+  //   let cprStationJson = {
+  //     cprStationId: stationIdMinus1,
+  //   };
+  //   paramsCallNext.append('0', JSON.stringify(cprStationJson));
+  //   debugger;
+  //   return await axios.put(
+  //     `http://corona-server.azurewebsites.net/callNextSoldierToCprStation`,
+  //     paramsCallNext
+  //   );
+  // }
 
   function isCanCallNextSoldier() {
     return wasArrived !== '' && isBusyWithSoldier === true;
-  }
-
-  function callNextSoldier() {
-    callNext()
-      .then((res) => {
-        alert(res.data.data);
-      })
-      .catch((rej) => {
-        alert(JSON.stringify(rej));
-      });
   }
 
   return (
