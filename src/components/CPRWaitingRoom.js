@@ -89,7 +89,7 @@ const CPRWaitingRoom = () => {
       nextHeader="הבאים בתור"
       stationHeader="לעמדת ה-CPR"
       soldiers={cprSoldiers.sort(({wasArrivedToCPRStation}) =>
-        wasArrivedToCPRStation ? 1 : -1
+        wasArrivedToCPRStation ? 1 : 0
       )}
       stations={cprStations}
       SoldierCard={SoldierCard}
