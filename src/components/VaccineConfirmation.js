@@ -28,7 +28,7 @@ const useStyles = makeStyles(() =>
     },
     radioBox: {
       backgroundColor: 'white',
-      width: '170px',
+      width: '16מ0px',
       height: '40px',
       cursor: 'default',
       border: 'solid 1px lightGray',
@@ -48,13 +48,11 @@ function VaccineConfirmation() {
   const [wasVaccinated, setWasVaccinated] = React.useState('');
 
   async function getResult() {
-    const params = new URLSearchParams();
     let soldierIdInteger = parseInt(soldierId);
     let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
     let soldierJson = {
       wasVaccinated: wasVaccinated,
     };
-    params.append('0', JSON.stringify(soldierJson));
     return await axios.put(
       `https://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/was_vaccinated`,
       soldierJson,
@@ -62,13 +60,8 @@ function VaccineConfirmation() {
     );
   }
   async function addToCPRList() {
-    const params = new URLSearchParams();
     let soldierIdInteger = parseInt(soldierId);
     let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
-    let soldierJson = {
-      wasVaccinated: wasVaccinated,
-    };
-    params.append('0', JSON.stringify(soldierJson));
     return await axios.post(
       `https://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
       {headers: {'Content-Type': 'application/json'}}
@@ -135,6 +128,7 @@ function VaccineConfirmation() {
               'align-items': 'center',
             }}>
             <TextField
+              style={{backgroundColor: '#FCFCFC'}}
               error={soldierId.length < 7 || soldierId.length > 8}
               variant="outlined"
               inputProps={{
