@@ -29,13 +29,13 @@ const useStyles = makeStyles(() =>
     radioBox: {
       backgroundColor: 'white',
       'border-radius': '5px',
-      height: '40px',
       cursor: 'default',
       border: 'solid 1px lightGray',
       display: 'block',
       padding: '7px',
       textAlign: 'center',
       outline: '0',
+      width: '10rem',
     },
     text: {
       '& .MuiInputBase-input': {
