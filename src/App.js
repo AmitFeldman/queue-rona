@@ -13,6 +13,8 @@ import VaccineWaitingRoom from './components/VaccineWaitingRoom';
 import CPRWaitingRoom from './components/CPRWaitingRoom';
 import FooterBar from './components/FooterBar';
 import Home from './components/Home';
+import Management from './components/Management';
+import Dropzone from './components/Dropzone';
 
 function App() {
   const [user, setUser] = useState('');
@@ -58,8 +60,8 @@ function App() {
           <Route path="/soldierArrival/5" component={IsSoldierArrived} />
           {/* <Route path="/schedule" component={ScheduleView} /> */}
           <Route path="/CanGetVaccinated" component={CanGetVaccinated} />
-          <Route exact path="/" component={Home} />
           <Route path="/addAppointment" component={AddAppointment} />
+          <Route path="/management" component={Management} />
           <Route
             path="/arrivalToCprStationConfirmation/1"
             component={ArrivalToCprStationConfirmation}
@@ -83,6 +85,7 @@ function App() {
           <Route path="/vaccineConfirmation" component={VaccineConfirmation} />
           <Route path="/vaccineWait" component={VaccineWaitingRoom} />
           <Route path="/cprWait" component={CPRWaitingRoom} />
+          <Route path="/dropzone" component={Dropzone} />
         </Switch>
       </Container>
 
