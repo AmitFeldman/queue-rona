@@ -7,16 +7,18 @@ import {
   List,
   ListItem,
   TextField,
+  Typography,
   createStyles,
 } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Pagination from '@material-ui/lab/Pagination';
 
 const CoolButton = ({text, action, isDisabled}) => {
   const {button} = useStyles();
   return (
     <Button
       className={button}
-      style={{backgroundColor: 'white', width: '10rem', height: '3rem'}}
+      style={{backgroundColor: 'white', width: '9rem', height: 'auto'}}
       variant="outlined"
       color="default"
       disabled={isDisabled}
@@ -30,6 +32,7 @@ const CoolButton = ({text, action, isDisabled}) => {
 
 const useStyles = makeStyles(() =>
   createStyles({
+    button: {},
     center: {
       display: 'flex',
       'justify-content': 'center',
@@ -54,16 +57,41 @@ const useStyles = makeStyles(() =>
 );
 
 function Management() {
-  const {center, fullWidth, text, bold} = useStyles();
+  const {center, fullWidth, text, bold, column, row} = useStyles();
   const [soldierId, setId] = React.useState('');
 
   function isValid() {
     return soldierId.length === 7;
   }
 
+  const ColumnHeaderWrapper = ({header, children}) => {
+    return (
+      <Grid item container direction="column" style={{height: '100%'}}>
+        <Grid item style={{height: '8%'}}>
+          <Typography variant="h4">{header}</Typography>
+        </Grid>
+        <Grid item style={{height: '92%'}}>
+          {children}
+        </Grid>
+      </Grid>
+    );
+  };
+
   const deleteSoldier = async () => {
     return await axios.put(
       `https://corona-server.azurewebsites.net/deleteSoldier/${soldierId}`
+    );
+  };
+
+  const vaccinatedAndEnterNotVaccinated = async () => {
+    return await axios.get(
+      `https://corona-server.azurewebsites.net/${soldierId}/vaccinatedAndEnterNotVaccinated`
+    );
+  };
+
+  const didntVaccintedButEnterVaccinated = async () => {
+    return await axios.get(
+      `https://corona-server.azurewebsites.net/${soldierId}/didntVaccintedButEnterVaccinated`
     );
   };
 
@@ -117,6 +145,7 @@ function Management() {
                 text="התחסן ורשם שלא"
                 action={() => {
                   if (isValid()) {
+                    vaccinatedAndEnterNotVaccinated();
                   }
                 }}
                 isDisabled={!isValid()}
@@ -127,6 +156,7 @@ function Management() {
                 text="לא התחסן ורשם שכן"
                 action={() => {
                   if (isValid()) {
+                    didntVaccintedButEnterVaccinated();
                   }
                 }}
                 isDisabled={!isValid()}
