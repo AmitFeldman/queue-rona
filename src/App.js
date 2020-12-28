@@ -15,6 +15,7 @@ import FooterBar from './components/FooterBar';
 import Home from './components/Home';
 import Management from './components/Management';
 import Dropzone from './components/Dropzone';
+import Reports from './components/Reports';
 
 function App() {
   const [user, setUser] = useState('');
@@ -86,6 +87,7 @@ function App() {
           <Route path="/vaccineWait" component={VaccineWaitingRoom} />
           <Route path="/cprWait" component={CPRWaitingRoom} />
           <Route path="/dropzone" component={Dropzone} />
+          <Route path="/reports" component={Reports} />
         </Switch>
       </Container>
 
