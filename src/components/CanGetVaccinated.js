@@ -132,7 +132,7 @@ const CanGetVaccinated = (props) => {
       window.location.href.lastIndexOf('/') + 1
     );
     return await axios.get(
-      `https://corona-server.azurewebsites.net/SoldierInfo/${currentSoldierId}`
+      `http://localhost:8080/SoldierInfo/${currentSoldierId}`
     );
   }
   function getSoldierInfo() {
@@ -151,12 +151,9 @@ const CanGetVaccinated = (props) => {
   }
   async function getResultDeclareSoldierVaccinable() {
     return await axios
-      .put(
-        `https://corona-server.azurewebsites.net/${soldierId}/vaccination_ability`,
-        {
-          isAbleToVaccinate: q5,
-        }
-      )
+      .put(`http://localhost:8080/${soldierId}/vaccination_ability`, {
+        isAbleToVaccinate: q5,
+      })
       .catch((rej) => {
         console.log(rej);
       });
