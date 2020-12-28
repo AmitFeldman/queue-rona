@@ -29,6 +29,9 @@
     "react-router-dom": "^5.2.0",
     "react-router-last-location": "^2.0.1",
     "react-scripts": "4.0.1",
+    "react-vis": "^1.11.7",
+    "recharts": "^1.8.5",
+    "victory": "^35.4.4",
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {
