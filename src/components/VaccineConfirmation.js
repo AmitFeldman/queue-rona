@@ -77,7 +77,6 @@ function VaccineConfirmation() {
   function give() {
     getResult()
       .then((res) => {
-        window.location.reload(false);
         addToCPRList()
           .then((res) => {
             window.location.reload(false);
