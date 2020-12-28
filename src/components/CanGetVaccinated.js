@@ -12,54 +12,10 @@ import {
   Grid,
   createStyles,
 } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
+
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import XIcon from '../images/x.png';
 import VIcon from '../images/v.png';
-
-const TIMEOUT = 2000;
-
-function SimpleDialog({open, soldierId, setOpen, setOpen2}) {
-  const {center, text} = useStyles();
-
-  return (
-    <Dialog open={open} style={{margin: '3rem'}}>
-      <DialogTitle className={center}>
-        <p>הפרטים נשלחו!</p>
-        <p>ניתן לקרוא למתחסן הבא</p>
-      </DialogTitle>
-      <DialogContent>
-        <Typography variant="body1">
-          <div style={{marginBottom: '3rem'}}>
-            <TextField
-              size={'small'}
-              className={center + ' ' + text}
-              variant="outlined"
-              value={soldierId}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </div>
-        </Typography>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function SimpleDialog3({open}) {
-  const {center} = useStyles();
-  return (
-    <Dialog open={open}>
-      <DialogTitle className={center}>
-        <p>קרתה שגיאה!</p>
-        <p>שים לב שהזנת את מספרך האישי בצורה נכונה</p>
-      </DialogTitle>
-    </Dialog>
-  );
-}
 
 const CoolButton = ({text, action, isDisabled}) => {
   const {button} = useStyles();
@@ -639,19 +595,20 @@ const CanGetVaccinated = (props) => {
                 </div>
               </Grid>
             </Grid>
-
-            <Grid
-              item
-              xs={12}
-              style={{fontSize: '180%', marginLeft: '40%', marginTop: '5%'}}>
+            <Grid item xs={12} style={{fontSize: '180%', paddingTop: '2vh'}}>
               <label className={bold}>סיכום התשאול</label>
             </Grid>
 
-            <Grid item xs={4}></Grid>
-
-            <Grid item xs={4} style={{marginRight: '13%', marginTop: '2%'}}>
+            <Grid
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                paddingTop: '2vh',
+              }}
+              item
+              xs={12}>
               <div className={left}>
-                <List style={{padding: '8px'}}>
+                <List>
                   <ListItem style={{paddingRight: 0, padding: 0}}>
                     <FormControlLabel
                       className={radioBox}
@@ -739,22 +696,15 @@ const CanGetVaccinated = (props) => {
                 </List>
               </div>
             </Grid>
-            <Grid item xs={4}></Grid>
             <div className={grid + ' ' + center} style={{marginTop: '1rem'}}>
-              <Grid container spacing={2}>
+              <Grid>
                 <Grid item xs={12} style={{paddingLeft: 0}}>
                   <div className={center} style={{marginTop: '1rem'}}>
                     <CoolButton
                       text="שלח"
                       action={() => {
-                        if (isValid()) {
-                          setOpen(true);
-                        }
                         getResultDeclareSoldierVaccinable();
-                        setTimeout(() => {
-                          setOpen(false);
-                          props.history.goBack();
-                        }, TIMEOUT);
+                        props.history.goBack();
                       }}
                       isDisabled={!isValid()}
                     />
@@ -765,16 +715,6 @@ const CanGetVaccinated = (props) => {
           </List>
         </FormControl>
       </div>
-
-      <SimpleDialog
-        open={open}
-        soldierId={soldierId}
-        setOpen={setOpen}
-        // give={give}
-        setOpen2={setOpen2}
-      />
-      {/* <SimpleDialog2 open={open2}/> */}
-      <SimpleDialog3 open={open3} />
     </div>
   );
 };
