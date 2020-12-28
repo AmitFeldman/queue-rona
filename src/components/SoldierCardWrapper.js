@@ -10,7 +10,7 @@ const SoldierCardWrapper = ({children, greenBorder = false}) => {
         margin: 'auto',
         backgroundColor: 'rgba(247, 247, 255)',
         border: `solid ${greenBorder ? 'green' : 'rgba(212, 211, 216)'} 2px`,
-        borderRadius: '25px',
+        borderRadius: '15px',
       }}>
       {children}
     </Paper>

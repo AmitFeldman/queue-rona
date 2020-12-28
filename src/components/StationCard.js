@@ -53,7 +53,7 @@ const StationCard = ({stageId, soldierId}) => {
         width: '70%',
         margin: 'auto',
         backgroundColor: 'rgba(247, 247, 255)',
-        borderRadius: '25px',
+        borderRadius: '15px',
         borderTop: '2px solid rgb(212, 211, 216)',
         borderLeft: '2px solid rgb(212, 211, 216)',
         borderRight: '2px solid rgb(212, 211, 216)',
@@ -71,8 +71,8 @@ const StationCard = ({stageId, soldierId}) => {
           height: '50%',
           backgroundColor: stationColor,
           color: 'white',
-          borderBottomLeftRadius: '25px',
-          borderBottomRightRadius: '25px',
+          borderBottomLeftRadius: '15px',
+          borderBottomRightRadius: '15px',
         }}
         variant="h6">
         {'לעמדה מספר ' + (stageId + 1)}
