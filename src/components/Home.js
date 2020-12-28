@@ -19,32 +19,39 @@ const Home = () => {
   return (
     <div style={{marginTop: '5rem'}}>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item xs>
           <Paper
             className={classes.paper}
             onClick={() => handleOnClick('addAppointment')}>
             עמדת קליטה
           </Paper>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs>
           <Paper
             className={classes.paper}
             onClick={() => handleOnClick('vaccineConfirmation')}>
             עמדת "ההתחסנת?"
           </Paper>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs>
           <Paper
             className={classes.paper}
             onClick={() => handleOnClick('vaccineWait')}>
             מסך ממתינים לתשאול
           </Paper>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs>
           <Paper
             className={classes.paper}
             onClick={() => handleOnClick('cprWait')}>
             מסך ממתינים לCPR
+          </Paper>
+        </Grid>
+        <Grid item xs>
+          <Paper
+            className={classes.paper}
+            onClick={() => handleOnClick('/management')}>
+            <div>עמדת ניהול</div>
           </Paper>
         </Grid>
       </Grid>
