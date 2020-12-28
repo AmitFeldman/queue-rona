@@ -2,9 +2,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import {makeStyles} from '@material-ui/core';
-import {AiOutlineCheckCircle} from 'react-icons/ai';
-import {CircularProgressbar} from 'react-circular-progressbar';
-import {PERCENTAGE_DONE} from '../utils/soldier-util';
 
 const stationColor = 'rgba(51, 52, 96)';
 const ALERT_TIMEOUT = 3000;
