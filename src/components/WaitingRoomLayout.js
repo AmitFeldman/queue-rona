@@ -10,9 +10,6 @@ const ITEMS_PER_DONE_PAGE = 4;
 const CAROUSEL_TIMEOUT = 4000;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '70vh',
-  },
   footer: {
     height: '15vh',
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
@@ -73,38 +70,29 @@ const WaitingRoomLayout = ({
   nextHeader,
   stationHeader,
   footerHeader,
+  noFooter = false,
   soldiers,
-  doneSoldiers,
+  nextSoldiers,
+  doneSoldiers = [],
   stations,
   SoldierCard,
   StationCard,
 }) => {
-  const {
-    root,
-    waitingCol,
-    nextCol,
-    stationCol,
-    pagination,
-    footer,
-  } = useStyles();
-  const pageCount = calcPageCount(soldiers.slice(5).length, ITEMS_PER_PAGE);
+  const {waitingCol, nextCol, stationCol, pagination, footer} = useStyles();
+  const pageCount = calcPageCount(soldiers.length, ITEMS_PER_PAGE);
   const [page, setPage] = useAutoPagination(pageCount, CAROUSEL_TIMEOUT);
 
   const donePageCount = calcPageCount(doneSoldiers.length, ITEMS_PER_DONE_PAGE);
-  const [donePage, setDonePage] = useAutoPagination(
-    donePageCount,
-    CAROUSEL_TIMEOUT
-  );
+  const [donePage] = useAutoPagination(donePageCount, CAROUSEL_TIMEOUT);
 
   return (
     <>
-      <Grid container className={root}>
+      <Grid container style={{height: noFooter ? '85vh' : '70vh'}}>
         {/*Waiting Room*/}
         <Grid item container className={waitingCol} xs={6}>
           <ColumnHeaderWrapper header={waitingHeader}>
             <Grid container direction="column" style={{height: '92%'}}>
               {soldiers
-                .slice(5)
                 .slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
                 .map((soldier) => (
                   <Grid item key={soldier.soldierId} style={{height: '20%'}}>
@@ -127,7 +115,7 @@ const WaitingRoomLayout = ({
         <Grid item container className={nextCol} xs={3}>
           <ColumnHeaderWrapper header={nextHeader}>
             <Grid container direction="column" style={{height: '100%'}}>
-              {soldiers.slice(0, 5).map((soldier) => (
+              {nextSoldiers.map((soldier) => (
                 <Grid item key={soldier.soldierId} style={{height: '20%'}}>
                   <SoldierCard {...soldier} />
                 </Grid>
@@ -150,41 +138,34 @@ const WaitingRoomLayout = ({
         </Grid>
       </Grid>
 
-      <Grid container className={footer}>
-        <Grid item xs={2}>
-          <Typography variant="h4">{footerHeader}</Typography>
-          <Pagination
-            classes={{ul: pagination}}
-            page={donePage}
-            count={donePageCount}
-            variant="outlined"
-            siblingCount={1}
-            boundaryCount={0}
-            onChange={(_, p) => setDonePage(p)}
-          />
-        </Grid>
+      {!noFooter && (
+        <Grid container className={footer}>
+          <Grid item xs={2}>
+            <Typography variant="h4">{footerHeader}</Typography>
+          </Grid>
 
-        <Grid
-          item
-          container
-          xs={10}
-          spacing={2}
-          alignContent="center"
-          justify="center">
-          {doneSoldiers
-            .slice(
-              (donePage - 1) * ITEMS_PER_DONE_PAGE,
-              donePage * ITEMS_PER_DONE_PAGE
-            )
-            .map((soldier) => (
-              <Grid item xs={3} key={soldier.soldierId}>
-                <Box p={2}>
-                  <SoldierCard {...soldier} />
-                </Box>
-              </Grid>
-            ))}
+          <Grid
+            item
+            container
+            xs={10}
+            spacing={2}
+            alignContent="center"
+            justify="center">
+            {doneSoldiers
+              .slice(
+                (donePage - 1) * ITEMS_PER_DONE_PAGE,
+                donePage * ITEMS_PER_DONE_PAGE
+              )
+              .map((soldier) => (
+                <Grid item xs={3} key={soldier.soldierId}>
+                  <Box p={2}>
+                    <SoldierCard {...soldier} />
+                  </Box>
+                </Grid>
+              ))}
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </>
   );
 };

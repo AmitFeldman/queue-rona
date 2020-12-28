@@ -40,28 +40,59 @@ const useStyles = makeStyles(() =>
       padding: '7px',
       textAlign: 'center',
       outline: '0',
+      width: '170px',
+    },
+    text: {
+      '& .MuiInputBase-input': {
+        backgroundColor: 'white !important',
+        fontSize: '300%',
+        textAlign: 'center',
+        width: '35vw',
+        height: '20vh',
+      },
     },
   })
 );
 
 function ArrivalToCprStationConfirmation() {
+  // css styles
   const {button} = useStyles();
   const {radio} = useStyles();
   const {radioBox} = useStyles();
+  const {text} = useStyles();
+
   const [soldierId, setId] = React.useState('');
   const [wasArrived, setWasArrived] = React.useState('');
   const [isBusyWithSoldier, setIsBusyWithSoldier] = React.useState(false);
-  let url = window.location.href;
-  let stationId = url.substring(url.lastIndexOf('/') + 1);
-  let stationIdFixed = stationId - 1;
   const [shouldGetSoldier, setShouldGetSoldier] = React.useState(true);
+
+  // fetch station id from url
+  let url = window.location.href;
+  let stationId = url.substring(url.lastIndexOf('/') + 1) - 1;
+
+  const handleOnClick = () => {
+    setIsBusyWithSoldier(false);
+    setShouldGetSoldier(true);
+    getSoldier();
+  };
 
   const dedicateSoldierToStage = async () => {
     return await axios.put(
-      `https://corona-server.azurewebsites.net/${stationIdFixed}/callNextSoldierToCprStation`,
+      `https://corona-server.azurewebsites.net/${stationId}/callNextSoldierToCprStation`,
       {headers: {'Content-Type': 'application/json'}}
     );
   };
+
+  async function declareIsSoldierArrived() {
+    let soldierJson = {
+      soldierId: soldierId,
+      wasArrivedToCprStation: wasArrived,
+    };
+    return await axios.put(
+      `https://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
+      soldierJson
+    );
+  }
 
   const [counter, setCounter] = React.useState(0);
   React.useEffect(() => {
@@ -92,30 +123,6 @@ function ArrivalToCprStationConfirmation() {
           }, 1000);
       });
   };
-
-  // React.useEffect(() => {
-  //   if (wasArrived !== '') giveArrivedResult();
-  // }, [wasArrived]);
-
-  async function declareIsSoldierArrived() {
-    const params = new URLSearchParams();
-    let soldierIdInteger = parseInt(soldierId);
-    let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
-    let soldierJson = {
-      soldierId: soldierIdWithoutZeroPrefix,
-      wasArrivedToCprStation: wasArrived,
-    };
-    return await axios.put(
-      `https://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
-      soldierJson
-    );
-  }
-
-  // function giveArrivedResult() {
-  //   getArrivedResult().catch((rej) => {
-  //     console.log(JSON.stringify(rej));
-  //   });
-  // }
 
   function isCanCallNextSoldier() {
     return wasArrived !== '' && isBusyWithSoldier === true;
@@ -155,6 +162,7 @@ function ArrivalToCprStationConfirmation() {
               'align-items': 'center',
             }}>
             <TextField
+              className={text}
               inputProps={{style: {textAlign: 'center'}}}
               disabled="true"
               variant="outlined"
@@ -167,7 +175,6 @@ function ArrivalToCprStationConfirmation() {
               'justify-content': 'center',
               'align-items': 'center',
               'font-size': '18px',
-              paddingTop: '80px',
             }}>
             האם המתחסן הגיע? (לא לשכוח לבצע אימות באמצעות חוגר){' '}
           </ListItem>
@@ -227,16 +234,13 @@ function ArrivalToCprStationConfirmation() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
-              paddingTop: '80px',
             }}>
             <Button
               variant="contained"
               disabled={!isCanCallNextSoldier()}
               className={button}
               color="primary"
-              onClick={() => {
-                setIsBusyWithSoldier(false);
-              }}>
+              onClick={() => handleOnClick()}>
               קריאה להבא בתור
             </Button>
           </ListItem>

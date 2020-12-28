@@ -28,7 +28,7 @@ const useStyles = makeStyles(() =>
     },
     radioBox: {
       backgroundColor: 'white',
-      width: '170px',
+      'border-radius': '5px',
       height: '40px',
       cursor: 'default',
       border: 'solid 1px lightGray',
@@ -36,6 +36,16 @@ const useStyles = makeStyles(() =>
       padding: '7px',
       textAlign: 'center',
       outline: '0',
+      width: '159px',
+    },
+    text: {
+      '& .MuiInputBase-input': {
+        backgroundColor: 'white !important',
+        fontSize: '300%',
+        textAlign: 'center',
+        width: '35vw',
+        height: '20vh',
+      },
     },
   })
 );
@@ -44,17 +54,16 @@ function VaccineConfirmation() {
   const {button} = useStyles();
   const {radio} = useStyles();
   const {radioBox} = useStyles();
+
   const [soldierId, setId] = React.useState('');
   const [wasVaccinated, setWasVaccinated] = React.useState('');
 
   async function getResult() {
-    const params = new URLSearchParams();
     let soldierIdInteger = parseInt(soldierId);
     let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
     let soldierJson = {
       wasVaccinated: wasVaccinated,
     };
-    params.append('0', JSON.stringify(soldierJson));
     return await axios.put(
       `https://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/was_vaccinated`,
       soldierJson,
@@ -62,13 +71,8 @@ function VaccineConfirmation() {
     );
   }
   async function addToCPRList() {
-    const params = new URLSearchParams();
     let soldierIdInteger = parseInt(soldierId);
     let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
-    let soldierJson = {
-      wasVaccinated: wasVaccinated,
-    };
-    params.append('0', JSON.stringify(soldierJson));
     return await axios.post(
       `https://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
       {headers: {'Content-Type': 'application/json'}}
@@ -84,7 +88,6 @@ function VaccineConfirmation() {
   function give() {
     getResult()
       .then((res) => {
-        window.location.reload(false);
         addToCPRList()
           .then((res) => {
             window.location.reload(false);
@@ -135,6 +138,7 @@ function VaccineConfirmation() {
               'align-items': 'center',
             }}>
             <TextField
+              style={{backgroundColor: '#FCFCFC'}}
               error={soldierId.length < 7 || soldierId.length > 8}
               variant="outlined"
               inputProps={{
@@ -170,7 +174,7 @@ function VaccineConfirmation() {
               padding: 0,
             }}>
             <RadioGroup
-              style={{width: '100%', display: 'flex', justifyContent: 'center'}}
+              style={{display: 'flex', justifyContent: 'center'}}
               row
               aria-label="position"
               name="position"

@@ -38,14 +38,18 @@ const VaccineWaitingRoom = () => {
   const {vaccineSoldiers} = useSoldiers();
   const {vaccineStations} = useStations();
 
+  const notVaccinatedSoldiers = vaccineSoldiers.filter(
+    (s) => !s.soldier.wasVaccinated
+  );
+
   return (
     <WaitingRoomLayout
       waitingHeader="סדר הממתינים"
       nextHeader="הבאים בתור"
       stationHeader="לעמדת התשאול"
-      footerHeader="מחוסנים"
-      soldiers={vaccineSoldiers.filter((s) => !s.soldier.wasVaccinated)}
-      doneSoldiers={vaccineSoldiers.filter((s) => s.soldier.wasVaccinated)}
+      noFooter
+      soldiers={notVaccinatedSoldiers.slice(5)}
+      nextSoldiers={notVaccinatedSoldiers.slice(0, 5)}
       stations={vaccineStations}
       SoldierCard={SoldierCard}
       StationCard={StationCard}
