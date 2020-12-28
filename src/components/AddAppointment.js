@@ -194,7 +194,6 @@ const AddAppointment = () => {
   async function getResultAddSoldierToSoldierTable() {
     let data = {
       soldierId: soldierId,
-      arrivalTime: 123,
       q1: q1,
       q2: q2,
       q3: q3,
