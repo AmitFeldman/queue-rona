@@ -16,6 +16,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import XIcon from '../images/x.png';
+import VIcon from '../images/v.png';
 
 const TIMEOUT = 2000;
 
@@ -294,7 +296,9 @@ const CanGetVaccinated = (props) => {
             </div>
             <Grid container spacing={2} style={{marginTop: '1rem'}}>
               <Grid item xs={12}>
-                <label className={bold}>תשובות החייל</label>
+                <label style={{fontSize: '180%'}} className={bold}>
+                  תשובות החייל
+                </label>
               </Grid>
               <Grid item xs={6}>
                 <div
@@ -661,12 +665,18 @@ const CanGetVaccinated = (props) => {
               </Grid>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+              style={{fontSize: '180%', marginLeft: '40%', marginTop: '5%'}}>
               <label className={bold}>סיכום התשאול</label>
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={4}></Grid>
+
+            <Grid item xs={4} style={{marginRight: '13%', marginTop: '2%'}}>
               <div className={left}>
-                <List style={{padding: 0}}>
+                <List style={{padding: '8px'}}>
                   <ListItem style={{paddingRight: 0, padding: 0}}>
                     <FormControlLabel
                       className={radioBox}
@@ -686,9 +696,29 @@ const CanGetVaccinated = (props) => {
                           }}
                         />
                       }
-                      label="יכול להתחסן ✔️"
+                      label={
+                        <>
+                          <ListItem
+                            style={{
+                              display: 'flex',
+                              'justify-content': 'center',
+                              'align-items': 'center',
+                              padding: 0,
+                            }}>
+                            <img
+                              src={VIcon}
+                              className="profile-img"
+                              width="35px"
+                              height="auto"
+                              style={{}}
+                            />
+                            <div>יכול להתחסן</div>
+                          </ListItem>
+                        </>
+                      }
                       labelPlacement="start"
                     />
+
                     <FormControlLabel
                       className={radioBox}
                       style={{
@@ -708,14 +738,33 @@ const CanGetVaccinated = (props) => {
                           }}
                         />
                       }
-                      label="לא יכול להתחסן ❌"
+                      label={
+                        <>
+                          <ListItem
+                            style={{
+                              display: 'flex',
+                              'justify-content': 'center',
+                              'align-items': 'center',
+                              padding: 0,
+                            }}>
+                            <img
+                              src={XIcon}
+                              className="profile-img"
+                              width="35px"
+                              height="auto"
+                              style={{}}
+                            />
+                            <div>לא יכול להתחסן</div>
+                          </ListItem>
+                        </>
+                      }
                       labelPlacement="start"
                     />
                   </ListItem>
                 </List>
               </div>
             </Grid>
-
+            <Grid item xs={4}></Grid>
             <div className={grid + ' ' + center} style={{marginTop: '1rem'}}>
               <Grid container spacing={2}>
                 <Grid item xs={12} style={{paddingLeft: 0}}>
