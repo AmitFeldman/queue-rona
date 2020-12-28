@@ -62,7 +62,9 @@ function Management() {
   }
 
   const deleteSoldier = async () => {
-    return await axios.put(`http://localhost:8080/deleteSoldier/${soldierId}`);
+    return await axios.put(
+      `https://queue-rona.mysql.database.azure.com/deleteSoldier/${soldierId}`
+    );
   };
 
   return (

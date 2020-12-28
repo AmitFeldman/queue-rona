@@ -68,24 +68,27 @@ function IsSoldierArrived() {
   const [shouldGetSoldier, setShouldGetSoldier] = React.useState(true);
 
   const dedicateSoldierToStage = async () => {
-    return await axios.post('http://localhost:8080/dedicateSoldierToStage', {
-      stageId: stationId,
-    });
+    return await axios.post(
+      'https://queue-rona.mysql.database.azure.com/dedicateSoldierToStage',
+      {
+        stageId: stationId,
+      }
+    );
   };
   const getSoldierFromStage = async () => {
     return await axios.get(
-      `http://localhost:8080/${stationId}/getSoldierDedicatedToStage`
+      `https://queue-rona.mysql.database.azure.com/${stationId}/getSoldierDedicatedToStage`
     );
   };
 
   const removeSoldierFromStage = async () => {
     return await axios.put(
-      `http://localhost:8080/${stationId}/removeSoldierFromStage`
+      `https://queue-rona.mysql.database.azure.com/${stationId}/removeSoldierFromStage`
     );
   };
   const declareSoldierMissing = async () => {
     return await axios.put(
-      `http://localhost:8080/${soldierId}/soldierDidntArrive`
+      `https://queue-rona.mysql.database.azure.com/${soldierId}/soldierDidntArrive`
     );
   };
   const handleOnClick = (url) => {

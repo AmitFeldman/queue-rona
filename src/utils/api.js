@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL = 'https://corona-server.azurewebsites.net';
+const URL = 'https://queue-rona.mysql.database.azure.com';
 
 async function addSoldierToArrivalQueue(soldierId) {
   return await axios.post(`${URL}/addSoliderToArrivalQueue`, {soldierId});
@@ -29,7 +29,7 @@ async function getStages() {
 }
 
 async function getCPRStages() {
-  return await axios.get(`${URL}//GetCPRStages`);
+  return await axios.get(`${URL}/GetCPRStages`);
 }
 
 async function getCPRSoldiers() {
