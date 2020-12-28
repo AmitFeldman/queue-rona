@@ -68,24 +68,27 @@ function IsSoldierArrived() {
   const [shouldGetSoldier, setShouldGetSoldier] = React.useState(true);
 
   const dedicateSoldierToStage = async () => {
-    return await axios.post('http://localhost:8080/dedicateSoldierToStage', {
-      stageId: stationId,
-    });
+    return await axios.post(
+      'https://corona-server.azurewebsites.net/dedicateSoldierToStage',
+      {
+        stageId: stationId,
+      }
+    );
   };
   const getSoldierFromStage = async () => {
     return await axios.get(
-      `http://localhost:8080/${stationId}/getSoldierDedicatedToStage`
+      `https://corona-server.azurewebsites.net/${stationId}/getSoldierDedicatedToStage`
     );
   };
 
   const removeSoldierFromStage = async () => {
     return await axios.put(
-      `http://localhost:8080/${stationId}/removeSoldierFromStage`
+      `https://corona-server.azurewebsites.net/${stationId}/removeSoldierFromStage`
     );
   };
   const declareSoldierMissing = async () => {
     return await axios.put(
-      `http://localhost:8080/${soldierId}/soldierDidntArrive`
+      `https://corona-server.azurewebsites.net/${soldierId}/soldierDidntArrive`
     );
   };
   const handleOnClick = (url) => {
