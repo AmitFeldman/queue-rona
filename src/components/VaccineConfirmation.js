@@ -29,7 +29,6 @@ const useStyles = makeStyles(() =>
     radioBox: {
       backgroundColor: 'white',
       'border-radius': '5px',
-      width: '16מ0px',
       height: '40px',
       cursor: 'default',
       border: 'solid 1px lightGray',
@@ -37,6 +36,16 @@ const useStyles = makeStyles(() =>
       padding: '7px',
       textAlign: 'center',
       outline: '0',
+      width: '159px',
+    },
+    text: {
+      '& .MuiInputBase-input': {
+        backgroundColor: 'white !important',
+        fontSize: '300%',
+        textAlign: 'center',
+        width: '35vw',
+        height: '20vh',
+      },
     },
   })
 );
@@ -45,6 +54,7 @@ function VaccineConfirmation() {
   const {button} = useStyles();
   const {radio} = useStyles();
   const {radioBox} = useStyles();
+
   const [soldierId, setId] = React.useState('');
   const [wasVaccinated, setWasVaccinated] = React.useState('');
 
@@ -164,7 +174,7 @@ function VaccineConfirmation() {
               padding: 0,
             }}>
             <RadioGroup
-              style={{width: '100%', display: 'flex', justifyContent: 'center'}}
+              style={{display: 'flex', justifyContent: 'center'}}
               row
               aria-label="position"
               name="position"
