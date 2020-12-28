@@ -19,7 +19,14 @@ const SoldiersProvider = ({children}) => {
       });
 
       getCPRSoldiers().then((res) => {
-        setCPRSoldiers([...res.data]);
+        setCPRSoldiers([
+          ...res.data,
+          {
+            soldierId: '213345',
+            wasArrivedToCPRStation: true,
+            waintingPrecentage: 23,
+          },
+        ]);
       });
     };
 

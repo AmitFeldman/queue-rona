@@ -95,15 +95,22 @@ const CPRWaitingRoom = () => {
   const {cprSoldiers} = useSoldiers();
   const {cprStations} = useStations();
 
+  const notDoneSoldiers = cprSoldiers.filter((s) => !isSoldierDone(s));
+  const nextSoldiers = notDoneSoldiers
+    .filter(({wasArrivedToCPRStation}) => !wasArrivedToCPRStation)
+    .slice(0, 5);
+
   return (
     <WaitingRoomLayout
       waitingHeader="עמדת המתנה"
       nextHeader="הבאים בתור ל-CPR"
       stationHeader="לעמדת ה-CPR"
       footerHeader="משוחררים"
-      soldiers={cprSoldiers
-        .filter((s) => !isSoldierDone(s))
-        .sort(({wasArrivedToCPRStation}) => (wasArrivedToCPRStation ? 1 : 0))}
+      soldiers={notDoneSoldiers.filter(
+        ({soldierId: id}) =>
+          nextSoldiers.find(({soldierId}) => soldierId === id) === undefined
+      )}
+      nextSoldiers={nextSoldiers}
       doneSoldiers={cprSoldiers.filter((s) => isSoldierDone(s))}
       stations={cprStations}
       SoldierCard={SoldierCard}

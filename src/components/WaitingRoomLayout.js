@@ -74,6 +74,7 @@ const WaitingRoomLayout = ({
   stationHeader,
   footerHeader,
   soldiers,
+  nextSoldiers,
   doneSoldiers,
   stations,
   SoldierCard,
@@ -104,7 +105,6 @@ const WaitingRoomLayout = ({
           <ColumnHeaderWrapper header={waitingHeader}>
             <Grid container direction="column" style={{height: '92%'}}>
               {soldiers
-                .slice(5)
                 .slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
                 .map((soldier) => (
                   <Grid item key={soldier.soldierId} style={{height: '20%'}}>
@@ -127,7 +127,7 @@ const WaitingRoomLayout = ({
         <Grid item container className={nextCol} xs={3}>
           <ColumnHeaderWrapper header={nextHeader}>
             <Grid container direction="column" style={{height: '100%'}}>
-              {soldiers.slice(0, 5).map((soldier) => (
+              {nextSoldiers.map((soldier) => (
                 <Grid item key={soldier.soldierId} style={{height: '20%'}}>
                   <SoldierCard {...soldier} />
                 </Grid>
