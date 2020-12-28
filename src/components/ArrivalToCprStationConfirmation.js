@@ -78,7 +78,7 @@ function ArrivalToCprStationConfirmation() {
 
   const dedicateSoldierToStage = async () => {
     return await axios.put(
-      `http://localhost:8080/${stationId}/callNextSoldierToCprStation`,
+      `https://corona-server.azurewebsites.net/${stationId}/callNextSoldierToCprStation`,
       {headers: {'Content-Type': 'application/json'}}
     );
   };
@@ -89,7 +89,7 @@ function ArrivalToCprStationConfirmation() {
       wasArrivedToCprStation: wasArrived,
     };
     return await axios.put(
-      `http://localhost:8080/setWasArrivedToCprStation`,
+      `https://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
       soldierJson
     );
   }
