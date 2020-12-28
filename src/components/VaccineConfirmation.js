@@ -28,6 +28,7 @@ const useStyles = makeStyles(() =>
     },
     radioBox: {
       backgroundColor: 'white',
+      'border-radius': '5px',
       width: '16מ0px',
       height: '40px',
       cursor: 'default',
