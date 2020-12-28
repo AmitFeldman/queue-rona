@@ -8,11 +8,10 @@ import {
   ListItem,
   Radio,
   TextField,
-  Typography,
   Grid,
   createStyles,
 } from '@material-ui/core';
-
+import {useLastLocation} from 'react-router-last-location';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import XIcon from '../images/x.png';
 import VIcon from '../images/v.png';
@@ -102,8 +101,7 @@ const CanGetVaccinated = (props) => {
     radio,
     text,
   } = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [open3, setOpen3] = React.useState(false);
+
   const [open2, setOpen2] = React.useState(false);
 
   const [soldierId, setId] = React.useState('');
@@ -114,11 +112,22 @@ const CanGetVaccinated = (props) => {
   const [q5, setQ5] = React.useState('');
   const [qSemi, setQSemi] = React.useState('');
   const [canGetVaccinated, setCanGetVaccinated] = React.useState(null);
+  const lastLocation = useLastLocation();
 
+  let url = lastLocation.pathname;
+  let stationId = url.substring(url.lastIndexOf('/') + 1);
   useEffect(() => {
     getSoldierInfo();
   }, []);
 
+  const removeSoldierFromStage = async () => {
+    return await axios
+      .put(
+        `https://corona-server.azurewebsites.net/${stationId}/removeSoldierFromStage`
+      )
+      .then(console.log('removed soldier'))
+      .catch('couldent remove soldier');
+  };
   async function getInfo() {
     let currentSoldierId = window.location.href.substring(
       window.location.href.lastIndexOf('/') + 1
@@ -158,18 +167,6 @@ const CanGetVaccinated = (props) => {
         setQ5(data.q5);
         setQSemi(data.qSemi);
       })
-      .catch((rej) => {
-        console.log(rej);
-      });
-  }
-  async function getResultDeclareSoldierVaccinable() {
-    return await axios
-      .put(
-        `https://corona-server.azurewebsites.net/${soldierId}/vaccination_ability`,
-        {
-          isAbleToVaccinate: q5,
-        }
-      )
       .catch((rej) => {
         console.log(rej);
       });
@@ -704,6 +701,7 @@ const CanGetVaccinated = (props) => {
                       text="שלח"
                       action={() => {
                         getResultDeclareSoldierVaccinable();
+                        removeSoldierFromStage();
                         props.history.goBack();
                       }}
                       isDisabled={!isValid()}
