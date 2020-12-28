@@ -36,7 +36,6 @@ const useStyles = makeStyles(() =>
       padding: '7px',
       textAlign: 'center',
       outline: '0',
-      width: '159px',
     },
     text: {
       '& .MuiInputBase-input': {
