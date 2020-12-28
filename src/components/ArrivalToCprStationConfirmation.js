@@ -45,64 +45,73 @@ const useStyles = makeStyles(() =>
 );
 
 function ArrivalToCprStationConfirmation() {
+  // css styles
   const {button} = useStyles();
   const {radio} = useStyles();
   const {radioBox} = useStyles();
+
   const [soldierId, setId] = React.useState('');
   const [wasArrived, setWasArrived] = React.useState('');
   const [isBusyWithSoldier, setIsBusyWithSoldier] = React.useState(false);
+  const [shouldGetSoldier, setShouldGetSoldier] = React.useState(true);
+
+  // fetch station id from url
   let url = window.location.href;
-  let stationId = url.substring(url.lastIndexOf('/') + 1);
-  let stationIdFixed = stationId - 1;
-  const [counter, setCounter] = React.useState(0);
-  React.useEffect(() => {
-    const interval = setTimeout(() => {
-      if (isBusyWithSoldier === false) {
-        axios
-          .put(
-            `https://corona-server.azurewebsites.net/${stationIdFixed}/callNextSoldierToCprStation`,
-            {headers: {'Content-Type': 'application/json'}}
-          )
-          .then((res) => {
-            setIsBusyWithSoldier(true);
-            setId(res.data);
-          })
-          .catch((rej) => {
-            setId('אין מתחסן קרוב בינתיים');
-          });
-      }
-      setCounter(counter + 1);
-    }, 1000);
-  }, []);
+  let stationId = url.substring(url.lastIndexOf('/') + 1) - 1;
 
-  React.useEffect(() => {
-    if (wasArrived !== '') giveArrivedResult();
-  }, [wasArrived]);
+  const handleOnClick = () => {
+    setIsBusyWithSoldier(false);
+    setShouldGetSoldier(true);
+    getSoldier();
+  };
 
-  async function getArrivedResult() {
-    const params = new URLSearchParams();
-    let soldierIdInteger = parseInt(soldierId);
-    let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
+  const dedicateSoldierToStage = async () => {
+    return await axios.put(
+      `https://corona-server.azurewebsites.net/${stationId}/callNextSoldierToCprStation`,
+      {headers: {'Content-Type': 'application/json'}}
+    );
+  };
+
+  async function declareIsSoldierArrived() {
     let soldierJson = {
-      soldierId: soldierIdWithoutZeroPrefix,
+      soldierId: soldierId,
       wasArrivedToCprStation: wasArrived,
     };
-    params.append('0', JSON.stringify(soldierJson));
     return await axios.put(
       `https://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
       soldierJson
     );
   }
 
-  function giveArrivedResult() {
-    getArrivedResult()
+  const [counter, setCounter] = React.useState(0);
+  React.useEffect(() => {
+    getSoldier();
+    setCounter(counter + 1);
+    return () => {
+      setShouldGetSoldier(false);
+    };
+  }, []);
+
+  const getSoldier = () => {
+    console.log('get soldier');
+    if (!shouldGetSoldier) {
+      return;
+    }
+    declareIsSoldierArrived();
+    dedicateSoldierToStage()
       .then((res) => {
-        window.location.reload(false);
+        setId(res.data);
+        setIsBusyWithSoldier(true);
       })
       .catch((rej) => {
-        console.log(JSON.stringify(rej));
+        console.log('there are no people');
+        setId('אין מתחסן קרוב בינתיים');
+        if (shouldGetSoldier)
+          setTimeout(() => {
+            getSoldier();
+          }, 1000);
       });
-  }
+  };
 
   function isCanCallNextSoldier() {
     return wasArrived !== '' && isBusyWithSoldier === true;
@@ -221,9 +230,7 @@ function ArrivalToCprStationConfirmation() {
               disabled={!isCanCallNextSoldier()}
               className={button}
               color="primary"
-              onClick={() => {
-                setIsBusyWithSoldier(false);
-              }}>
+              onClick={() => handleOnClick()}>
               קריאה להבא בתור
             </Button>
           </ListItem>
