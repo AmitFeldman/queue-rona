@@ -42,102 +42,84 @@ const useStyles = makeStyles(() =>
       textAlign: 'center',
       outline: '0',
     },
+    text: {
+      '& .MuiInputBase-input': {
+        backgroundColor: 'white !important',
+        fontSize: '300%',
+        textAlign: 'center',
+        width: '35vw',
+        height: '20vh',
+      },
+    },
   })
 );
 
 function IsSoldierArrived() {
   const {button} = useStyles();
   const {radio} = useStyles();
-  const {radioBox} = useStyles();
+  const {radioBox, text} = useStyles();
   const [soldierId, setId] = React.useState('');
 
   const [wasArrived, setWasArrived] = React.useState('');
   const [isRadiosEnabled, setIsRadiosEnabled] = React.useState(true);
   const [isBusyWithSoldier, setIsBusyWithSoldier] = React.useState(false);
+  let url = window.location.href;
+  let stationId = url.substring(url.lastIndexOf('/') + 1);
+  let stationIdFixed = stationId - 1;
   const history = useHistory();
+  const [shouldGetSoldier, setShouldGetSoldier] = React.useState(true);
 
-  async function dedicateSoldierToStage() {
+  const dedicateSoldierToStage = async () => {
     return await axios.post(
       'https://corona-server.azurewebsites.net/dedicateSoldierToStage',
-      {stageId: 2}
+      {stageId: stationIdFixed}
     );
-  }
-  async function declareSoldierMissing(soldierId) {
+  };
+  const declareSoldierMissing = async () => {
     return await axios.put(
       `https://corona-server.azurewebsites.net/${soldierId}/soldierDidntArrive`
     );
-  }
+  };
   const handleOnClick = (url) => {
     if (wasArrived) history.push(`${url}/${soldierId}`);
     else {
-      declareSoldierMissing(soldierId).then((res) => {
-        console.log(JSON.stringify(res));
-        dedicateSoldierToStage()
-          .then((res) => {
-            setIsBusyWithSoldier(true);
-            setId(res.data);
-          })
-          .catch((rej) => {
-            setId('אין מתחסן קרוב בינתיים');
-          });
-      });
+      declareSoldierMissing();
+      getSoldier();
     }
   };
-  let url = window.location.href;
-  let stationId = url.substring(url.lastIndexOf('/') + 1);
 
   const [counter, setCounter] = React.useState(0);
   React.useEffect(() => {
-    const interval = setTimeout(() => {
-      if (isBusyWithSoldier === false) {
-        dedicateSoldierToStage()
-          .then((res) => {
-            setId(res.data);
-            setIsBusyWithSoldier(true);
-          })
-          .catch((rej) => {
-            setId('אין מתחסן קרוב בינתיים');
-          });
-      }
-      setCounter(counter + 1);
-    });
+    getSoldier();
+    setCounter(counter + 1);
+    return () => {
+      setShouldGetSoldier(false);
+    };
   }, []);
 
-  function isInputValid() {
-    return (
-      (soldierId.length == 7 || soldierId.length == 8) && wasArrived !== ''
-    );
-  }
-
-  async function callNext() {
-    const paramsCallNext = new URLSearchParams();
-    let stationIdIntegerMinus1 = parseInt(stationId) - 1;
-    let stationIdMinus1 = stationIdIntegerMinus1.toString();
-    let cprStationJson = {
-      cprStationId: stationIdMinus1,
-    };
-    paramsCallNext.append('0', JSON.stringify(cprStationJson));
-    debugger;
-    return await axios.put(
-      `https://corona-server.azurewebsites.net/callNextSoldierToCprStation`,
-      paramsCallNext
-    );
-  }
+  const getSoldier = () => {
+    console.log('get soldier');
+    if (!shouldGetSoldier) {
+      return;
+    }
+    dedicateSoldierToStage()
+      .then((res) => {
+        setId(res.data);
+        setIsBusyWithSoldier(true);
+      })
+      .catch((rej) => {
+        console.log('there are no people');
+        setId('אין מתחסן קרוב בינתיים');
+        if (shouldGetSoldier)
+          setTimeout(() => {
+            getSoldier();
+          }, 1000);
+      });
+  };
 
   function isCanCallNextSoldier() {
     return wasArrived !== '' && isBusyWithSoldier === true;
   }
-
-  function callNextSoldier() {
-    callNext()
-      .then((res) => {
-        console.log(res.data.data);
-      })
-      .catch((rej) => {
-        console.log(JSON.stringify(rej));
-      });
-  }
-
   return (
     <Grid
       container
@@ -153,7 +135,7 @@ function IsSoldierArrived() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
-              'font-size': '18px',
+              'font-size': '30px',
               paddingTop: '50px',
             }}>
             המתחסן הקרוב
@@ -172,12 +154,12 @@ function IsSoldierArrived() {
               'align-items': 'center',
             }}>
             <TextField
-              style={{
-                'text-align': 'center',
-              }}
-              disabled="true"
+              className={text}
               variant="outlined"
               value={soldierId}
+              InputProps={{
+                readOnly: true,
+              }}
               //onChange={(e) => setId(e?.target?.value)}
             />
           </ListItem>
@@ -186,8 +168,7 @@ function IsSoldierArrived() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
-              'font-size': '18px',
-              paddingTop: '80px',
+              'font-size': '20px',
             }}>
             האם המתחסן הגיע? (לא לשכוח לבצע אימות באמצעות חוגר){' '}
           </ListItem>
@@ -207,18 +188,18 @@ function IsSoldierArrived() {
                 style={{
                   backgroundColor: wasArrived === false ? '#333460' : 'white',
                   color: wasArrived === false ? 'white' : 'black',
+                  marginRight: 0,
+                  width: '10rem',
                 }}
                 tabindex="2"
                 control={
                   <Radio
                     className={radio}
-                    // disabled={!isRadiosEnabled}
                     color="primary"
                     checked={wasArrived === false}
                     onChange={() => {
                       setWasArrived(false);
                       setIsRadiosEnabled(false);
-                      // giveArrivedResult()
                     }}
                   />
                 }
@@ -230,12 +211,12 @@ function IsSoldierArrived() {
                 style={{
                   backgroundColor: wasArrived === true ? '#333460' : 'white',
                   color: wasArrived === true ? 'white' : 'black',
+                  width: '10rem',
                 }}
                 tabindex="1"
                 control={
                   <Radio
                     className={radio}
-                    // disabled={!isRadiosEnabled}
                     color="primary"
                     checked={wasArrived === true}
                     onChange={() => {
@@ -254,7 +235,6 @@ function IsSoldierArrived() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
-              paddingTop: '80px',
             }}>
             <Button
               variant="contained"
