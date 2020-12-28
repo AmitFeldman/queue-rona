@@ -40,6 +40,16 @@ const useStyles = makeStyles(() =>
       padding: '7px',
       textAlign: 'center',
       outline: '0',
+      width: '170px',
+    },
+    text: {
+      '& .MuiInputBase-input': {
+        backgroundColor: 'white !important',
+        fontSize: '300%',
+        textAlign: 'center',
+        width: '35vw',
+        height: '20vh',
+      },
     },
   })
 );
@@ -49,6 +59,7 @@ function ArrivalToCprStationConfirmation() {
   const {button} = useStyles();
   const {radio} = useStyles();
   const {radioBox} = useStyles();
+  const {text} = useStyles();
 
   const [soldierId, setId] = React.useState('');
   const [wasArrived, setWasArrived] = React.useState('');
@@ -151,6 +162,7 @@ function ArrivalToCprStationConfirmation() {
               'align-items': 'center',
             }}>
             <TextField
+              className={text}
               inputProps={{style: {textAlign: 'center'}}}
               disabled="true"
               variant="outlined"
@@ -163,7 +175,6 @@ function ArrivalToCprStationConfirmation() {
               'justify-content': 'center',
               'align-items': 'center',
               'font-size': '18px',
-              paddingTop: '80px',
             }}>
             האם המתחסן הגיע? (לא לשכוח לבצע אימות באמצעות חוגר){' '}
           </ListItem>
@@ -223,7 +234,6 @@ function ArrivalToCprStationConfirmation() {
               display: 'flex',
               'justify-content': 'center',
               'align-items': 'center',
-              paddingTop: '80px',
             }}>
             <Button
               variant="contained"
