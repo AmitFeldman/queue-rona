@@ -43,27 +43,6 @@ function SimpleDialog({open, soldierId, setOpen, setOpen2}) {
               }}
             />
           </div>
-          {/* <List>
-            <ListItem>
-              <div style={{marginLeft: '2rem'}}>
-                <CoolButton
-                  text="לא, חזרה לעריכה"
-                  action={() => {
-                    setOpen(false);
-                  }}
-                />
-              </div>
-              <CoolButton
-                text="המספר תקין, תודה"
-                action={() => {
-                  give();
-                  setOpen(false);
-                  setOpen2(true);
-                  setTimeout(() => setOpen2(false), TIMEOUT);
-                }}
-              />
-            </ListItem>
-          </List> */}
         </Typography>
       </DialogContent>
     </Dialog>
@@ -81,20 +60,6 @@ function SimpleDialog3({open}) {
     </Dialog>
   );
 }
-
-// function SimpleDialog2({open}) {
-//   const {center, text} = useStyles();
-//
-//   return (
-//     <Dialog open={open}>
-//       <DialogTitle className={center}>
-//         <p>זה נראה קרוב מתמיד,</p>
-//         <p>אבל אנחנו עדיין מוגבלים בכמות האנשים באולם בעקבות ההנחיות</p>
-//         <p>המתינו מספר דקות ונאשר את כניסתכם</p>
-//       </DialogTitle>
-//     </Dialog>
-//   );
-// }
 
 const CoolButton = ({text, action, isDisabled}) => {
   const {button} = useStyles();
@@ -235,8 +200,6 @@ const CanGetVaccinated = (props) => {
         setQ3(data.q3);
         setQ4(data.q4);
         setQ5(data.q5);
-        // dont forget to get the real data from the server
-        // before the semi
         setQSemi(data.qSemi);
       })
       .catch((rej) => {
