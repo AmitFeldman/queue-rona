@@ -12,6 +12,7 @@ import {CircularProgressbar} from 'react-circular-progressbar';
 import {makeStyles} from '@material-ui/core';
 import 'react-circular-progressbar/dist/styles.css';
 import {isSoldierDone, PERCENTAGE_DONE} from '../utils/soldier-util';
+import {ImCheckboxChecked, ImCheckboxUnchecked} from 'react-icons/im';
 
 const TOTAL_MINUTES = 15;
 
@@ -72,13 +73,21 @@ const SoldierCard = ({
             <Grid item xs={6}>
               <Typography
                 variant="h6"
-                style={{color: cprDone ? 'green' : 'red'}}>
-                {cprDone ? (
-                  <AiOutlineCheckCircle className={svg} />
-                ) : (
-                  <AiOutlineCloseCircle className={svg} />
-                )}
+                style={{color: cprDone ? '#5D945C' : '#848484'}}>
                 CPR
+                {cprDone ? (
+                  <ImCheckboxChecked
+                    className={svg}
+                    fontSize="small"
+                    style={{marginRight: '3px'}}
+                  />
+                ) : (
+                  <ImCheckboxUnchecked
+                    className={svg}
+                    fontSize="small"
+                    style={{marginRight: '3px'}}
+                  />
+                )}
               </Typography>
             </Grid>
           </Grid>

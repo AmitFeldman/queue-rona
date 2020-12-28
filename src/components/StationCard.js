@@ -2,6 +2,9 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import {makeStyles} from '@material-ui/core';
+import {AiOutlineCheckCircle} from 'react-icons/ai';
+import {CircularProgressbar} from 'react-circular-progressbar';
+import {PERCENTAGE_DONE} from '../utils/soldier-util';
 
 const stationColor = 'rgba(51, 52, 96)';
 const ALERT_TIMEOUT = 3000;
@@ -29,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const StationCard = ({stageId, soldierId}) => {
   const {blinkGlow} = useStyles();
   const [alert, setAlert] = React.useState(false);
+  // const timeDone = waintingPrecentage === PERCENTAGE_DONE;
 
   React.useEffect(() => {
     if (soldierId !== null) {
@@ -46,19 +50,52 @@ const StationCard = ({stageId, soldierId}) => {
 
   return (
     <Paper
-      className={alert && blinkGlow}
+      className={alert ? blinkGlow : ''}
       style={{
         height: '80%',
         width: '70%',
         margin: 'auto',
         backgroundColor: 'rgba(247, 247, 255)',
-        border: `solid ${stationColor}`,
+        borderRadius: '25px',
+        borderTop: '2px solid rgb(212, 211, 216)',
+        borderLeft: '2px solid rgb(212, 211, 216)',
+        borderRight: '2px solid rgb(212, 211, 216)',
       }}>
-      <Typography variant="h4" style={{height: '50%', color: stationColor}}>
+      <Typography
+        variant="h4"
+        style={{
+          height: '50%',
+          color: stationColor,
+        }}>
+        {/*{timeDone ? (*/}
+        {/*  <AiOutlineCheckCircle className={svg} />*/}
+        {/*) : (*/}
+        {/*  <CircularProgressbar*/}
+        {/*    value={totalTime}*/}
+        {/*    minValue={0}*/}
+        {/*    maxValue={15}*/}
+        {/*    text={totalTime}*/}
+        {/*    styles={{*/}
+        {/*      root: {*/}
+        {/*        width: '20px',*/}
+        {/*      },*/}
+        {/*      text: {*/}
+        {/*        fontSize: '60px',*/}
+        {/*        fontWeight: 'bold',*/}
+        {/*      },*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*)}*/}
         {soldierId !== null ? soldierId : 'פנוי'}
       </Typography>
       <Typography
-        style={{height: '50%', backgroundColor: stationColor, color: 'white'}}
+        style={{
+          height: '50%',
+          backgroundColor: stationColor,
+          color: 'white',
+          borderBottomLeftRadius: '25px',
+          borderBottomRightRadius: '25px',
+        }}
         variant="h6">
         {'לעמדה מספר ' + (stageId + 1)}
       </Typography>
