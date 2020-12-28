@@ -88,7 +88,7 @@ const WaitingRoomLayout = ({
     pagination,
     footer,
   } = useStyles();
-  const pageCount = calcPageCount(soldiers.slice(5).length, ITEMS_PER_PAGE);
+  const pageCount = calcPageCount(soldiers.length, ITEMS_PER_PAGE);
   const [page, setPage] = useAutoPagination(pageCount, CAROUSEL_TIMEOUT);
 
   const donePageCount = calcPageCount(doneSoldiers.length, ITEMS_PER_DONE_PAGE);
