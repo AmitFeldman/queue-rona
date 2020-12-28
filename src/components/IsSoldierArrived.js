@@ -70,7 +70,9 @@ function IsSoldierArrived() {
   const dedicateSoldierToStage = async () => {
     return await axios.post(
       'https://corona-server.azurewebsites.net/dedicateSoldierToStage',
-      {stageId: stationId}
+      {
+        stageId: stationId,
+      }
     );
   };
   const getSoldierFromStage = async () => {

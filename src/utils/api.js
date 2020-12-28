@@ -29,7 +29,7 @@ async function getStages() {
 }
 
 async function getCPRStages() {
-  return await axios.get(`${URL}//GetCPRStages`);
+  return await axios.get(`${URL}/GetCPRStages`);
 }
 
 async function getCPRSoldiers() {

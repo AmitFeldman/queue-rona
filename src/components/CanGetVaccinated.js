@@ -206,6 +206,18 @@ const CanGetVaccinated = (props) => {
         console.log(rej);
       });
   }
+  async function getResultDeclareSoldierVaccinable() {
+    return await axios
+      .put(
+        `https://corona-server.azurewebsites.net/${soldierId}/vaccination_ability`,
+        {
+          isAbleToVaccinate: q5,
+        }
+      )
+      .catch((rej) => {
+        console.log(rej);
+      });
+  }
 
   function isValid() {
     if (canGetVaccinated === undefined || canGetVaccinated === null)
