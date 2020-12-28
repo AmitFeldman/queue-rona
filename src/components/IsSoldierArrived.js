@@ -72,23 +72,28 @@ function IsSoldierArrived() {
       .post('https://corona-server.azurewebsites.net/dedicateSoldierToStage', {
         stageId: stationId,
       })
-      .then(console.log('called soldier'))
-      .catch(console.log('something has happend'));
+      .catch((rej) => {
+        console.log(rej);
+      });
   };
   const getSoldierFromStage = async () => {
     return await axios
       .get(
         `https://corona-server.azurewebsites.net/${stationId}/getSoldierDedicatedToStage`
       )
-      .then((res) => {
-        console.log(JSON.stringify(res.data));
+      .catch((rej) => {
+        console.log(rej);
       });
   };
 
   const declareSoldierMissing = async () => {
-    return await axios.put(
-      `https://corona-server.azurewebsites.net/${soldierId}/soldierDidntArrive`
-    );
+    return await axios
+      .put(
+        `https://corona-server.azurewebsites.net/${soldierId}/soldierDidntArrive`
+      )
+      .catch((rej) => {
+        console.log(rej);
+      });
   };
   const handleOnClick = (url) => {
     if (wasArrived) history.push(`${url}/${soldierId}`);
@@ -101,7 +106,6 @@ function IsSoldierArrived() {
 
   const [counter, setCounter] = React.useState(0);
   React.useEffect(() => {
-    console.log(shouldGetSoldier);
     getSoldier();
     setCounter(counter + 1);
     return () => {
@@ -110,7 +114,6 @@ function IsSoldierArrived() {
   }, []);
 
   const getSoldier = () => {
-    console.log('get soldier');
     if (!shouldGetSoldier) {
       return;
     }
@@ -124,7 +127,7 @@ function IsSoldierArrived() {
               setId(res.data);
             })
             .catch((rej) => {
-              console.log('there are no people');
+              console.log(rej);
               setId('אין מתחסן קרוב בינתיים');
               if (shouldGetSoldier)
                 setTimeout(() => {

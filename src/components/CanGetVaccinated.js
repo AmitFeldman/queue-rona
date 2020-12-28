@@ -110,7 +110,6 @@ const CanGetVaccinated = (props) => {
   const [q3, setQ3] = React.useState('');
   const [q4, setQ4] = React.useState('');
   const [q5, setQ5] = React.useState('');
-  const [qSemi, setQSemi] = React.useState('');
   const [canGetVaccinated, setCanGetVaccinated] = React.useState(null);
   const lastLocation = useLastLocation();
 
@@ -125,16 +124,21 @@ const CanGetVaccinated = (props) => {
       .put(
         `https://corona-server.azurewebsites.net/${stationId}/removeSoldierFromStage`
       )
-      .then(console.log('removed soldier'))
-      .catch('couldent remove soldier');
+      .catch((rej) => {
+        console.log(rej);
+      });
   };
   async function getInfo() {
     let currentSoldierId = window.location.href.substring(
       window.location.href.lastIndexOf('/') + 1
     );
-    return await axios.get(
-      `https://corona-server.azurewebsites.net/SoldierInfo/${currentSoldierId}`
-    );
+    return await axios
+      .get(
+        `https://corona-server.azurewebsites.net/SoldierInfo/${currentSoldierId}`
+      )
+      .catch((rej) => {
+        console.log(rej);
+      });
   }
   async function getResultDeclareSoldierVaccinable() {
     return await axios
@@ -146,7 +150,6 @@ const CanGetVaccinated = (props) => {
           q3: q3,
           q4: q4,
           q5: q5,
-          qSemi: qSemi,
           isAbleToVaccinate: canGetVaccinated,
         }
       )
@@ -157,7 +160,6 @@ const CanGetVaccinated = (props) => {
   function getSoldierInfo() {
     getInfo()
       .then((res) => {
-        console.log(JSON.stringify(res.data));
         const data = res['data'];
         setId(data.soldierId);
         setQ1(data.q1);
@@ -165,7 +167,6 @@ const CanGetVaccinated = (props) => {
         setQ3(data.q3);
         setQ4(data.q4);
         setQ5(data.q5);
-        setQSemi(data.qSemi);
       })
       .catch((rej) => {
         console.log(rej);
@@ -175,24 +176,13 @@ const CanGetVaccinated = (props) => {
   function isValid() {
     if (canGetVaccinated === undefined || canGetVaccinated === null)
       return false;
-    if (qSemi === '') {
-      return false;
-    }
-    if (!qSemi) {
+    else {
       return (
         soldierId.length === 7 &&
         q1 !== '' &&
         q2 !== '' &&
         q3 !== '' &&
         q4 !== '' &&
-        q5 !== ''
-      );
-    } else {
-      return (
-        soldierId.length === 7 &&
-        q1 !== '' &&
-        q2 !== '' &&
-        q3 !== '' &&
         q5 !== ''
       );
     }
@@ -484,17 +474,17 @@ const CanGetVaccinated = (props) => {
                               className={radioBox}
                               style={{
                                 backgroundColor:
-                                  qSemi === true ? '#000066' : 'white',
-                                color: qSemi === true ? 'white' : 'black',
+                                  q4 === 'first' ? '#000066' : 'white',
+                                color: q4 === 'first' ? 'white' : 'black',
                               }}
                               tabIndex="1"
                               control={
                                 <Radio
                                   className={radio}
                                   color="primary"
-                                  checked={qSemi === true}
+                                  checked={q4 === 'first'}
                                   onChange={() => {
-                                    setQSemi(true);
+                                    setQ4('first');
                                   }}
                                 />
                               }
@@ -505,8 +495,13 @@ const CanGetVaccinated = (props) => {
                               className={radioBox}
                               style={{
                                 backgroundColor:
-                                  qSemi === false ? '#000066' : 'white',
-                                color: qSemi === false ? 'white' : 'black',
+                                  q4 === 'no' || q4 === 'yes'
+                                    ? '#000066'
+                                    : 'white',
+                                color:
+                                  q4 === 'no' || q4 === 'yes'
+                                    ? 'white'
+                                    : 'black',
                                 marginRight: '1rem',
                               }}
                               tabIndex="1"
@@ -514,9 +509,9 @@ const CanGetVaccinated = (props) => {
                                 <Radio
                                   className={radio}
                                   color="primary"
-                                  checked={qSemi === false}
+                                  checked={q4 !== 'first'}
                                   onChange={() => {
-                                    setQSemi(false);
+                                    setQ4(q4 === 'no' ? 'no' : 'yes');
                                   }}
                                 />
                               }
@@ -527,7 +522,7 @@ const CanGetVaccinated = (props) => {
                         </List>
                       </div>
                     </Grid>
-                    {qSemi === false ? (
+                    {q4 === 'no' || q4 === 'yes' ? (
                       <Grid item xs={8}>
                         <label>
                           האם פותחה בעבר תגובה אלרגית חמורה לאחר מנת החיסון
@@ -535,7 +530,7 @@ const CanGetVaccinated = (props) => {
                         </label>
                       </Grid>
                     ) : null}
-                    {qSemi === false ? (
+                    {q4 === 'no' || q4 === 'yes' ? (
                       <Grid item xs={4}>
                         <div className={left}>
                           <List style={{padding: 0}}>
