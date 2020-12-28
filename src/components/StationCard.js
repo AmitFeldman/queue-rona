@@ -67,25 +67,6 @@ const StationCard = ({stageId, soldierId}) => {
           height: '50%',
           color: stationColor,
         }}>
-        {/*{timeDone ? (*/}
-        {/*  <AiOutlineCheckCircle className={svg} />*/}
-        {/*) : (*/}
-        {/*  <CircularProgressbar*/}
-        {/*    value={totalTime}*/}
-        {/*    minValue={0}*/}
-        {/*    maxValue={15}*/}
-        {/*    text={totalTime}*/}
-        {/*    styles={{*/}
-        {/*      root: {*/}
-        {/*        width: '20px',*/}
-        {/*      },*/}
-        {/*      text: {*/}
-        {/*        fontSize: '60px',*/}
-        {/*        fontWeight: 'bold',*/}
-        {/*      },*/}
-        {/*    }}*/}
-        {/*  />*/}
-        {/*)}*/}
         {soldierId !== null ? soldierId : 'פנוי'}
       </Typography>
       <Typography
