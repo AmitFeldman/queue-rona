@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 const StationCard = ({stageId, soldierId}) => {
   const {blinkGlow} = useStyles();
   const [alert, setAlert] = React.useState(false);
+  // const timeDone = waintingPrecentage === PERCENTAGE_DONE;
 
   React.useEffect(() => {
     if (soldierId !== null) {
@@ -46,19 +47,33 @@ const StationCard = ({stageId, soldierId}) => {
 
   return (
     <Paper
-      className={alert && blinkGlow}
+      className={alert ? blinkGlow : ''}
       style={{
         height: '80%',
         width: '70%',
         margin: 'auto',
         backgroundColor: 'rgba(247, 247, 255)',
-        border: `solid ${stationColor}`,
+        borderRadius: '15px',
+        borderTop: '2px solid rgb(212, 211, 216)',
+        borderLeft: '2px solid rgb(212, 211, 216)',
+        borderRight: '2px solid rgb(212, 211, 216)',
       }}>
-      <Typography variant="h4" style={{height: '50%', color: stationColor}}>
+      <Typography
+        variant="h4"
+        style={{
+          height: '50%',
+          color: stationColor,
+        }}>
         {soldierId !== null ? soldierId : 'פנוי'}
       </Typography>
       <Typography
-        style={{height: '50%', backgroundColor: stationColor, color: 'white'}}
+        style={{
+          height: '50%',
+          backgroundColor: stationColor,
+          color: 'white',
+          borderBottomLeftRadius: '15px',
+          borderBottomRightRadius: '15px',
+        }}
         variant="h6">
         {'לעמדה מספר ' + (stageId + 1)}
       </Typography>

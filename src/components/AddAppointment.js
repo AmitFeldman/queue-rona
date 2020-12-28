@@ -194,7 +194,6 @@ const AddAppointment = () => {
   async function getResultAddSoldierToSoldierTable() {
     let data = {
       soldierId: soldierId,
-      arrivalTime: 123,
       q1: q1,
       q2: q2,
       q3: q3,
@@ -204,7 +203,11 @@ const AddAppointment = () => {
     return await axios.post(
       'https://corona-server.azurewebsites.net/addSoldierToSoldierTable',
       data,
-      {headers: {'Content-Type': 'application/json'}}
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
     );
   }
 
@@ -219,23 +222,22 @@ const AddAppointment = () => {
 
   async function give() {
     getResultAddSoldierToSoldierTable()
-      .then((res) => {
+      .then(async (res) => {
         console.log(res);
+        await getResultAddSoliderToArrivalQueue();
+        setId('');
+        setQ1('');
+        setQ2('');
+        setQ3('');
+        setQ4('');
+        setQ5('');
+        setQSemi('');
       })
       .catch((rej) => {
         setOpen3(true);
         setTimeout(() => setOpen3(false), TIMEOUT);
         console.log(rej);
       });
-
-    await getResultAddSoliderToArrivalQueue();
-    setId('');
-    setQ1('');
-    setQ2('');
-    setQ3('');
-    setQ4('');
-    setQ5('');
-    setQSemi('');
   }
 
   function isValid() {

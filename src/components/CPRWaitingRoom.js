@@ -12,12 +12,14 @@ import {CircularProgressbar} from 'react-circular-progressbar';
 import {makeStyles} from '@material-ui/core';
 import 'react-circular-progressbar/dist/styles.css';
 import {isSoldierDone, PERCENTAGE_DONE} from '../utils/soldier-util';
+import {ImCheckboxChecked, ImCheckboxUnchecked} from 'react-icons/im';
 
 const TOTAL_MINUTES = 15;
 
 const useStyles = makeStyles(() => ({
   svg: {
     verticalAlign: 'middle',
+    marginRight: '5%',
   },
 }));
 
@@ -43,7 +45,7 @@ const SoldierCard = ({
           </Typography>
         ) : (
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={7}>
               <Typography
                 variant="h6"
                 style={{color: timeDone ? 'green' : 'black'}}>
@@ -58,6 +60,7 @@ const SoldierCard = ({
                     styles={{
                       root: {
                         width: '20px',
+                        marginLeft: '5%',
                       },
                       text: {
                         fontSize: '60px',
@@ -69,16 +72,24 @@ const SoldierCard = ({
                 זמן המתנה
               </Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <Typography
                 variant="h6"
-                style={{color: cprDone ? 'green' : 'red'}}>
-                {cprDone ? (
-                  <AiOutlineCheckCircle className={svg} />
-                ) : (
-                  <AiOutlineCloseCircle className={svg} />
-                )}
+                style={{color: cprDone ? '#5D945C' : '#848484'}}>
                 CPR
+                {cprDone ? (
+                  <ImCheckboxChecked
+                    className={svg}
+                    fontSize="small"
+                    style={{marginRight: '5%'}}
+                  />
+                ) : (
+                  <ImCheckboxUnchecked
+                    className={svg}
+                    fontSize="small"
+                    style={{marginRight: '5%'}}
+                  />
+                )}
               </Typography>
             </Grid>
           </Grid>
@@ -95,15 +106,22 @@ const CPRWaitingRoom = () => {
   const {cprSoldiers} = useSoldiers();
   const {cprStations} = useStations();
 
+  const notDoneSoldiers = cprSoldiers.filter((s) => !isSoldierDone(s));
+  const nextSoldiers = notDoneSoldiers
+    .filter(({wasArrivedToCPRStation}) => !wasArrivedToCPRStation)
+    .slice(0, 5);
+
   return (
     <WaitingRoomLayout
       waitingHeader="עמדת המתנה"
       nextHeader="הבאים בתור ל-CPR"
       stationHeader="לעמדת ה-CPR"
       footerHeader="משוחררים"
-      soldiers={cprSoldiers
-        .filter((s) => !isSoldierDone(s))
-        .sort(({wasArrivedToCPRStation}) => (wasArrivedToCPRStation ? 1 : 0))}
+      soldiers={notDoneSoldiers.filter(
+        ({soldierId: id}) =>
+          nextSoldiers.find(({soldierId}) => soldierId === id) === undefined
+      )}
+      nextSoldiers={nextSoldiers}
       doneSoldiers={cprSoldiers.filter((s) => isSoldierDone(s))}
       stations={cprStations}
       SoldierCard={SoldierCard}

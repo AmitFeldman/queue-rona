@@ -68,36 +68,40 @@ function IsSoldierArrived() {
   const [shouldGetSoldier, setShouldGetSoldier] = React.useState(true);
 
   const dedicateSoldierToStage = async () => {
-    return await axios.post(
-      'https://corona-server.azurewebsites.net/dedicateSoldierToStage',
-      {stageId: stationId}
-    );
+    return await axios
+      .post('https://corona-server.azurewebsites.net/dedicateSoldierToStage', {
+        stageId: stationId,
+      })
+      .catch((rej) => {
+        console.log(rej);
+      });
   };
   const getSoldierFromStage = async () => {
-    return await axios.get(
-      `https://corona-server.azurewebsites.net/${stationId}/getSoldierDedicatedToStage`
-    );
+    return await axios
+      .get(
+        `https://corona-server.azurewebsites.net/${stationId}/getSoldierDedicatedToStage`
+      )
+      .catch((rej) => {
+        console.log(rej);
+      });
   };
 
-  const removeSoldierFromStage = async () => {
-    return await axios.put(
-      `https://corona-server.azurewebsites.net/${stationId}/removeSoldierFromStage`
-    );
-  };
   const declareSoldierMissing = async () => {
-    return await axios.put(
-      `https://corona-server.azurewebsites.net/${soldierId}/soldierDidntArrive`
-    );
+    return await axios
+      .put(
+        `https://corona-server.azurewebsites.net/${soldierId}/soldierDidntArrive`
+      )
+      .catch((rej) => {
+        console.log(rej);
+      });
   };
   const handleOnClick = (url) => {
-    removeSoldierFromStage().then(() => {
-      if (wasArrived) history.push(`${url}/${soldierId}`);
-      else {
-        declareSoldierMissing();
-        getSoldier();
-        setWasArrived('');
-      }
-    });
+    if (wasArrived) history.push(`${url}/${soldierId}`);
+    else {
+      declareSoldierMissing();
+      getSoldier();
+      setWasArrived('');
+    }
   };
 
   const [counter, setCounter] = React.useState(0);
@@ -110,7 +114,6 @@ function IsSoldierArrived() {
   }, []);
 
   const getSoldier = () => {
-    console.log('get soldier');
     if (!shouldGetSoldier) {
       return;
     }
@@ -124,7 +127,7 @@ function IsSoldierArrived() {
               setId(res.data);
             })
             .catch((rej) => {
-              console.log('there are no people');
+              console.log(rej);
               setId('אין מתחסן קרוב בינתיים');
               if (shouldGetSoldier)
                 setTimeout(() => {

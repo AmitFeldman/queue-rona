@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+
 import {Grid, Paper, createStyles, Table} from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {JsonToTable} from 'react-json-to-table';
@@ -25,8 +26,6 @@ const useStyles = makeStyles(() =>
     },
   })
 );
-
-// let myJson = JSON.parse(jsonData);
 
 function Reports() {
   const {center} = useStyles();

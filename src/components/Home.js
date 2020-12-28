@@ -54,6 +54,13 @@ const Home = () => {
             <div>עמדת ניהול</div>
           </Paper>
         </Grid>
+        <Grid item xs>
+          <Paper
+            className={classes.paper}
+            onClick={() => handleOnClick('/reports')}>
+            <div>דוחות</div>
+          </Paper>
+        </Grid>
       </Grid>
       <div style={{marginTop: '2rem'}}>
         <Grid container spacing={2}>

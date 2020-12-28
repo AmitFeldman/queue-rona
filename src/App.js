@@ -14,8 +14,10 @@ import CPRWaitingRoom from './components/CPRWaitingRoom';
 import FooterBar from './components/FooterBar';
 import Home from './components/Home';
 import Management from './components/Management';
+import Reports from './components/Reports';
 import Dropzone from './components/Dropzone';
 import Reports from './components/Reports';
+import {LastLocationProvider} from 'react-router-last-location';
 
 function App() {
   const [user, setUser] = useState('');
@@ -53,41 +55,48 @@ function App() {
 
       <Container disableGutters maxWidth="lg">
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/soldierArrival/1" component={IsSoldierArrived} />
-          <Route path="/soldierArrival/2" component={IsSoldierArrived} />
-          <Route path="/soldierArrival/3" component={IsSoldierArrived} />
-          <Route path="/soldierArrival/4" component={IsSoldierArrived} />
-          <Route path="/soldierArrival/5" component={IsSoldierArrived} />
-          {/* <Route path="/schedule" component={ScheduleView} /> */}
-          <Route path="/CanGetVaccinated" component={CanGetVaccinated} />
-          <Route path="/addAppointment" component={AddAppointment} />
-          <Route path="/management" component={Management} />
-          <Route
-            path="/arrivalToCprStationConfirmation/1"
-            component={ArrivalToCprStationConfirmation}
-          />
-          <Route
-            path="/arrivalToCprStationConfirmation/2"
-            component={ArrivalToCprStationConfirmation}
-          />
-          <Route
-            path="/arrivalToCprStationConfirmation/3"
-            component={ArrivalToCprStationConfirmation}
-          />
-          <Route
-            path="/arrivalToCprStationConfirmation/4"
-            component={ArrivalToCprStationConfirmation}
-          />
-          <Route
-            path="/arrivalToCprStationConfirmation/5"
-            component={ArrivalToCprStationConfirmation}
-          />
-          <Route path="/vaccineConfirmation" component={VaccineConfirmation} />
-          <Route path="/vaccineWait" component={VaccineWaitingRoom} />
-          <Route path="/cprWait" component={CPRWaitingRoom} />
-          <Route path="/dropzone" component={Dropzone} />
-          <Route path="/reports" component={Reports} />
+          <LastLocationProvider>
+            <Route exact path="/" component={Home} />
+            <Route path="/soldierArrival/1" component={IsSoldierArrived} />
+            <Route path="/soldierArrival/2" component={IsSoldierArrived} />
+            <Route path="/soldierArrival/3" component={IsSoldierArrived} />
+            <Route path="/soldierArrival/4" component={IsSoldierArrived} />
+            <Route path="/soldierArrival/5" component={IsSoldierArrived} />
+
+            {/* <Route path="/schedule" component={ScheduleView} /> */}
+            <Route path="/CanGetVaccinated" component={CanGetVaccinated} />
+            <Route path="/addAppointment" component={AddAppointment} />
+            <Route path="/management" component={Management} />
+            <Route path="/reports" component={Reports} />
+
+            <Route
+              path="/arrivalToCprStationConfirmation/1"
+              component={ArrivalToCprStationConfirmation}
+            />
+            <Route
+              path="/arrivalToCprStationConfirmation/2"
+              component={ArrivalToCprStationConfirmation}
+            />
+            <Route
+              path="/arrivalToCprStationConfirmation/3"
+              component={ArrivalToCprStationConfirmation}
+            />
+            <Route
+              path="/arrivalToCprStationConfirmation/4"
+              component={ArrivalToCprStationConfirmation}
+            />
+            <Route
+              path="/arrivalToCprStationConfirmation/5"
+              component={ArrivalToCprStationConfirmation}
+            />
+            <Route
+              path="/vaccineConfirmation"
+              component={VaccineConfirmation}
+            />
+            <Route path="/vaccineWait" component={VaccineWaitingRoom} />
+            <Route path="/cprWait" component={CPRWaitingRoom} />
+            <Route path="/dropzone" component={Dropzone} />
+          </LastLocationProvider>
         </Switch>
       </Container>
 
