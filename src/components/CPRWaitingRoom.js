@@ -19,6 +19,7 @@ const TOTAL_MINUTES = 15;
 const useStyles = makeStyles(() => ({
   svg: {
     verticalAlign: 'middle',
+    marginRight: '5%',
   },
 }));
 
@@ -59,6 +60,7 @@ const SoldierCard = ({
                     styles={{
                       root: {
                         width: '20px',
+                        marginLeft: '5%',
                       },
                       text: {
                         fontSize: '60px',
@@ -79,13 +81,13 @@ const SoldierCard = ({
                   <ImCheckboxChecked
                     className={svg}
                     fontSize="small"
-                    style={{marginRight: '3px'}}
+                    style={{marginRight: '5%'}}
                   />
                 ) : (
                   <ImCheckboxUnchecked
                     className={svg}
                     fontSize="small"
-                    style={{marginRight: '3px'}}
+                    style={{marginRight: '5%'}}
                   />
                 )}
               </Typography>
