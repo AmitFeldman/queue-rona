@@ -92,12 +92,12 @@ function VaccineConfirmation() {
             window.location.reload(false);
           })
           .catch((rej) => {
-            alert('מספר אישי לא תקין');
+            alert('מספר אישי כבר קיים במערכת');
             window.location.reload(false);
           });
       })
       .catch((rej) => {
-        alert('מספר אישי לא תקין');
+        alert('מספר אישי כבר קיים במערכת');
         window.location.reload(false);
       });
   }
