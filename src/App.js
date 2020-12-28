@@ -58,6 +58,7 @@ function App() {
           <Route path="/soldierArrival/3" component={IsSoldierArrived} />
           <Route path="/soldierArrival/4" component={IsSoldierArrived} />
           <Route path="/soldierArrival/5" component={IsSoldierArrived} />
+
           {/* <Route path="/schedule" component={ScheduleView} /> */}
           <Route path="/CanGetVaccinated" component={CanGetVaccinated} />
           <Route path="/addAppointment" component={AddAppointment} />
