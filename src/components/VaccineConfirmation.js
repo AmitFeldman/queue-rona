@@ -28,7 +28,7 @@ const useStyles = makeStyles(() =>
     },
     radioBox: {
       backgroundColor: 'white',
-      width: '170px',
+      width: '160px',
       height: '40px',
       cursor: 'default',
       border: 'solid 1px lightGray',
@@ -135,6 +135,7 @@ function VaccineConfirmation() {
               'align-items': 'center',
             }}>
             <TextField
+              style={{backgroundColor: '#FCFCFC'}}
               error={soldierId.length < 7 || soldierId.length > 8}
               variant="outlined"
               inputProps={{

@@ -59,6 +59,12 @@ function ArrivalToCprStationConfirmation() {
   let url = window.location.href;
   let stationId = url.substring(url.lastIndexOf('/') + 1) - 1;
 
+  const handleOnClick = () => {
+    setIsBusyWithSoldier(false);
+    setShouldGetSoldier(true);
+    getSoldier();
+  };
+
   const dedicateSoldierToStage = async () => {
     return await axios.put(
       `https://corona-server.azurewebsites.net/${stationId}/callNextSoldierToCprStation`,
@@ -224,7 +230,7 @@ function ArrivalToCprStationConfirmation() {
               disabled={!isCanCallNextSoldier()}
               className={button}
               color="primary"
-              onClick={() => setIsBusyWithSoldier(false)}>
+              onClick={() => handleOnClick()}>
               קריאה להבא בתור
             </Button>
           </ListItem>
