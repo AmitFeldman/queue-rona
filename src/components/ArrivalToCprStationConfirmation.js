@@ -78,7 +78,7 @@ function ArrivalToCprStationConfirmation() {
 
   const dedicateSoldierToStage = async () => {
     return await axios.put(
-      `https://queue-rona.mysql.database.azure.com/${stationId}/callNextSoldierToCprStation`,
+      `http://localhost:8080/${stationId}/callNextSoldierToCprStation`,
       {headers: {'Content-Type': 'application/json'}}
     );
   };
@@ -89,7 +89,7 @@ function ArrivalToCprStationConfirmation() {
       wasArrivedToCprStation: wasArrived,
     };
     return await axios.put(
-      `https://queue-rona.mysql.database.azure.com/setWasArrivedToCprStation`,
+      `http://localhost:8080/setWasArrivedToCprStation`,
       soldierJson
     );
   }

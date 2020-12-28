@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL = 'https://queue-rona.mysql.database.azure.com';
+const URL = 'http://localhost:8080';
 
 async function addSoldierToArrivalQueue(soldierId) {
   return await axios.post(`${URL}/addSoliderToArrivalQueue`, {soldierId});

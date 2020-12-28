@@ -65,7 +65,7 @@ function VaccineConfirmation() {
       wasVaccinated: wasVaccinated,
     };
     return await axios.put(
-      `https://queue-rona.mysql.database.azure.com/${soldierIdWithoutZeroPrefix}/was_vaccinated`,
+      `http://localhost:8080/${soldierIdWithoutZeroPrefix}/was_vaccinated`,
       soldierJson,
       {headers: {'Content-Type': 'application/json'}}
     );
@@ -74,7 +74,7 @@ function VaccineConfirmation() {
     let soldierIdInteger = parseInt(soldierId);
     let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
     return await axios.post(
-      `https://queue-rona.mysql.database.azure.com/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
+      `http://localhost:8080/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
       {headers: {'Content-Type': 'application/json'}}
     );
   }
