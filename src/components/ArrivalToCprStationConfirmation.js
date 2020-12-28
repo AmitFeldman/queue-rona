@@ -56,27 +56,6 @@ function ArrivalToCprStationConfirmation() {
   let stationIdFixed = stationId - 1;
   const [shouldGetSoldier, setShouldGetSoldier] = React.useState(true);
 
-  // const [counter, setCounter] = React.useState(0);
-  // React.useEffect(() => {
-  //   const interval = setTimeout(() => {
-  //     if (isBusyWithSoldier === false) {
-  //       axios
-  //         .put(
-  //           `https://corona-server.azurewebsites.net/${stationIdFixed}/callNextSoldierToCprStation`,
-  //           {headers: {'Content-Type': 'application/json'}}
-  //         )
-  //         .then((res) => {
-  //           setIsBusyWithSoldier(true);
-  //           setId(res.data);
-  //         })
-  //         .catch((rej) => {
-  //           setId('אין מתחסן קרוב בינתיים');
-  //         });
-  //     }
-  //     setCounter(counter + 1);
-  //   }, 1000);
-  // }, []);
-
   const dedicateSoldierToStage = async () => {
     return await axios.put(
       `https://corona-server.azurewebsites.net/${stationIdFixed}/callNextSoldierToCprStation`,
@@ -98,6 +77,7 @@ function ArrivalToCprStationConfirmation() {
     if (!shouldGetSoldier) {
       return;
     }
+    declareIsSoldierArrived();
     dedicateSoldierToStage()
       .then((res) => {
         setId(res.data);
@@ -113,11 +93,11 @@ function ArrivalToCprStationConfirmation() {
       });
   };
 
-  React.useEffect(() => {
-    if (wasArrived !== '') giveArrivedResult();
-  }, [wasArrived]);
+  // React.useEffect(() => {
+  //   if (wasArrived !== '') giveArrivedResult();
+  // }, [wasArrived]);
 
-  async function getArrivedResult() {
+  async function declareIsSoldierArrived() {
     const params = new URLSearchParams();
     let soldierIdInteger = parseInt(soldierId);
     let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
@@ -125,22 +105,17 @@ function ArrivalToCprStationConfirmation() {
       soldierId: soldierIdWithoutZeroPrefix,
       wasArrivedToCprStation: wasArrived,
     };
-    params.append('0', JSON.stringify(soldierJson));
     return await axios.put(
       `https://corona-server.azurewebsites.net/setWasArrivedToCprStation`,
       soldierJson
     );
   }
 
-  function giveArrivedResult() {
-    getArrivedResult()
-      .then((res) => {
-        window.location.reload(false);
-      })
-      .catch((rej) => {
-        console.log(JSON.stringify(rej));
-      });
-  }
+  // function giveArrivedResult() {
+  //   getArrivedResult().catch((rej) => {
+  //     console.log(JSON.stringify(rej));
+  //   });
+  // }
 
   function isCanCallNextSoldier() {
     return wasArrived !== '' && isBusyWithSoldier === true;
