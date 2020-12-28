@@ -64,7 +64,7 @@ function VaccineConfirmation() {
       wasVaccinated: wasVaccinated,
     };
     return await axios.put(
-      `https://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/was_vaccinated`,
+      `http://localhost:8080/${soldierIdWithoutZeroPrefix}/was_vaccinated`,
       soldierJson,
       {headers: {'Content-Type': 'application/json'}}
     );
@@ -73,7 +73,7 @@ function VaccineConfirmation() {
     let soldierIdInteger = parseInt(soldierId);
     let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
     return await axios.post(
-      `https://corona-server.azurewebsites.net/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
+      `http://localhost:8080/${soldierIdWithoutZeroPrefix}/wasVaccinated`,
       {headers: {'Content-Type': 'application/json'}}
     );
   }
