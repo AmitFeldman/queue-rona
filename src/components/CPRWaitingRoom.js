@@ -44,7 +44,7 @@ const SoldierCard = ({
           </Typography>
         ) : (
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={7}>
               <Typography
                 variant="h6"
                 style={{color: timeDone ? 'green' : 'black'}}>
@@ -70,7 +70,7 @@ const SoldierCard = ({
                 זמן המתנה
               </Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <Typography
                 variant="h6"
                 style={{color: cprDone ? '#5D945C' : '#848484'}}>
