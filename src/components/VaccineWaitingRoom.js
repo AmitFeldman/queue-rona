@@ -47,10 +47,9 @@ const VaccineWaitingRoom = () => {
       waitingHeader="סדר הממתינים"
       nextHeader="הבאים בתור"
       stationHeader="לעמדת התשאול"
-      footerHeader="מחוסנים"
+      noFooter
       soldiers={notVaccinatedSoldiers.slice(5)}
       nextSoldiers={notVaccinatedSoldiers.slice(0, 5)}
-      doneSoldiers={vaccineSoldiers.filter((s) => s.soldier.wasVaccinated)}
       stations={vaccineStations}
       SoldierCard={SoldierCard}
       StationCard={StationCard}
