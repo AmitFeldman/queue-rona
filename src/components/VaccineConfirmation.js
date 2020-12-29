@@ -12,9 +12,32 @@ import {
   Radio,
   RadioGroup,
   TextField,
+  Typography,
   createStyles,
 } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+
+const TIMEOUT = 6000;
+
+const CoolButton = ({text, action, isDisabled}) => {
+  const {button} = useStyles();
+  return (
+    <Button
+      className={button}
+      style={{backgroundColor: 'white'}}
+      variant="outlined"
+      color="default"
+      disabled={isDisabled}
+      onClick={() => {
+        action();
+      }}>
+      {text}
+    </Button>
+  );
+};
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -22,7 +45,12 @@ const useStyles = makeStyles(() =>
       backgroundColor: 'white',
       color: 'black',
     },
-
+    center: {
+      display: 'flex',
+      'justify-content': 'center',
+      'align-items': 'center',
+      textAlign: 'center',
+    },
     radio: {
       display: 'none',
     },
@@ -46,6 +74,15 @@ const useStyles = makeStyles(() =>
         height: '20vh',
       },
     },
+    textSimpleDialog: {
+      '& .MuiInputBase-input': {
+        backgroundColor: 'white !important',
+        fontSize: '110%',
+        textAlign: 'center',
+        width: '7rem',
+        fontSize: '30px',
+      },
+    },
   })
 );
 
@@ -53,9 +90,11 @@ function VaccineConfirmation() {
   const {button} = useStyles();
   const {radio} = useStyles();
   const {radioBox} = useStyles();
+  const {popup} = useStyles();
 
   const [soldierId, setId] = React.useState('');
   const [wasVaccinated, setWasVaccinated] = React.useState('');
+  const [showPopup, setShowPopup] = React.useState(false);
 
   async function getResult() {
     let soldierIdInteger = parseInt(soldierId);
@@ -92,13 +131,15 @@ function VaccineConfirmation() {
             window.location.reload(false);
           })
           .catch((rej) => {
-            alert('מספר אישי כבר קיים במערכת');
-            window.location.reload(false);
+            setShowPopup(true);
+            setTimeout(() => setShowPopup(false), TIMEOUT);
+            setTimeout(() => window.location.reload(false), TIMEOUT / 6);
           });
       })
       .catch((rej) => {
-        alert('מספר אישי כבר קיים במערכת');
-        window.location.reload(false);
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), TIMEOUT);
+        setTimeout(() => window.location.reload(false), TIMEOUT / 6);
       });
   }
   return (
@@ -270,12 +311,26 @@ function VaccineConfirmation() {
               disabled={!isInputValid(soldierId)}
               variant="contained"
               color="primary"
-              onClick={give}>
+              onClick={() => {
+                give();
+              }}>
               שלח
             </Button>
           </ListItem>
         </List>
       </FormControl>
+      <Dialog open={showPopup} className="popup">
+        <DialogTitle
+          style={{
+            width: '500px',
+            height: '200px',
+            display: 'flex',
+            'justify-content': 'center',
+            'align-items': 'center',
+          }}>
+          <p style={{fontSize: '50px'}}>מספר אישי לא תקין</p>
+        </DialogTitle>
+      </Dialog>
     </Grid>
   );
 }
