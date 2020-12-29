@@ -20,7 +20,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const TIMEOUT = 6000;
+const TIMEOUT = 2000;
 
 const CoolButton = ({text, action, isDisabled}) => {
   const {button} = useStyles();
@@ -128,18 +128,21 @@ function VaccineConfirmation() {
       .then((res) => {
         addToCPRList()
           .then((res) => {
-            window.location.reload(false);
+            setId('');
+            setWasVaccinated('');
           })
           .catch((rej) => {
             setShowPopup(true);
             setTimeout(() => setShowPopup(false), TIMEOUT);
-            setTimeout(() => window.location.reload(false), TIMEOUT / 6);
+            setId('');
+            setWasVaccinated('');
           });
       })
       .catch((rej) => {
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), TIMEOUT);
-        setTimeout(() => window.location.reload(false), TIMEOUT / 6);
+        setId('');
+        setWasVaccinated('');
       });
   }
   return (
