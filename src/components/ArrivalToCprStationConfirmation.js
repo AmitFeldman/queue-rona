@@ -73,6 +73,7 @@ function ArrivalToCprStationConfirmation() {
   const handleOnClick = () => {
     setIsBusyWithSoldier(false);
     setShouldGetSoldier(true);
+    setWasArrived('');
     getSoldier();
   };
 
