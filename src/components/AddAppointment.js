@@ -17,7 +17,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const TIMEOUT = 6000;
+const TIMEOUT = 3000;
 
 function SimpleDialog({open, soldierId, setOpen, give, setOpen2}) {
   const {center, text} = useStyles();
