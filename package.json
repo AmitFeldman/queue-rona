@@ -34,6 +34,7 @@
     "react-vis": "^1.11.7",
     "reactjs-popup": "^2.0.4",
     "reactstrap": "^8.8.0",
+    "victory": "^35.4.4",
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {

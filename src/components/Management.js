@@ -84,13 +84,13 @@ function Management() {
   };
 
   const vaccinatedAndEnterNotVaccinated = async () => {
-    return await axios.get(
+    return await axios.put(
       `https://corona-server.azurewebsites.net/${soldierId}/vaccinatedAndEnterNotVaccinated`
     );
   };
 
   const didntVaccintedButEnterVaccinated = async () => {
-    return await axios.get(
+    return await axios.put(
       `https://corona-server.azurewebsites.net/${soldierId}/didntVaccintedButEnterVaccinated`
     );
   };

@@ -16,7 +16,6 @@ import Home from './components/Home';
 import Management from './components/Management';
 import Reports from './components/Reports';
 import Dropzone from './components/Dropzone';
-import Reports from './components/Reports';
 import {LastLocationProvider} from 'react-router-last-location';
 
 function App() {

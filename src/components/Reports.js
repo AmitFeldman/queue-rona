@@ -5,16 +5,7 @@ import {Grid, Paper, createStyles, Table} from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {JsonToTable} from 'react-json-to-table';
 import {DataGrid} from '@material-ui/data-grid';
-
-import {
-  XYPlot,
-  XAxis,
-  YAxis,
-  VerticalGridLines,
-  HorizontalGridLines,
-  LineSeries,
-  Crosshair,
-} from 'react-vis';
+import {VictoryLine, VictoryTooltip, VictoryChart, VictoryAxis} from 'victory';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -30,33 +21,63 @@ const useStyles = makeStyles(() =>
 function Reports() {
   const {center} = useStyles();
   const [vaccinatedCount, setVaccinatedCount] = React.useState('');
+  const [vaccinatedSoldiers, setVaccinatedSoldiers] = React.useState([{}]);
 
   async function getVaccinatedCount() {
     setTimeout(() => getVaccinatedCount(), 5000);
     const result = await soldiersVaccinatedToday();
     setVaccinatedCount(result.data.count);
   }
+
+  async function getVaccinatedSoldiers() {
+    setTimeout(() => getVaccinatedSoldiers(), 5000);
+    const result = await getAllVaccinatedSoldiersToday();
+    let soldiers = result.data.soldiers;
+    let i = 1;
+    console.log(soldiers);
+    debugger;
+    soldiers = soldiers.map((x) => {
+      let date = new Date(x.vaccineTime);
+      let currentHours = date.getHours();
+      currentHours = ('0' + currentHours).slice(-2);
+      let currentMinutes = date.getMinutes();
+      currentMinutes = ('0' + currentMinutes).slice(-2);
+      x.x = `${currentHours}:${currentMinutes}`;
+      x.y = i;
+      i++;
+      x.label = [`מספר אישי: ${x.soldierId}`, `שעת חיסון: ${x.x}`];
+      return x;
+    });
+    console.log(soldiers);
+    setVaccinatedSoldiers(soldiers);
+  }
+
   React.useState(() => {
     setTimeout(() => getVaccinatedCount(), 500);
+    setTimeout(() => getVaccinatedSoldiers(), 500);
   }, []);
+
   const soldiersVaccinatedToday = async () => {
+    return await axios.get(
+      `https://corona-server.azurewebsites.net/soldiersVaccinatedToday`
+    );
+  };
+
+  const getAllVaccinatedSoldiersToday = async () => {
     return await axios.get(
       `https://corona-server.azurewebsites.net/getAllVaccinatedSoldiersToday`
     );
   };
+  //   const xDomain = ["07:00", "08:00", "09:00", "10:00", "11:00" ,"12:00" ,"13:00" ,"14:00" ,"15:00" ,"16:00" ,"17:00" ,"18:00" ,"19:00"];
 
-  const DATA = [
-    [
-      {x: 1, y: 10},
-      {x: 2, y: 7},
-      {x: 3, y: 15},
-    ],
-    [
-      {x: 1, y: 20},
-      {x: 2, y: 5},
-      {x: 3, y: 15},
-    ],
-  ];
+  function getY() {
+    const result = [];
+    for (let i = 1; i <= vaccinatedSoldiers.length; i = i + 1) {
+      result.push(i);
+    }
+
+    return result;
+  }
 
   let jsonData = {
     soldiers: [
@@ -65,63 +86,103 @@ function Reports() {
         vaccineTime: '2020-12-2BT21:23:14.000Z',
       },
       {
-        soldierId: '8196713',
-        vaccineTime: '2020-12-2BT21:23:14.000Z',
+        soldierId: '8196714',
+        vaccineTime: '2020-12-2BT21:23:13.000Z',
       },
     ],
   };
+
+  // let jsonData = getAllVaccinatedSoldiersToday();
+
+  let fixedDate = (date) => {
+    return new Date(date);
+  };
+  const rows = jsonData.soldiers;
+  let tableSoldiers = jsonData.soldiers.map((soldier) => {
+    return {
+      id: soldier.soldierId,
+      vaccineTime: fixedDate(soldier.vaccineTime),
+    };
+  });
+
+  debugger;
   const columns = [
-    {field: 'soldierId', headerName: 'מספר אישי', width: 70},
-    {field: 'vaccineTime', headerName: 'מתי התחסן', width: 130},
+    {field: 'id', headerName: 'מספר אישי', width: '150px'},
+    {field: 'vaccineTime', headerName: 'מתי התחסן', width: 200},
   ];
 
-  const rows = jsonData.soldiers;
+  debugger;
   return (
-    <>
-      <Grid
-        container
-        spacing={2}
-        style={{marginTop: '1rem'}}
-        className={center}>
-        <Grid item xs={4} className={center}>
-          {/* <ul>
-                        {jsonData.soldiers.map(item => {
-                            return <li>{item}</li>;
-                        })}
-                    </ul> */}
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={5}
-            checkboxSelection
-          />
-        </Grid>
-        <Grid item xs={4} className={center}>
-          <Paper style={{width: '20rem'}}>
-            <p>&nbsp;</p>
-            <div style={{fontSize: '150%'}}>מספר האנשים שהתחסנו היום:</div>
-            <div
-              style={{
-                fontWeight: 'bold',
-                fontSize: '300%',
-                marginTop: '1rem',
-                marginBottom: '1rem',
-              }}>
-              {vaccinatedCount}
-            </div>
-            <p>&nbsp;</p>
-          </Paper>
-        </Grid>
-        <Grid item xs={4} className={center}>
-          <Paper>
-            <p>&nbsp;</p>
-            <div style={{fontSize: '150%'}}>מספר האנשים שהתחסנו היום:</div>
-
-            <p>&nbsp;</p>
-          </Paper>
-        </Grid>
+    <Grid container spacing={2} style={{marginTop: '1rem'}} className={center}>
+      <Grid item xs={4} className={center}>
+        <div style={{height: 400, width: '100%'}}>
+          <DataGrid rows={tableSoldiers} columns={columns} />
+        </div>
       </Grid>
-    </>
+
+      <Grid item xs={4} className={center}>
+        <Paper style={{width: '20rem'}}>
+          <p>&nbsp;</p>
+          <div style={{fontSize: '150%'}}>מספר האנשים שהתחסנו היום:</div>
+          <div
+            style={{
+              fontWeight: 'bold',
+              fontSize: '300%',
+              marginTop: '1rem',
+              marginBottom: '1rem',
+            }}>
+            {vaccinatedCount}
+          </div>
+          <p>&nbsp;</p>
+        </Paper>
+      </Grid>
+      <Grid item xs={4} className={center}>
+        <Paper>
+          <p>&nbsp;</p>
+          <div style={{fontSize: '150%'}}>מספר האנשים שהתחסנו היום:</div>
+          <VictoryChart height={1500} width={2000}>
+            <VictoryAxis
+              tickValues={[
+                '07',
+                '08',
+                '09',
+                '10',
+                '11',
+                '12',
+                '13',
+                '14',
+                '15',
+                '16',
+                '17',
+                '18',
+              ]}
+              tickFormat={(x) => `${x}:00`}
+              style={{tickLabels: {fontSize: 20}}}
+            />
+            <VictoryAxis
+              dependentAxis
+              tickValues={getY()}
+              tickFormat={(y) => y}
+              style={{tickLabels: {fontSize: 20}}}
+              fixLabelOverlap={true}
+            />
+            <VictoryLine
+              labelComponent={
+                <VictoryTooltip
+                  flyoutStyle={{fill: 'black', stroke: 'whitesmoke'}}
+                  horizontal={true}
+                />
+              }
+              data={vaccinatedSoldiers}
+              style={{
+                data: {stroke: '#00008b'},
+              }}
+            />
+          </VictoryChart>
+          <p>&nbsp;</p>
+        </Paper>
+      </Grid>
+    </Grid>
   );
 }
 
