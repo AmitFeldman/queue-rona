@@ -125,6 +125,7 @@ function IsSoldierArrived() {
           dedicateSoldierToStage()
             .then((res) => {
               setId(res.data);
+              getSoldier();
             })
             .catch((rej) => {
               console.log(rej);
