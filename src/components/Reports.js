@@ -34,8 +34,6 @@ function Reports() {
     const result = await getAllVaccinatedSoldiersToday();
     let soldiers = result.data.soldiers;
     let i = 1;
-    console.log(soldiers);
-    debugger;
     soldiers = soldiers.map((x) => {
       let date = new Date(x.vaccineTime);
       let currentHours = date.getHours();
@@ -48,7 +46,6 @@ function Reports() {
       x.label = [`מספר אישי: ${x.soldierId}`, `שעת חיסון: ${x.x}`];
       return x;
     });
-    console.log(soldiers);
     setVaccinatedSoldiers(soldiers);
   }
 
