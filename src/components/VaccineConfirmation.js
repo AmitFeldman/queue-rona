@@ -133,13 +133,13 @@ function VaccineConfirmation() {
           .catch((rej) => {
             setShowPopup(true);
             setTimeout(() => setShowPopup(false), TIMEOUT);
-            setTimeout(() => window.location.reload(false), TIMEOUT / 3);
+            setTimeout(() => window.location.reload(false), TIMEOUT / 6);
           });
       })
       .catch((rej) => {
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), TIMEOUT);
-        setTimeout(() => window.location.reload(false), TIMEOUT / 3);
+        setTimeout(() => window.location.reload(false), TIMEOUT / 6);
       });
   }
   return (
