@@ -120,7 +120,6 @@ const CanGetVaccinated = (props) => {
   }, []);
 
   const removeSoldierFromStage = async () => {
-    alert(stationId);
     return await axios
       .put(
         `https://corona-server.azurewebsites.net/${stationId}/removeSoldierFromStage`
