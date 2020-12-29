@@ -114,7 +114,7 @@ const CanGetVaccinated = (props) => {
   const lastLocation = useLastLocation();
 
   let url = lastLocation.pathname;
-  let stationId = url.substring(url.lastIndexOf('/'));
+  let stationId = url.substring(url.lastIndexOf('/')) - 1;
   useEffect(() => {
     getSoldierInfo();
   }, []);

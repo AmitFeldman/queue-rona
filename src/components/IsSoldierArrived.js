@@ -95,12 +95,25 @@ function IsSoldierArrived() {
         console.log(rej);
       });
   };
+
+  const removeSoldierFromStage = async () => {
+    return await axios
+      .put(
+        `https://corona-server.azurewebsites.net/${stationId}/removeSoldierFromStage`
+      )
+      .catch((rej) => {
+        console.log(rej);
+      });
+  };
+
   const handleOnClick = (url) => {
     if (wasArrived) history.push(`${url}/${soldierId}`);
     else {
-      declareSoldierMissing();
-      getSoldier();
       setWasArrived('');
+      declareSoldierMissing();
+      removeSoldierFromStage().then(() => {
+        getSoldier();
+      });
     }
   };
 
