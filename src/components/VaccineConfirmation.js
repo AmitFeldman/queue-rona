@@ -19,7 +19,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import Popup from 'reactjs-popup';
 
 const TIMEOUT = 6000;
 
@@ -97,11 +96,6 @@ function VaccineConfirmation() {
   const [wasVaccinated, setWasVaccinated] = React.useState('');
   const [showPopup, setShowPopup] = React.useState(false);
 
-  // Popup window
-  const [open, setOpen] = React.useState(false);
-  const [open3, setOpen3] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
-
   async function getResult() {
     let soldierIdInteger = parseInt(soldierId);
     let soldierIdWithoutZeroPrefix = soldierIdInteger.toString();
@@ -139,6 +133,7 @@ function VaccineConfirmation() {
           .catch((rej) => {
             setShowPopup(true);
             setTimeout(() => setShowPopup(false), TIMEOUT);
+            setTimeout(() => window.location.reload(false), TIMEOUT / 3);
             window.location.reload(false);
           });
       })
@@ -146,6 +141,7 @@ function VaccineConfirmation() {
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), TIMEOUT);
         setTimeout(() => window.location.reload(false), TIMEOUT / 3);
+        window.location.reload(false);
       });
   }
   return (

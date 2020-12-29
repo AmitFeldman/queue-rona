@@ -3,7 +3,6 @@ import axios from 'axios';
 
 import {Grid, Paper, createStyles, Table} from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import {JsonToTable} from 'react-json-to-table';
 import {DataGrid} from '@material-ui/data-grid';
 import {VictoryLine, VictoryTooltip, VictoryChart, VictoryAxis} from 'victory';
 
@@ -21,7 +20,11 @@ const useStyles = makeStyles(() =>
 function Reports() {
   const {center} = useStyles();
   const [vaccinatedCount, setVaccinatedCount] = React.useState('');
-  const [vaccinatedSoldiers, setVaccinatedSoldiers] = React.useState([{}]);
+  const [vaccinatedSoldiers, setVaccinatedSoldiers] = React.useState([]);
+  const [
+    vaccinatedSoldiersForTable,
+    setVaccinatedSoldiersForTable,
+  ] = React.useState([]);
 
   async function getVaccinatedCount() {
     setTimeout(() => getVaccinatedCount(), 5000);
@@ -46,12 +49,21 @@ function Reports() {
       x.label = [`מספר אישי: ${x.soldierId}`, `שעת חיסון: ${x.x}`];
       return x;
     });
+    console.log(soldiers);
     setVaccinatedSoldiers(soldiers);
+  }
+
+  async function getVaccinatedSoldiersForTable() {
+    setTimeout(() => getVaccinatedSoldiersForTable(), 5000);
+    const result = await getAllVaccinatedSoldiersToday();
+    let soldiers = createFixedSoldiersJson(result.data.soldiers);
+    setVaccinatedSoldiersForTable(soldiers);
   }
 
   React.useState(() => {
     setTimeout(() => getVaccinatedCount(), 500);
     setTimeout(() => getVaccinatedSoldiers(), 500);
+    setTimeout(() => getVaccinatedSoldiersForTable(), 500);
   }, []);
 
   const soldiersVaccinatedToday = async () => {
@@ -65,7 +77,21 @@ function Reports() {
       `https://corona-server.azurewebsites.net/getAllVaccinatedSoldiersToday`
     );
   };
-  //   const xDomain = ["07:00", "08:00", "09:00", "10:00", "11:00" ,"12:00" ,"13:00" ,"14:00" ,"15:00" ,"16:00" ,"17:00" ,"18:00" ,"19:00"];
+  const xDomain = [
+    '07:00',
+    '08:00',
+    '09:00',
+    '10:00',
+    '11:00',
+    '12:00',
+    '13:00',
+    '14:00',
+    '15:00',
+    '16:00',
+    '17:00',
+    '18:00',
+    '19:00',
+  ];
 
   function getY() {
     const result = [];
@@ -80,40 +106,37 @@ function Reports() {
     soldiers: [
       {
         soldierId: '8196713',
-        vaccineTime: '2020-12-2BT21:23:14.000Z',
+        vaccineTime: '2020-12-29T00:39:09.000Z',
       },
       {
         soldierId: '8196714',
-        vaccineTime: '2020-12-2BT21:23:13.000Z',
+        vaccineTime: '2020-12-29T00:39:09.000Z',
       },
     ],
   };
 
-  // let jsonData = getAllVaccinatedSoldiersToday();
-
-  let fixedDate = (date) => {
-    return new Date(date);
-  };
   const rows = jsonData.soldiers;
-  let tableSoldiers = jsonData.soldiers.map((soldier) => {
-    return {
-      id: soldier.soldierId,
-      vaccineTime: fixedDate(soldier.vaccineTime),
-    };
-  });
 
-  debugger;
+  let createFixedSoldiersJson = (soldiers) =>
+    soldiers.map((soldier) => {
+      return {
+        id: soldier.soldierId,
+        vaccineTime: `${new Date(soldier.vaccineTime).getHours()}:${new Date(
+          soldier.vaccineTime
+        ).getMinutes()}`,
+      };
+    });
+
   const columns = [
     {field: 'id', headerName: 'מספר אישי', width: '150px'},
-    {field: 'vaccineTime', headerName: 'מתי התחסן', width: 200},
+    {field: 'vaccineTime', headerName: 'מתי התחסן', width: '150px'},
   ];
 
-  debugger;
   return (
     <Grid container spacing={2} style={{marginTop: '1rem'}} className={center}>
       <Grid item xs={4} className={center}>
-        <div style={{height: 400, width: '100%'}}>
-          <DataGrid rows={tableSoldiers} columns={columns} />
+        <div style={{height: 400, width: '100%', backgroundColor: 'white'}}>
+          <DataGrid rows={vaccinatedSoldiersForTable} columns={columns} />
         </div>
       </Grid>
 
@@ -164,12 +187,12 @@ function Reports() {
               fixLabelOverlap={true}
             />
             <VictoryLine
-              labelComponent={
-                <VictoryTooltip
-                  flyoutStyle={{fill: 'black', stroke: 'whitesmoke'}}
-                  horizontal={true}
-                />
-              }
+              // labelComponent={
+              //     <VictoryTooltip
+              //         flyoutStyle={{ fill: 'black', stroke: 'whitesmoke' }}
+              //         horizontal={true}
+              //     />
+              // }
               data={vaccinatedSoldiers}
               style={{
                 data: {stroke: '#00008b'},
