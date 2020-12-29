@@ -696,7 +696,9 @@ const CanGetVaccinated = (props) => {
                       text="שלח"
                       action={() => {
                         getResultDeclareSoldierVaccinable();
-                        removeSoldierFromStage().then(props.history.goBack());
+                        removeSoldierFromStage().then(() =>
+                          props.history.goBack()
+                        );
                       }}
                       isDisabled={!isValid()}
                     />
