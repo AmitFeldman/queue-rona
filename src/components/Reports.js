@@ -102,28 +102,20 @@ function Reports() {
     return result;
   }
 
-  let jsonData = {
-    soldiers: [
-      {
-        soldierId: '8196713',
-        vaccineTime: '2020-12-29T00:39:09.000Z',
-      },
-      {
-        soldierId: '8196714',
-        vaccineTime: '2020-12-29T00:39:09.000Z',
-      },
-    ],
+  let fixedVaccineTime = (vaccineTime) => {
+    let date = new Date(vaccineTime);
+    let currentHours = date.getHours();
+    currentHours = ('0' + currentHours).slice(-2);
+    let currentMinutes = date.getMinutes();
+    currentMinutes = ('0' + currentMinutes).slice(-2);
+    return `${currentHours}:${currentMinutes}`;
   };
-
-  const rows = jsonData.soldiers;
 
   let createFixedSoldiersJson = (soldiers) =>
     soldiers.map((soldier) => {
       return {
         id: soldier.soldierId,
-        vaccineTime: `${new Date(soldier.vaccineTime).getHours()}:${new Date(
-          soldier.vaccineTime
-        ).getMinutes()}`,
+        vaccineTime: fixedVaccineTime(soldier.vaccineTime),
       };
     });
 
@@ -187,12 +179,6 @@ function Reports() {
               fixLabelOverlap={true}
             />
             <VictoryLine
-              // labelComponent={
-              //     <VictoryTooltip
-              //         flyoutStyle={{ fill: 'black', stroke: 'whitesmoke' }}
-              //         horizontal={true}
-              //     />
-              // }
               data={vaccinatedSoldiers}
               style={{
                 data: {stroke: '#00008b'},
