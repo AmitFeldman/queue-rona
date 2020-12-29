@@ -134,14 +134,12 @@ function VaccineConfirmation() {
             setShowPopup(true);
             setTimeout(() => setShowPopup(false), TIMEOUT);
             setTimeout(() => window.location.reload(false), TIMEOUT / 3);
-            window.location.reload(false);
           });
       })
       .catch((rej) => {
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), TIMEOUT);
         setTimeout(() => window.location.reload(false), TIMEOUT / 3);
-        window.location.reload(false);
       });
   }
   return (
@@ -322,8 +320,15 @@ function VaccineConfirmation() {
         </List>
       </FormControl>
       <Dialog open={showPopup} className="popup">
-        <DialogTitle>
-          <p>מספר אישי לא תקין</p>
+        <DialogTitle
+          style={{
+            width: '500px',
+            height: '200px',
+            display: 'flex',
+            'justify-content': 'center',
+            'align-items': 'center',
+          }}>
+          <p style={{fontSize: '50px'}}>מספר אישי לא תקין</p>
         </DialogTitle>
       </Dialog>
     </Grid>
