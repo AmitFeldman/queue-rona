@@ -121,13 +121,19 @@ function Reports() {
 
   const columns = [
     {field: 'id', headerName: 'מספר אישי', width: '150px'},
-    {field: 'vaccineTime', headerName: 'מתי התחסן', width: '150px'},
+    {field: 'vaccineTime', headerName: 'זמן התחסנות', width: '150px'},
   ];
 
   return (
     <Grid container spacing={2} style={{marginTop: '1rem'}} className={center}>
       <Grid item xs={4} className={center}>
-        <div style={{height: 400, width: '100%', backgroundColor: 'white'}}>
+        <div
+          style={{
+            height: 400,
+            width: '100%',
+            backgroundColor: 'white',
+            'font-size': '40px',
+          }}>
           <DataGrid rows={vaccinatedSoldiersForTable} columns={columns} />
         </div>
       </Grid>
