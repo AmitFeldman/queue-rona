@@ -47,13 +47,13 @@ const Home = () => {
             מסך ממתינים לCPR
           </Paper>
         </Grid>
-        <Grid item xs>
+        {/* <Grid item xs>
           <Paper
             className={classes.paper}
             onClick={() => handleOnClick('/management')}>
             <div>עמדת ניהול</div>
           </Paper>
-        </Grid>
+        </Grid> */}
         <Grid item xs>
           <Paper
             className={classes.paper}
