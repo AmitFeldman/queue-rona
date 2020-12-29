@@ -114,7 +114,7 @@ const CanGetVaccinated = (props) => {
   const lastLocation = useLastLocation();
 
   let url = lastLocation.pathname;
-  let stationId = url.substring(url.lastIndexOf('/') + 1);
+  let stationId = url.substring(url.lastIndexOf('/') + 1) - 1;
   useEffect(() => {
     getSoldierInfo();
   }, []);
@@ -696,8 +696,9 @@ const CanGetVaccinated = (props) => {
                       text="שלח"
                       action={() => {
                         getResultDeclareSoldierVaccinable();
-                        removeSoldierFromStage();
-                        props.history.goBack();
+                        removeSoldierFromStage().then(() =>
+                          props.history.goBack()
+                        );
                       }}
                       isDisabled={!isValid()}
                     />
